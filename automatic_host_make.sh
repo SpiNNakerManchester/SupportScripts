@@ -1,5 +1,5 @@
 cd SpiNNFrontEndCommon/cpp_common/
 make clean
-make build-install
+make install
 cd ../..
 echo "completed host binary compilation"
