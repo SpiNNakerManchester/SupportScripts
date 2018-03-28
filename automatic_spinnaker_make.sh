@@ -1,29 +1,24 @@
-# This script assumes it is run from the directory holding all github projects in parellel
+# This script assumes it is run from the directory holding all github projects in parallel
 # sh SupportScripts/automatic_make.sh
 
+set -e
+
+# Set up the base compilation environment
 cd spinnaker_tools
-source $PWD/setup
-make clean
-make || exit $?
+source setup
 cd ..
-cd spinn_common
-make clean
-make || exit $?
-make install
-cd ..
-cd SpiNNFrontEndCommon/c_common/
-cd front_end_common_lib/
-make install-clean
-cd ..
-make clean
-make || exit $?
-make install
+
+make -C spinnaker_tools clean all
+make -C spinn_common clean all install
+make -C SpiNNFrontEndCommon/c_common/front_end_common_lib install-clean
+make -C SpiNNFrontEndCommon/c_common clean all install
+
+# Set up the neural compilation environment
+cd sPyNNaker/neural_modelling
+source setup
 cd ../..
-cd sPyNNaker/neural_modelling/
-make clean
-make || exit $?
-source $PWD/setup
-cd ../../SpiNNakerGraphFrontEnd/spinnaker_graph_front_end/examples/
-make clean
-make || exit $?
+
+make -C sPyNNaker/neural_modelling clean all
+make -C SpiNNakerGraphFrontEnd/spinnaker_graph_front_end/examples clean all
+
 echo "completed spinnaker binary compilation"
