@@ -15,4 +15,5 @@ Branch=$(git ls-remote $REPO | awk '
     	print branch
     }')
 
-git clone --branch $Branch $REPO $TARGET
+git clone --branch $Branch $REPO $TARGET || exit $?
+echo "checked out branch $Branch of $REPO"
