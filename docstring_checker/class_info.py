@@ -1,8 +1,9 @@
 all_classes_dict = dict()
 
-STATELESS_MODULES = ['', 'Enum', 'object', 'property', 'type']
-THREAD_MODULES = ['Thread']
-EXCEPTION_MODULES = ['Exception', 'KeyError', 'TypeError', 'ValueError']
+STATELESS_MODULES = frozenset(['', 'Enum', 'object', 'property', 'type'])
+THREAD_MODULES = frozenset(['Thread'])
+EXCEPTION_MODULES = frozenset([
+    'Exception', 'KeyError', 'TypeError', 'ValueError'])
 
 # State Levels
 MARKER = 0
@@ -95,7 +96,7 @@ class ClassInfo(object):
 
     def location(self):
         if self._file_info is None or self._line is None:
-            return "Unkown Location " + self.name
+            return "Unknown Location " + self.name
         return "{}:{}".format(self._file_info.path, self._line)
 
     @property

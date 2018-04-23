@@ -1,6 +1,6 @@
+from __future__ import print_function
 import os
 from subprocess import call
-
 from file_doc_checker import FileDocChecker
 import class_info as class_info
 
@@ -22,7 +22,7 @@ def find_groups_up_and_down(info, found):
 def find_groups_up(info, found, base):
     if info in found:
         if base is not None:
-            print "Diamond found over: {}".format(base.name)
+            print("Diamond found over: {}".format(base.name))
         return
     found.add(info)
     for user in info.users:
@@ -79,7 +79,7 @@ def graph_by_supers(infos):
 def double_dependency_check(infos, root):
     for info in infos:
         if info.state == class_info.SLOTS_IMPOSSIBLE:
-            print "No __slots__ possible:", info
+            print("No __slots__ possible:", info)
             # print root + info.location()
         elif len(info.supers) > 1:
             count = 0
@@ -87,11 +87,11 @@ def double_dependency_check(infos, root):
                 if super.state > class_info.STATELESS:
                     count += 1
             if count > 1:
-                print "DOUBLE!"
-                print root + info.location()
+                print("DOUBLE!")
+                print(root + info.location())
                 for super in info.supers:
                     if super.state > class_info.STATELESS:
-                        print root + super.location()
+                        print(root + super.location())
                 print
 
 
@@ -115,7 +115,7 @@ def check_directory(path, pynn_version):
             for name in files:
                 if name.endswith(".py"):
                     if name in _EXCLUDES:
-                        print "ignoring: " + name
+                        print("ignoring:", name)
                     elif name in _OK_EXCLUDES:
                         pass
                     else:
@@ -129,7 +129,7 @@ def check_directory(path, pynn_version):
                 dirs.remove("my_spinnaker")
             for dir in dirs:
                 if pynn_ignore in dir:
-                    print "Ignoring:", dir
+                    print("Ignoring:", dir)
                     dirs.remove(dir)
             # differenc docstring style
             if root.endswith("spalloc_server") and "docs" in dirs:
@@ -145,21 +145,21 @@ def check_directory(path, pynn_version):
             if ".idea" in dirs:
                 dirs.remove(".idea")
 
-    print "Writing csv"
+    print("Writing csv")
     with open("paths.csv", "w") as file:
         file.write("Class Name,Path\n")
         for info in infos:
             info.add_path_lines(file)
-    print "checking double depencies"
+    print("checking double depencies")
     double_dependency_check(class_info.ClassInfo.all_classes(), realpath)
-    print "Writing graphs"
+    # print("Writing graphs")
     # graph_infos_by_group(class_info.ClassInfo.all_classes())
     # graph_by_supers(class_info.ClassInfo.all_classes())
     # if error:
-    #    print "******* ERRORS FOUND **********"
+    #    print("******* ERRORS FOUND **********")
     #    for info in infos:
     #        info.print_errors()
-    #    print "******* ERRORS FOUND **********"
+    #    print("******* ERRORS FOUND **********")
     #    sys.exit(1)
 
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 
 path = __file__
@@ -11,7 +12,7 @@ versions = {}
 def get_version(module):
     module_directory = os.path.join(root_directory, module)
     if not os.path.exists(module_directory):
-        print "{} DIRECTORY NOT FOUND".format(module_directory)
+        print("{} DIRECTORY NOT FOUND".format(module_directory))
 
     setup_path = os.path.join(module_directory, "setup.py")
     main_package = find_main_package(setup_path)
@@ -22,7 +23,7 @@ def get_version(module):
     main_directory = os.path.join(module_directory, main_package)
     version_path = os.path.join(main_directory, "_version.py")
     version = find_version(version_path)
-    print module, main_package, version, name
+    print(module, main_package, version, name)
     versions[name] = version
 
 
@@ -31,8 +32,8 @@ def find_main_package(setup_file):
         for line in f:
             if "main_package = " in line:
                 parts = line.split("\"")
-                return parts[1]
                 # print parts
+                return parts[1]
     raise Exception("Unable to find main_package = in {}".format(setup_file))
 
 
@@ -41,8 +42,8 @@ def find_name(setup_file):
         for line in f:
             if "name=" in line:
                 parts = line.split("\"")
-                return parts[1]
                 # print parts
+                return parts[1]
     raise Exception("Unable to find name= in {}".format(setup_file))
 
 
@@ -51,8 +52,8 @@ def find_version(version_file):
         for line in f:
             if "__version__" in line:
                 parts = line.split("\"")
-                return parts[1]
                 # print parts
+                return parts[1]
     raise Exception("Unable to find__version__ in {}".format(version_file))
 
 
@@ -83,12 +84,11 @@ def check_version(line, name, version, file):
     parts = line.split(" ")
     parts[2] = parts[2].strip(",")
     if parts[2] != version:
-        raise Exception("Version mismatch in {} found {} "
-                        "expected {} {} in File \"{}\""
-                        "".format(file, line, name, version, file))
+        raise Exception("Version mismatch in {} found {} expected {} {} in "
+                        "File \"{}\"".format(file, line, name, version, file))
 
 
-print root_directory
+print(root_directory)
 get_version("SpiNNUtils")
 get_version("SpiNNStorageHandlers")
 get_version("SpiNNMachine")
@@ -102,4 +102,4 @@ get_version("sPyNNaker7")
 get_version("sPyNNaker7NewModelTemplate")
 get_version("sPyNNaker8")
 get_version("sPyNNaker8NewModelTemplate")
-print versions
+print(versions)

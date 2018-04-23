@@ -4,7 +4,7 @@ class DocException(Exception):
         self._path = path
         self._error = error
         self._line_number = line_num
-        print self
+        print(self)
 
     def __str__(self):
         return repr(self._error + " in: " + self._path + ":" +

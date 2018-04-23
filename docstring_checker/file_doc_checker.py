@@ -48,13 +48,12 @@ SLOTS_IMPOSSIBLE_MARKER = "# " + "No __slots__"
 
 
 def rreplace(s, old, new, occurrence=-1):
-    """
-    Helper function to do right replace
+    """ Helper function to do right replace
 
     :param s: String to replace into
     :param old: Values being replaced
     :param new: new Values being inserted
-    :param occurrence: Number of times a replacement should be done
+    :param occurrence: Number of times a replacement should be done.\
         Default -1 is to replace all found
     :return: new String with replacements
     """
@@ -63,10 +62,8 @@ def rreplace(s, old, new, occurrence=-1):
 
 
 class FileDocChecker(object):
-    """"
-    Sets the Class up to test a file assumes to be python
-    with sphiunx style docstrings
-
+    """ Sets the Class up to test a file assumes to be python \
+        with sphinx style docstrings.
     """
 
     _code_state = CodeState.START
@@ -85,8 +82,7 @@ class FileDocChecker(object):
     _at_line = None
 
     def __init__(self, python_path, root="", kill_on_error=False, debug=False):
-        """"
-
+        """
         :param python_path: path to file to check
             can be more than one line long
         """
@@ -102,7 +98,7 @@ class FileDocChecker(object):
 
     def check_all_docs(self):
         if self.debug:
-            print self.python_path
+            print(self.python_path)
         try:
             with open(self.python_path, "r") as python_file:
                 for line in python_file:
@@ -113,13 +109,13 @@ class FileDocChecker(object):
             return self._info
         except Exception:
             traceback.print_exc()
-            print "Exception call processing:"
-            print self.python_path + ":" + str(self._lineNum)
+            print("Exception call processing:")
+            print(self.python_path + ":" + str(self._lineNum))
             sys.exit(-1)
 
     def _check_line(self, line):
         if self.debug:
-            print line
+            print(line)
         self._lineNum += 1
         if line.strip().endswith("\\"):
             self._part_line = self._part_line + line[:-1] + " "
@@ -158,10 +154,10 @@ class FileDocChecker(object):
         # elif self._code_state == CodeState.IN_PARAM:
         #    self._check_in_param(line)
         else:
-            print self._code_state
+            print(self._code_state)
             raise NotImplementedError
         if self.debug:
-            print str(self._lineNum) + "   " + str(self._code_state)
+            print(str(self._lineNum) + "   " + str(self._code_state))
 
     def _check_in_start(self, line):
         if "\"\"\"" in line:
@@ -231,7 +227,7 @@ class FileDocChecker(object):
             declaration = self._def_string.replace(" ", "")
             cl_name = declaration[5:declaration.index("(")]
             if cl_name == "(":
-                print self.python_path + ":" + str(self._lineNum)
+                print(self.python_path + ":" + str(self._lineNum))
             self.cl_info = ClassInfo.info_by_name(cl_name, self._info,
                                                   self._lineNum)
             if not cl_name.startswith("_"):
@@ -248,7 +244,8 @@ class FileDocChecker(object):
                         self._extract_super(line, super)
         if self._at_line is not None:
             if "ABCMeta" in self._at_line:
-                print "{}:{} ABCMmeta!".format(self.python_path, self._lineNum)
+                print("{}:{} ABCMmeta!".format(
+                    self.python_path, self._lineNum))
             self._at_line = None
         self._def_string = ""
 
@@ -256,7 +253,7 @@ class FileDocChecker(object):
         if super.startswith("exceptions."):
             super = super[11:]
         if super.startswith("_"):
-            print self.python_path + ":" + str(self._lineNum)
+            print(self.python_path + ":" + str(self._lineNum))
         if super.startswith("logging."):
             return
         else:
@@ -340,7 +337,7 @@ class FileDocChecker(object):
             try:
                 self.cl_info.add_method(self._def_name)
             except Exception as ex:
-                print self.python_path + ":" + str(self._lineNum)
+                print(self.python_path + ":" + str(self._lineNum))
                 raise ex
         self._doc_params = []
         self._doc_types = []
@@ -393,8 +390,8 @@ class FileDocChecker(object):
                 self._code_state = CodeState.CODE
                 pass
             else:
-                print line
-                print parts
+                print(line)
+                print(parts)
                 raise NotImplementedError
         # Oops no docs
         self._code_state = CodeState.CODE
@@ -611,19 +608,19 @@ class FileDocChecker(object):
 
 if __name__ == "__main__":
     import os
-    path = os.path.realpath(__file__)
+    _path = os.path.realpath(__file__)
 
-    # path = "/brenninc/spinnaker/SpiNNMachine/spinn_machine/processor.py"
-    path = "C:/Dropbox/spinnaker/PACMAN/pacman/model/graphs/application" \
-           "/impl/application_vertex.py"
-    # file_doc_checker = FileDocChecker(path, True);
-    file_doc_checker = FileDocChecker(path, False)
-    _info = file_doc_checker.check_all_docs()
-    print "Errors"
+    # _path = "/brenninc/spinnaker/SpiNNMachine/spinn_machine/processor.py"
+    _path = "C:/Dropbox/spinnaker/PACMAN/pacman/model/graphs/application" \
+            "/impl/application_vertex.py"
+    # _file_doc_checker = FileDocChecker(_path, True);
+    _file_doc_checker = FileDocChecker(_path, False)
+    _info = _file_doc_checker.check_all_docs()
+    print("Errors")
     _info.print_errors()
-    print _info.path
+    print(_info.path)
     _info.print_classes()
-    with open("graph.gv", "w") as file:
-        file.write("digraph G {\n")
-        _info.add_graph_lines(file)
-        file.write("}")
+    with open("graph.gv", "w") as _file:
+        _file.write("digraph G {\n")
+        _info.add_graph_lines(_file)
+        _file.write("}")

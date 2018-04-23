@@ -15,11 +15,11 @@ class FileInfo(object):
 
     def print_errors(self):
         for error in self._errors:
-            print error
+            print(error)
 
     def print_classes(self):
         for class_info in self._classes:
-            print class_info.name
+            print(class_info.name)
 
     # def add_graph_lines(self, file):
     #    for class_info in self._classes:

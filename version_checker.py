@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import shutil
 
@@ -35,12 +36,12 @@ def get_versions(realpath):
     for root, dirs, files in os.walk(realpath, topdown=True):
         if "application_generated_data_files" in dirs:
             folder = os.path.join(root, "application_generated_data_files")
-            print folder
+            print(folder)
             shutil.rmtree(folder)
             dirs.remove("application_generated_data_files")
         if "reports" in dirs:
             folder = os.path.join(root, "reports")
-            print folder
+            print(folder)
             shutil.rmtree(folder)
             dirs.remove("reports")
         if ".git" in dirs:
@@ -49,26 +50,25 @@ def get_versions(realpath):
             dirs.remove(".idea")
         # print root, files
         if "setup.py" in files:
-            print root
+            print(root)
             name = check_setup(root)
             version = get_version_from_directory(root)
             versions[name] = version
-            print "\t", name, version
+            print("\t", name, version)
             dirs[:] = []
     return versions
 
 
 def verify_version(declaration, versions):
     parts = declaration.split(" ")
-    print parts
+    print(parts)
     if parts[0] in versions:
         version = versions[parts[0]]
-        if parts[1] == ">=":
-            if parts[2][:-1] != version:
-                raise Exception("For", parts[0], "mismatch", parts[2][:-1],
-                                version)
-        else:
+        if parts[1] != ">=":
             raise Exception("Not >=", declaration)
+        if parts[2][:-1] != version:
+            raise Exception("For", parts[0], "mismatch", parts[2][:-1],
+                            version)
         if len(parts) > 3:
             if parts[3] == "<=":
                 if parts[4][:-1] != version:
@@ -117,7 +117,7 @@ def setup_versions(realpath, versions):
         # print root, files
         if "setup.py" in files:
             full_path = os.path.join(root, "setup.py")
-            print full_path
+            print(full_path)
             install = False
             with open(full_path, "r") as setup:
                 for line in setup:
@@ -133,7 +133,7 @@ def setup_versions(realpath, versions):
                         install = False
 
             full_path = os.path.join(root, "requirements.txt")
-            print full_path
+            print(full_path)
             with open(full_path, "r") as requirements:
                 for line in requirements:
                     parts = line.split("'")
