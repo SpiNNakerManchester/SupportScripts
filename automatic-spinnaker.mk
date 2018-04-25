@@ -3,7 +3,7 @@ REQUIRED_REPOS = spinnaker_tools spinn_common SpiNNFrontEndCommon \
 
 all: $(REQUIRED_REPOS)
 	$(MAKE) -C spinnaker_tools clean all
-	$(MAKE) -C spinn_common clean all install
+	$(MAKE) -C spinn_common clean install-clean all install
 	$(MAKE) -C SpiNNFrontEndCommon/c_common/front_end_common_lib install-clean
 	$(MAKE) -C SpiNNFrontEndCommon/c_common clean all install
 	$(MAKE) -C sPyNNaker/neural_modelling clean all
