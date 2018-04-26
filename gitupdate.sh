@@ -44,7 +44,7 @@ update(){
 	    git fetch
 	    git checkout -q master || exit -1
 	    git merge -m "merged in remote master" refs/remotes/origin/master || exit -1
-	    git gc --prune=now || exit -1
+	    # git gc --prune=now || exit -1
 	    # check each local branch
 	    for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
 	        echo ${branch:11}
