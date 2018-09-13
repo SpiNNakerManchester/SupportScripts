@@ -7,6 +7,7 @@ from citation_update import _convert_text_date_to_date
 
 REQUIREMENTS_FILE = "requirements.txt"
 CITATION_FILE = "CITATION.cff"
+PYPI_TO_IMPORT_FILE = "pypi_to_import"
 
 REFERENCES_YAML_POINTER = "references"
 REFERENCE_TYPE = "software"
@@ -43,9 +44,22 @@ def create_aggregated_citation_file(
         os.path.dirname(os.path.dirname(os.path.abspath(
             module_to_start_at.__file__))),
         REQUIREMENTS_FILE)
-    for line in open(requirements_file_path, "r"):
-        module_to_get_requirements_for = line.split(" ")[0]
-        _handle_dependency(top_citation_file, module_to_get_requirements_for)
+
+    # attempt to get python pypi to import command map
+    pypi_to_import_map_file = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(
+            module_to_start_at.__file__))),
+        PYPI_TO_IMPORT_FILE)
+    pypi_to_import_map = None
+    if os.path.isfile(pypi_to_import_map_file):
+        pypi_to_import_map = _read_pypi_import_map(pypi_to_import_map_file)
+
+    if os.path.isfile(requirements_file_path):
+        for line in open(requirements_file_path, "r"):
+            module_to_get_requirements_for = line.split(" ")[0]
+            _handle_dependency(
+                top_citation_file, module_to_get_requirements_for,
+                pypi_to_import_map)
 
     # write citation file with updated fields
     aggregated_citation_file = os.path.join(
@@ -55,14 +69,26 @@ def create_aggregated_citation_file(
                   allow_unicode=True)
 
 
+def _read_pypi_import_map(aggregated_citation_file):
+    pypi_to_import_map = dict()
+    for line in open(aggregated_citation_file, "r"):
+        [pypi, import_command] = line.split(":")
+        pypi_to_import_map[pypi] = import_command.split("\n")[0]
+    return pypi_to_import_map
+
+
 # noinspection PyBroadException
-def _handle_dependency(top_citation_file, module_to_get_requirements_for):
+def _handle_dependency(
+        top_citation_file, module_to_get_requirements_for,
+        pypi_to_import_map):
     """ handles a dependency, assumes its either python or c code 
     
     :param top_citation_file: yaml file for the top citation file
     :param module_to_get_requirements_for: module to import
     :type top_citation_file: yaml file
     :type module_to_get_requirements_for: str
+    :param pypi_to_import_map: map between pypi name and the python import
+    :type pypi_to_import_map: dict
     :return: None
     """
     # assume its a python import to begin with
@@ -70,7 +96,7 @@ def _handle_dependency(top_citation_file, module_to_get_requirements_for):
 
     try:
         imported_module = importlib.import_module(
-            module_to_get_requirements_for)
+            pypi_to_import_map[module_to_get_requirements_for])
         _handle_python_dependency(
             top_citation_file, module_to_get_requirements_for, imported_module)
     except Exception as e:
@@ -107,8 +133,7 @@ def _handle_python_dependency(
     # get modules citation file
     top_citation_file_path = os.path.join(
         os.path.dirname(os.path.dirname(
-            os.path.abspath(module_to_get_requirements_for.__file__))),
-        CITATION_FILE)
+            os.path.abspath(imported_module.__file__))), CITATION_FILE)
 
     # if it exists, add it as a reference to the top one
     if os.path.isfile(top_citation_file_path):
