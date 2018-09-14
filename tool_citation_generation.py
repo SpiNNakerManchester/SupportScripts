@@ -2,6 +2,7 @@ import os
 import yaml
 import io
 import importlib
+from os import environ
 
 from citation_update import _convert_text_date_to_date
 
@@ -97,8 +98,7 @@ def _handle_dependency(
     try:
         imported_module = importlib.import_module(
             pypi_to_import_map[module_to_get_requirements_for])
-        _handle_python_dependency(
-            top_citation_file, module_to_get_requirements_for, imported_module)
+        _handle_python_dependency(top_citation_file, imported_module)
     except Exception as e:
         # assume now that its a c code module.
         _handle_c_dependency(
@@ -115,17 +115,21 @@ def _handle_c_dependency(
     :type module_to_get_requirements_for: str
     :return: None
     """
+    environment_path_variable = environ.get('PATH')
+    if environment_path_variable is not None:
+        software_paths = environment_path_variable.split(":")
+        for software_path in software_paths:
+            if len(software_path.split(module_to_get_requirements_for)) != 1:
+                citation_file_path =
+
     return
 
 
-def _handle_python_dependency(
-        top_citation_file, module_to_get_requirements_for, imported_module):
+def _handle_python_dependency(top_citation_file, imported_module):
     """ handles a python dependency
     
     :param top_citation_file: yaml file for the top citation file
-    :param module_to_get_requirements_for: module to import
     :type top_citation_file: yaml file
-    :type module_to_get_requirements_for: str
     :param: imported_module: the actual imported module
     :type imported_module: ModuleType
     :return: None
