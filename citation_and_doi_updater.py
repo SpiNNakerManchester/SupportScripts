@@ -8,6 +8,7 @@ CITATION_FILE_DATE_FIELD = "date-released"
 CITATION_AUTHORS_TYPE = "authors"
 CITATION_AUTHOR_FIRST_NAME = "given-names"
 CITATION_AUTHOR_SURNAME = "family-names"
+CITATION_FILE_DESCRIPTION = "title"
 
 ZENODO_DEPOSIT_GET_URL = "https://zenodo.org/api/deposit/depositions"
 ZENODO_DEPOSIT_PUT_URL = 'https://zenodo.org/api/deposit/depositions/{}/files'
@@ -47,7 +48,7 @@ class CitationUpdaterAndDoiGenerator(object):
     def update_citation_file_and_create_doi(
             self, citation_file_path, version_number, version_month,
             version_year,
-            version_day, doi_title, doi_description, create_doi, publish_doi,
+            version_day, doi_title, create_doi, publish_doi,
             previous_doi, is_previous_doi_sibling, zenodo_access_token,
             module_path):
         """ takes a CITATION.cff file and updates the version and \
@@ -80,8 +81,6 @@ class CitationUpdaterAndDoiGenerator(object):
         :type is_previous_doi_sibling: bool
         :param doi_title: the title for this doi
         :type doi_title: str
-        :param doi_description: the description for the doi
-        :type doi_description: str
         :param module_path: path to the module to zip up
         :type module_path: str
         :rtype: None
@@ -118,7 +117,7 @@ class CitationUpdaterAndDoiGenerator(object):
         if create_doi:
             self._finish_doi(
                 deposit_id, zenodo_access_token, publish_doi, doi_title,
-                doi_description, yaml_file, module_path)
+                yaml_file[CITATION_FILE_DESCRIPTION], yaml_file, module_path)
 
     @staticmethod
     def _request_doi(
