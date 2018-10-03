@@ -3,7 +3,7 @@ import yaml
 import io
 import importlib
 
-from citation_update import _convert_text_date_to_date
+from citation_update import CitationUpdaterAndDoiGenerator
 
 REQUIREMENTS_FILE = "requirements.txt"
 CITATION_FILE = "CITATION.cff"
@@ -35,14 +35,14 @@ class CitationAggregator(object):
     def create_aggregated_citation_file(
             self, module_to_start_at, file_path_of_aggregated_citation_file):
         """ entrance method for building the aggregated citation file
-        
-        :param module_to_start_at: the top level module to figure out its 
+
+        :param module_to_start_at: the top level module to figure out its \
         citation file for
         :type module_to_start_at: python module
-        :param file_path_of_aggregated_citation_file: location where to put the 
-        aggregated citation file
+        :param file_path_of_aggregated_citation_file: location where to put \
+        the aggregated citation file
         :type file_path_of_aggregated_citation_file: filepath
-        :rtype: None 
+        :rtype: None
         """
 
         # get the top citation file to add references to
@@ -86,15 +86,16 @@ class CitationAggregator(object):
         # write citation file with updated fields
         aggregated_citation_file = os.path.join(
             file_path_of_aggregated_citation_file, AGGREGATE_FILE_NAME)
-        with io.open(aggregated_citation_file, 'w', encoding='utf8') as outfile:
+        with io.open(
+                aggregated_citation_file, 'w', encoding='utf8') as outfile:
             yaml.dump(top_citation_file, outfile, default_flow_style=False,
                       allow_unicode=True)
 
     @staticmethod
     def _read_pypi_import_map(aggregated_citation_file):
         """ reads the pypi to import name map
-        
-        :param aggregated_citation_file: 
+
+        :param aggregated_citation_file: file path to the pypi map
         :return: map between pypi names and import names
         """
         pypi_to_import_map = dict()
@@ -103,13 +104,12 @@ class CitationAggregator(object):
             pypi_to_import_map[pypi] = import_command.split("\n")[0]
         return pypi_to_import_map
 
-
     # noinspection PyBroadException
     def _handle_dependency(
             self, top_citation_file, module_to_get_requirements_for,
             pypi_to_import_map, modules_seen_so_far):
-        """ handles a dependency, assumes its either python or c code 
-        
+        """ handles a dependency, assumes its either python or c code
+
         :param top_citation_file: yaml file for the top citation file
         :param module_to_get_requirements_for: module to import
         :type top_citation_file: yaml file
@@ -145,7 +145,7 @@ class CitationAggregator(object):
             self, top_citation_file, module_to_get_requirements_for,
             modules_seen_so_far):
         """ handles a c code dependency
-        
+
         :param top_citation_file: yaml file for the top citation file
         :param module_to_get_requirements_for: module to import
         :type top_citation_file: yaml file
@@ -162,8 +162,8 @@ class CitationAggregator(object):
                 last_version = None
                 cleaned_path = software_path
                 while ((cleaned_path != last_version) and (
-                        not cleaned_path.split(os.sep)[-1] ==
-                            true_software_name)):
+                        not (cleaned_path.split(os.sep)[-1] ==
+                             true_software_name))):
                     last_version = cleaned_path
                     cleaned_path = os.path.dirname(cleaned_path)
 
@@ -185,13 +185,13 @@ class CitationAggregator(object):
 
     def _search_for_other_c_references(
             self, reference_entry, software_path, modules_seen_so_far):
-        """ goes though the top level path and tries to locate other cff files 
-        that need to be added to the references pile
-        
-        :param reference_entry: The reference entry to add new dependencies as 
-        references for. 
+        """ goes though the top level path and tries to locate other cff \
+        files that need to be added to the references pile
+
+        :param reference_entry: The reference entry to add new dependencies \
+        as references for.
         :param software_path: the path to search in
-        :rtype: None 
+        :rtype: None
         """
         for possible_extra_citation_file in os.listdir(software_path):
             if possible_extra_citation_file.endswith(".cff"):
@@ -209,12 +209,12 @@ class CitationAggregator(object):
             self, top_citation_file, imported_module, modules_seen_so_far,
             module_name):
         """ handles a python dependency
-        
+
         :param top_citation_file: yaml file for the top citation file
         :type top_citation_file: yaml file
         :param imported_module: the actual imported module
         :type imported_module: ModuleType
-        :param modules_seen_so_far: list of names of dependencies already \ 
+        :param modules_seen_so_far: list of names of dependencies already \
         processed
         :type modules_seen_so_far: list
         :param module_name: the name of this module to consider as a dependency
@@ -238,8 +238,8 @@ class CitationAggregator(object):
     def _process_reference(
             self, citation_level_dir, imported_module, modules_seen_so_far):
         """ takes a module level and tries to locate and process a citation file
-    
-        :param citation_level_dir: the expected level where the CITATION.cff 
+
+        :param citation_level_dir: the expected level where the CITATION.cff \
         should be
         :type citation_level_dir: str
         :param imported_module: the module after being imported
@@ -251,12 +251,12 @@ class CitationAggregator(object):
         """
 
         # if it exists, add it as a reference to the top one
-        reference_entry = dict()
         if os.path.isfile(os.path.join(citation_level_dir, CITATION_FILE)):
             reference_entry = self._read_and_process_reference_entry(
                 os.path.join(citation_level_dir, CITATION_FILE))
 
-        # check that the file isnt one above (not installed, but developer mode)
+        # check that the file isnt one above (not installed, but developer
+        # mode)
         elif os.path.isfile(os.path.join(os.path.dirname(
                 os.path.abspath(citation_level_dir)), CITATION_FILE)):
             reference_entry = self._read_and_process_reference_entry(
@@ -274,9 +274,9 @@ class CitationAggregator(object):
 
     @staticmethod
     def _try_to_find_version(imported_module):
-        """ tries to locate a version file / version data to auto-generate \
-        minimal citation data. 
-        
+        """ tries to locate a version file or version data to auto-generate \
+        minimal citation data.
+
         :param imported_module: the module currently trying to find the \
         version of
         :type imported_module: python module
@@ -288,24 +288,26 @@ class CitationAggregator(object):
         for call in calls:
             try:
                 version = getattr(imported_module, call)
-                reference_entry[REFERENCES_TYPE_TYPE] = REFERENCES_SOFTWARE_TYPE
+                reference_entry[REFERENCES_TYPE_TYPE] = (
+                    REFERENCES_SOFTWARE_TYPE)
                 if (hasattr(version, "__version_day__") and
                         hasattr(version, "__version_month__") and
                         hasattr(version, "__version_year__")):
                     reference_entry[REFERENCES_DATE_TYPE] = \
-                        _convert_text_date_to_date(
+                        CitationUpdaterAndDoiGenerator.\
+                        convert_text_date_to_date(
                             version_day=version.__version_day__,
                             version_month=version.__version_month__,
                             version_year=version.__version_year__)
                 if hasattr(version, "__version__"):
-                    reference_entry[REFERENCES_VERSION_TYPE] = \
-                        version.__version__
+                    reference_entry[REFERENCES_VERSION_TYPE] = (
+                        version.__version__)
                 reference_entry[REFERENCES_TITLE_TYPE] = imported_module
                 return reference_entry
             except AttributeError:
                 pass
             except Exception:
-                "no idea what to do here, going to ignore it and go for" \
+                "no idea what to do here, going to ignore it and go for"
                 " basic entry"
         reference_entry[REFERENCES_TYPE_TYPE] = REFERENCES_SOFTWARE_TYPE
         reference_entry[REFERENCES_TITLE_TYPE] = imported_module
@@ -313,9 +315,9 @@ class CitationAggregator(object):
 
     @staticmethod
     def _read_and_process_reference_entry(dependency_citation_file_path):
-        """ reads a CITATION.cff and makes it a reference for a higher level 
+        """ reads a CITATION.cff and makes it a reference for a higher level \
         citation file.
-        
+
         :param dependency_citation_file_path: path to a CITATION.cff file
         :type dependency_citation_file_path: str
         :return: reference entry for the higher level citation.cff

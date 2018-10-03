@@ -50,9 +50,9 @@ class CitationUpdaterAndDoiGenerator(object):
             version_day, doi_title, doi_description, create_doi, publish_doi,
             previous_doi, is_previous_doi_sibling, zenodo_access_token,
             module_path):
-        """ takes a CITATION.cff file and updates the version and date-released 
-        fields, and rewrites the CITATION.cff file.
-        
+        """ takes a CITATION.cff file and updates the version and \
+        date-released fields, and rewrites the CITATION.cff file.
+
         :param citation_file_path: The file path to the CITATION.cff file
         :param version_number: the version number to update the citation file \
         version field with
@@ -75,7 +75,7 @@ class CitationUpdaterAndDoiGenerator(object):
         :type publish_doi: bool
         :param previous_doi: the doi previous to this
         :type previous_doi: str
-        :param is_previous_doi_sibling: bool saying if its a sibling or newer 
+        :param is_previous_doi_sibling: bool saying if its a sibling or newer \
         version
         :type is_previous_doi_sibling: bool
         :param doi_title: the title for this doi
@@ -124,13 +124,13 @@ class CitationUpdaterAndDoiGenerator(object):
     def _request_doi(
             zenodo_access_token, previous_doi, is_previous_doi_sibling):
         """ goes to zenodo and requests a doi
-        
+
         :param zenodo_access_token: zenodo access token
         :type zenodo_access_token: str
         :param previous_doi: the previous doi for this module, if exists
         :type previous_doi: str
-        :param is_previous_doi_sibling: bool saying if this module is a sibling 
-        or newer version of the previous doi
+        :param is_previous_doi_sibling: bool saying if this module is a \
+        sibling or newer version of the previous doi
         :type is_previous_doi_sibling: bool
         :return: the DOI id, and deposit id
         :rtype: str, str
@@ -158,8 +158,8 @@ class CitationUpdaterAndDoiGenerator(object):
         # verify the doi is valid
         if request.status_code != ZENODO_VALID_STATUS_CODE_REQUEST_GET:
             raise Exception(
-                "don't know what went wrong. got wrong status code when trying "
-                "to request a doi")
+                "don't know what went wrong. got wrong status code when "
+                "trying to request a doi")
 
         # get doi and deposit id
         doi_id = (request.json()[ZENODO_METADATA][ZENODO_PRE_RESERVED_DOI][
@@ -169,10 +169,10 @@ class CitationUpdaterAndDoiGenerator(object):
         return doi_id, deposition_id
 
     def _finish_doi(
-            self, deposit_id, access_token, publish_doi, title, doi_description,
-            yaml_file, module_path):
+            self, deposit_id, access_token, publish_doi, title,
+            doi_description, yaml_file, module_path):
         """ publishes the doi to zenodo
-        
+
         :param deposit_id: the deposit id to publish
         :param access_token: the access token needed to publish
         :param title: the title of this doi
@@ -180,7 +180,7 @@ class CitationUpdaterAndDoiGenerator(object):
         :param yaml_file: the citation file after its been read it
         :param publish_doi: bool flagging if we should publish the doi
         :param module_path: the path to the module to doi
-        :rtype: None 
+        :rtype: None
         """
 
         data = self._fill_in_data(title, doi_description, yaml_file)
@@ -192,8 +192,8 @@ class CitationUpdaterAndDoiGenerator(object):
 
         if r.status_code != ZENODO_VALID_STATUS_CODE_REQUEST_POST:
             raise Exception(
-                "don't know what went wrong. got wrong status code when trying "
-                "to put files and data into the pre allocated doi")
+                "don't know what went wrong. got wrong status code when "
+                "trying to put files and data into the pre allocated doi")
 
         # publish doi
         if publish_doi:
@@ -217,7 +217,7 @@ class CitationUpdaterAndDoiGenerator(object):
     @staticmethod
     def _fill_in_data(doi_title, doi_description, yaml_file):
         """ adds in data to the zenodo metadata
-        
+
         :param doi_title: the title of the doi
         :type doi_title: str
         :param doi_description: the description of the doi
@@ -246,10 +246,11 @@ class CitationUpdaterAndDoiGenerator(object):
             data[ZENODO_METADATA][ZENODO_METADATA_CREATORS].append(author_data)
         return data
 
-    def _convert_text_date_to_date(
-            self, version_month, version_year, version_day):
+    @staticmethod
+    def convert_text_date_to_date(
+            version_month, version_year, version_day):
         """ converts the 3 components of a date into a CFF date
-        
+
         :param version_month: version month, in text form
         :type version_month: text or int
         :param version_year: version year
@@ -259,14 +260,16 @@ class CitationUpdaterAndDoiGenerator(object):
         :return: the string repr for the cff file
         """
         return "{}-{}-{}".format(
-            version_year, self._convert_month_name_to_number(version_month),
+            version_year,
+            CitationUpdaterAndDoiGenerator.convert_month_name_to_number(
+                version_month),
             version_day)
 
     @staticmethod
-    def _convert_month_name_to_number(version_month):
+    def convert_month_name_to_number(version_month):
         """ converts a python month in text form to a number form
         YUCK> there must be a better way than this
-        
+
         :param version_month: the text form of the month
         :type version_month: string or int
         :return: the month int value
