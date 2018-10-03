@@ -100,7 +100,7 @@ class CitationUpdaterAndDoiGenerator(object):
 
         # update the version number and date-released fields
         yaml_file[CITATION_FILE_VERSION_FIELD] = version_number
-        yaml_file[CITATION_FILE_DATE_FIELD] = self._convert_text_date_to_date(
+        yaml_file[CITATION_FILE_DATE_FIELD] = self.convert_text_date_to_date(
             version_month, version_year, version_day)
 
         # if creating a doi, go and request one
