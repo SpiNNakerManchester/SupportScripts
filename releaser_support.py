@@ -43,7 +43,7 @@ PREVIOUS_DOIS = {
 }
 
 # UPDATE IF NEW MODULES EXIST
-DOI_TITLES = {
+doi_title = {
     spinn_utilities: "SpiNNaker Utilities",
     spinnman: "Python Host to SpiNNaker Machines interface",
     gfe_version: "Python Host top level API for SpiNNaker toolchain",
@@ -58,7 +58,9 @@ DOI_TITLES = {
     spalloc: "SpiNNaker machine allocation client",
     spalloc_server: "SpiNNaker machine allocation server",
     pacman: "SpiNNaker mapping alogirthms",
-    data_specification: "SpiNNaker Data compression Language"
+    data_specification: "SpiNNaker Data compression Language",
+    "spinnaker_tools": "SpiNNaker C code and low level tools",
+    "spinn_common": "SpiNNaker C supplemental code"
 }
 
 # UPDATE IF NEW MODULES EXIST
@@ -194,7 +196,8 @@ class ReleaserSupport(object):
                 'citation_file_path': os.path.join(
                     os.path.dirname(os.path.dirname(os.path.abspath(
                         python_module.__file__))), CITATION_FILE),
-                'language': LANGUAGE_CODES.PYTHON}
+                'language': LANGUAGE_CODES.PYTHON,
+                'doi_title': doi_title[python_module]}
             if python_module in PREVIOUS_DOIS:
                 self._modules_to_release[python_module]["previous_doi"] = \
                     PREVIOUS_DOIS[python_module]
@@ -207,11 +210,13 @@ class ReleaserSupport(object):
                     "spinnaker_tools"),
             'version_path': os.path.join(
                 CitationAggregator.locate_path_for_c_dependency(
-                    "spinnaker_tools"), "_version.py"),
+                    "spinnaker_tools"),
+                "include" + os.sep + "version.h"),
             'citation_file_path': os.path.join(
                 CitationAggregator.locate_path_for_c_dependency(
                     "spinnaker_tools"), CITATION_FILE),
-            'language': LANGUAGE_CODES.C}
+            'language': LANGUAGE_CODES.C,
+            'doi_title': doi_title["spinnaker_tools"]}
         if "spinnaker_tools" in PREVIOUS_DOIS:
             self._modules_to_release["spinnaker_tools"]["previous_doi"] = \
                 PREVIOUS_DOIS["spinnaker_tools"]
@@ -222,7 +227,12 @@ class ReleaserSupport(object):
             'module_path': SPINN_COMMON_PATH,
             'citation_file_path': os.path.join(
                 SPINN_COMMON_PATH, CITATION_FILE),
-            'language': LANGUAGE_CODES.C}
+            'language': LANGUAGE_CODES.C,
+            'version_path': os.path.join(
+                CitationAggregator.locate_path_for_c_dependency(
+                    "spinnaker_tools"),
+                "include" + os.sep + "version.h"),
+            'doi_title': doi_title["spinn_common"]}
         if "spinn_common" in PREVIOUS_DOIS:
             self._modules_to_release["spinn_common"]["previous_doi"] = \
                 PREVIOUS_DOIS["spinn_common"]

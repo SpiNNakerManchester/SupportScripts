@@ -102,8 +102,10 @@ def update_version_file(language, version_path, major, minor, patch, name):
 
 def _update_version_number(version_number, major, minor, patch):
     version_num_bits = version_number.split(".")
-    previous_patch = int(version_num_bits[2])
-    previous_minor = int(version_num_bits[1])
+    previous_patch = int(
+        version_num_bits[2].replace('"', "").strip("\n").replace("'", ""))
+    previous_minor = int(
+        version_num_bits[1].replace('"', "").strip("\n").replace("'", ""))
 
     saw_epoch = False
     if len(version_num_bits[0].split(VERSION_EPOCH)) != 1:
