@@ -1,4 +1,6 @@
 import os
+from _ordereddict import ordereddict
+
 import spinn_utilities
 import spinnman
 from spinn_front_end_common.utilities import globals_variables
@@ -24,7 +26,7 @@ from spinn_utilities.citation.tool_citation_generation import \
 from version_updater import update_version_file, LANGUAGE_CODES
 
 # FIX THIS
-SPINN_COMMON_PATH = "/c/Users/alan/Documents/software/spinn_common"
+SPINN_COMMON_PATH = "C:\Users\\alan\Documents\software\spinn_common"
 
 # UPDATE THIS
 NEW_VERSION_NAME = "Determinist"
@@ -67,7 +69,6 @@ doi_title = {
 PYTHON_MODULES = [
     spinn_utilities,
     spinnman,
-    gfe_version,
     pynn8_version,
     pynn7_version,
     spynnaker_version,
@@ -79,43 +80,51 @@ PYTHON_MODULES = [
     spalloc,
     spalloc_server,
     pacman,
-    data_specification]
+    data_specification,
+    gfe_version]
 
 
 class ReleaserSupport(object):
 
     def __init__(self):
-        self._modules_to_release = dict()
+        self._modules_to_release = ordereddict()
 
         self._setup_paths_input_data()
         self._set_up_version_upgrade_points_for_release()
 
-        for module in self._modules_to_release:
-            if (not self._modules_to_release[module]["major"] or
-                    self._modules_to_release[module]["minor"] or
-                    self._modules_to_release[module]["patch"]):
+        for release_module in self._modules_to_release:
+            print "processing module {}".format(release_module)
+            if (not self._modules_to_release[release_module]["major"] or
+                    self._modules_to_release[release_module]["minor"] or
+                    self._modules_to_release[release_module]["patch"]):
                 version_number, version_month, version_year, version_day = \
                     update_version_file(
-                        self._modules_to_release[module]["language"],
-                        self._modules_to_release[module]["version_path"],
-                        self._modules_to_release[module]["major"],
-                        self._modules_to_release[module]["minor"],
-                        self._modules_to_release[module]["patch"],
+                        self._modules_to_release[release_module]["language"],
+                        self._modules_to_release[release_module]
+                        ["version_path"],
+                        self._modules_to_release[release_module]["major"],
+                        self._modules_to_release[release_module]["minor"],
+                        self._modules_to_release[release_module]["patch"],
                         NEW_VERSION_NAME)
                 citation_updater = CitationUpdaterAndDoiGenerator()
                 citation_updater.update_citation_file_and_create_doi(
-                    self._modules_to_release[module]["citation_file_path"],
+                    self._modules_to_release[release_module]
+                    ["citation_file_path"],
                     update_version=True,
                     version_number=version_number, version_month=version_month,
                     version_year=version_year, version_day=version_day,
-                    doi_title=(self._modules_to_release[module]["doi_title"]
-                               + version_number),
+                    doi_title=(self._modules_to_release[release_module]
+                               ["doi_title"] + version_number),
                     create_doi=True, publish_doi=PUBLISH_DOI,
                     previous_doi=(
-                        self._modules_to_release[module]["previous_doi"]),
+                        self._modules_to_release[release_module]
+                        ["previous_doi"]),
                     is_previous_doi_sibling=False,
                     zenodo_access_token=ZENODO_ACCESS_TOKEN,
-                    module_path=self._modules_to_release[module]["module_path"])
+                    module_path=(
+                        self._modules_to_release[release_module]
+                        ["module_path"]))
+            print "processed module {}".format(release_module)
 
     def _set_up_version_upgrade_points_for_release(self):
         self._modules_to_release[spinn_utilities]["major"] = False
