@@ -246,9 +246,7 @@ class ReleaserSupport(object):
                 SPINN_COMMON_PATH, CITATION_FILE),
             'language': LANGUAGE_CODES.C,
             'version_path': os.path.join(
-                CitationAggregator.locate_path_for_c_dependency(
-                    "spinnaker_tools"),
-                "include" + os.sep + "version.h"),
+                SPINN_COMMON_PATH, "include" + os.sep + "version.h"),
             'doi_title': doi_title["spinn_common"]}
         if "spinn_common" in PREVIOUS_DOIS:
             self._modules_to_release["spinn_common"]["previous_doi"] = \
