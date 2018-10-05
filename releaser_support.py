@@ -36,7 +36,7 @@ PUBLISH_DOI = False
 
 # INSERT YOUR OWN ZENODO ACCESS TOKEN HERE, got from
 # https://zenodo.org/account/settings/applications/tokens/new/
-ZENODO_ACCESS_TOKEN = ""
+ZENODO_ACCESS_TOKEN = "bxsshB00zM7s0X5kjGHBRayWVRcVoj5SOgMAlqIqQA3mY4a5vMJOFnHRjRiT"
 
 # UPDATE THIS FOR SECOND USAGE
 PREVIOUS_DOIS = {
@@ -67,6 +67,7 @@ doi_title = {
 
 # UPDATE IF NEW MODULES EXIST
 PYTHON_MODULES = [
+    gfe_version,
     spinn_utilities,
     spinnman,
     pynn8_version,
@@ -80,13 +81,17 @@ PYTHON_MODULES = [
     spalloc,
     spalloc_server,
     pacman,
-    data_specification,
-    gfe_version]
+    data_specification]
 
 
 class ReleaserSupport(object):
 
     def __init__(self):
+
+        if ZENODO_ACCESS_TOKEN == "":
+            raise Exception(
+                "Need to fill this out the ZENODO_ACCESS_TOKEN dummy")
+
         self._modules_to_release = ordereddict()
 
         self._setup_paths_input_data()
