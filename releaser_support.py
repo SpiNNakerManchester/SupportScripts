@@ -36,7 +36,7 @@ PUBLISH_DOI = False
 
 # INSERT YOUR OWN ZENODO ACCESS TOKEN HERE, got from
 # https://zenodo.org/account/settings/applications/tokens/new/
-ZENODO_ACCESS_TOKEN = "bxsshB00zM7s0X5kjGHBRayWVRcVoj5SOgMAlqIqQA3mY4a5vMJOFnHRjRiT"
+ZENODO_ACCESS_TOKEN = ""
 
 # UPDATE THIS FOR SECOND USAGE
 PREVIOUS_DOIS = {
@@ -99,7 +99,7 @@ class ReleaserSupport(object):
 
         for release_module in self._modules_to_release:
             print "processing module {}".format(release_module)
-            if (not self._modules_to_release[release_module]["major"] or
+            if (self._modules_to_release[release_module]["major"] or
                     self._modules_to_release[release_module]["minor"] or
                     self._modules_to_release[release_module]["patch"]):
                 version_number, version_month, version_year, version_day = \
@@ -129,7 +129,10 @@ class ReleaserSupport(object):
                     module_path=(
                         self._modules_to_release[release_module]
                         ["module_path"]))
-            print "processed module {}".format(release_module)
+            else:
+                print "Not releasing module {} as its not changing " \
+                      "version".format(release_module)
+            print "released module {}".format(release_module)
 
     def _set_up_version_upgrade_points_for_release(self):
         self._modules_to_release[spinn_utilities]["major"] = False
