@@ -6,7 +6,8 @@ check_or_install() {
     if [ -d "$1" ]; then
         # Control will enter here if DIRECTORY exists.
         if [ -d "$1/.git" ]; then
-            echo $1 already exists
+            echo $1 already exists; unable to install $2 there
+            exit
         else
             echo Directory $1 exists but does not appear to be connected to git
             echo Unable to install $2 there
