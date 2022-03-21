@@ -4,10 +4,9 @@
 status(){
 	cd $1 || return
 	if [ -d .git ]; then
-	    # echo
-	    pwd
 	    # print status
-	    git status -s -b
+	    status=$(git status -s -b 2>/dev/null)
+            echo $1 $status
 	fi
 	cd ..
 }

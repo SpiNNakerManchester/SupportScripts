@@ -7,8 +7,8 @@ update() {
     cd $1 || return
     if [ -d .git ]; then
         git fetch
-        git checkout -q $2 || git checkout -q master || git checkout -q main 2>/dev/null
-        branch = $(git rev-parse --abbrev-ref HEAD)
+        git checkout -q $2 2>/dev/null || git checkout -q master 2>/dev/null || git checkout -q main 2>/dev/null
+        branch=$(git rev-parse --abbrev-ref HEAD)
         echo $1 $branch
     fi
     cd ..
