@@ -35,6 +35,10 @@ inputs:
     description: What mode to install in
     required: false
     default: develop
+  setup-pynn:
+    description: Whether to run setup_pynn or not
+    required: false
+    default: false
 runs:
   using: composite
   steps: 
@@ -54,6 +58,13 @@ runs:
           echo "::group::Doing test-code install"
           pip install -r ${{ inputs.test-requirements-path }}
           code=$?
+          echo "::endgroup::"
+          exit $code
+        fi
+    - run: |
+        if [ ${{ inputs.setup-pynn }} = "true" ]; then
+          echo "::group::Running setup-pynn
+          python -m spynnaker.setup_pynn
           echo "::endgroup::"
           exit $code
         fi
