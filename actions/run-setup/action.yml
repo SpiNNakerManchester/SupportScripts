@@ -61,7 +61,7 @@ runs:
           echo "::endgroup::"
           exit $code
         fi
-        shell: bash
+      shell: bash
     - run: |
         if [ ${{ inputs.setup-pynn }} = "true" ]; then
           echo "::group::Running setup-pynn
