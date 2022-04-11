@@ -17,5 +17,9 @@ name: "Install sPyNNaker into PyNN"
 runs:
   using: composite
   steps: 
-    - run: exec python spynnaker.pyNN.setup_pynn
-      shell: bash
+  - run: |
+      echo "::group::Running setup-pynn"
+      python -m spynnaker.pyNN.setup_pynn
+      echo "::endgroup::"
+      exit $code
+    shell: bash
