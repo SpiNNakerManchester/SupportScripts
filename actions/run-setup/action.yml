@@ -65,7 +65,7 @@ runs:
     - run: |
         if [ ${{ inputs.setup-pynn }} = "true" ]; then
           echo "::group::Running setup-pynn"
-          python -m spynnaker.setup_pynn
+          python -m spynnaker.pyNN.setup_pynn
           echo "::endgroup::"
           exit $code
         fi
