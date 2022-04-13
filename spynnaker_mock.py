@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 population_count = 0
 projection_count = 0
 is_setup = False

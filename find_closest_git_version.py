@@ -14,7 +14,6 @@ this is printed, otherwise master is printed.
 If a third argument is given, this is taken as a version prefix to be used;
 any semantic version will be assumed to have this prefix.
 """
-from __future__ import print_function
 from collections import defaultdict
 import subprocess
 import re
