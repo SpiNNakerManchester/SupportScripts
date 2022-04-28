@@ -17,3 +17,4 @@
 **/.*cache/**
 **/MANIFEST.in
 **/pypi_to_import
+**/*.ipynb
