@@ -63,7 +63,8 @@ inputs:
 runs:
   using: composite
   steps: 
-    - run: |
+    - name: Add to cfg
+      run: |
         bash ${{ github.action_path }}/mkcfg.bash
       env:
         M_ADDR: ${{ inputs.board-address }}
@@ -78,5 +79,7 @@ runs:
         M_MODE: ${{ inputs.mode }}
         F_PATH: ${{ inputs.data_path }}
       shell: bash
-    - run: cat ~/.spynnaker.cfg
-
+    - name: cat cfg
+      run: |
+        cat ~/.spynnaker.cfg
+      shell: bash
