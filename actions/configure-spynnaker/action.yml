@@ -68,7 +68,7 @@ runs:
         bash ${{ github.action_path }}/mkcfg.bash
       env:
         M_ADDR: ${{ inputs.board-address }}
-        M_VER: ${{ inputs.version }}
+        M_VERSION: ${{ inputs.version }}
         S_HOST: ${{ inputs.spalloc }}
         S_PORT: ${{ inputs.port }}
         S_USER: ${{ inputs.user }}
