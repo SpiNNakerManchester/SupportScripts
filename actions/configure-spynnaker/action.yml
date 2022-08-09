@@ -78,3 +78,5 @@ runs:
         M_MODE: ${{ inputs.mode }}
         F_PATH: ${{ inputs.data_path }}
       shell: bash
+    -run: cat ~/.spynnaker.cfg
+
