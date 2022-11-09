@@ -27,3 +27,4 @@ do_setup SpiNNakerGraphFrontEnd
 do_setup sPyNNaker
 do_setup sPyNNaker8
 do_setup sPyNNakerVisualisers
+do_setup SpiNNGym
