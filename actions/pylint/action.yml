@@ -33,12 +33,26 @@ inputs:
     description: The name of the pylint rc file
     required: false
     default: .pylintrc
+  exitcheck:
+    description: The combined results code to fail on
+    required: false
+    default: 35
+    # Pylint should leave with following status code:
+    #  0 if everything went fine
+    # 1 if a fatal message was issued
+    # 2 if an error message was issued
+    # 4 if a warning message was issued
+    # 8 if a refactor message was issued
+    # 16 if a convention message was issued
+    # 32 on usage error
+    # to die on fatal, error or usage the recommended way is
+    # exit $(($? & 35))
 runs:
   using: composite
-  steps: 
+  steps:
     - run: |
         pylint --output-format=colorized --disable=${{ inputs.disable }} \
           --persistent=no --jobs=${{ inputs.jobs }} --rcfile=${{ inputs.rcfile }} \
-          ${{ inputs.package }} || exit $(($? & 35))
+          ${{ inputs.package }} || exit $(($? & ${{ inputs.exitcheck }}))
       # Note that there's special conditioning of the return code of pylint
       shell: bash
