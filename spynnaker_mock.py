@@ -9,7 +9,7 @@ class Population(object):
     def __init__(self):
         global population_count
         if not is_setup:
-            raise Exception("not setup")
+            raise NotImplementedError("not setup")
         population_count += 1
         self.id = population_count
         if print_status_messages:
@@ -23,7 +23,7 @@ class Projection(object):
     def __init__(self):
         global projection_count
         if not is_setup:
-            raise Exception("not setup")
+            raise NotImplementedError("not setup")
         projection_count += 1
         self.id = projection_count
         if print_status_messages:
@@ -36,7 +36,7 @@ class Projection(object):
 def setup():
     global population_count, projection_count, is_setup
     if is_setup:
-        raise Exception("already setup")
+        raise NotImplementedError("already setup")
     population_count = 0
     projection_count = 0
     is_setup = True
@@ -54,7 +54,7 @@ def projection():
 
 def run():
     if not is_setup:
-        raise Exception("not setup")
+        raise NotImplementedError("not setup")
     if print_status_messages:
         print("population:", population_count, " projection", projection_count)
 
@@ -62,7 +62,7 @@ def run():
 def end():
     global is_setup
     if not is_setup:
-        raise Exception("not setup")
+        raise NotImplementedError("not setup")
     is_setup = False
     if print_status_messages:
         print("end successful")

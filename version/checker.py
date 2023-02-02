@@ -23,7 +23,7 @@ def get_version(module):
     version_path = os.path.join(main_directory, "_version.py")
     version = find_version(version_path)
     if version != VERSION:
-        raise Exception(f"Found version {version} in {module}")
+        raise version_file(f"Found version {version} in {module}")
     print(module, main_package, version, name)
     versions[name] = version
 
@@ -39,7 +39,7 @@ def find_main_package(setup_file):
         return "spynnaker"
     if setup_file.endswith('/spalloc/setup.py'):
         return "spalloc"
-    raise Exception("Unable to find main_package = in {}".format(setup_file))
+    raise ValueError("Unable to find main_package = in {}".format(setup_file))
 
 
 def find_name(setup_file):
@@ -49,7 +49,7 @@ def find_name(setup_file):
                 parts = line.split("\"")
                 # print parts
                 return parts[1]
-    raise Exception("Unable to find name= in {}".format(setup_file))
+    raise ValueError("Unable to find name= in {}".format(setup_file))
 
 
 def find_version(version_file):
@@ -59,7 +59,7 @@ def find_version(version_file):
                 parts = line.split("\"")
                 # print parts
                 return parts[1]
-    raise Exception("Unable to find__version__ in {}".format(version_file))
+    raise ValueError("Unable to find__version__ in {}".format(version_file))
 
 
 def check_versions(file):
@@ -91,8 +91,8 @@ def check_version(line, name, version, file):
     parts = line.split(" ")
     parts[2] = parts[2].strip(",")
     if parts[2] != version:
-        raise Exception("Version mismatch in {} found {} expected {} {} in "
-                        "File \"{}\"".format(file, line, name, version, file))
+        raise ValueError("Version mismatch in {} found {} expected {} {} in "
+                         "File \"{}\"".format(file, line, name, version, file))
 
 VERSION = "1!6.0.0"
 print(root_directory)

@@ -20,7 +20,7 @@ def find_version(version_file):
                     return version
                 else:
                     return None
-    raise Exception("Unable to find__version__ in {}".format(version_file))
+    raise ValueError(f"Unable to find__version__ in {version_file}")
 
 
 def change_version_files():
