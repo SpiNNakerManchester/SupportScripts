@@ -26,7 +26,7 @@ def get_version_from_directory(realpath):
             return get_version_from_file(root, "_version.py")
         if "version.py" in files:
             return get_version_from_file(root, "version.py")
-    raise Exception("No version found in ", realpath)
+    raise FileNotFoundError("No version found in ", realpath)
 
 
 def get_versions(realpath):
@@ -64,14 +64,14 @@ def verify_version(declaration, versions):
     if parts[0] in versions:
         version = versions[parts[0]]
         if parts[1] != ">=":
-            raise Exception("Not >=", declaration)
+            raise ValueError("Not >=", declaration)
         if parts[2][:-1] != version:
-            raise Exception("For", parts[0], "mismatch", parts[2][:-1],
+            raise ValueError("For", parts[0], "mismatch", parts[2][:-1],
                             version)
         if len(parts) > 3:
             if parts[3] == "<=":
                 if parts[4][:-1] != version:
-                    raise Exception("For", parts[0], "<= mismatch",
+                    raise ValueError("For", parts[0], "<= mismatch",
                                     parts[4][:-1], version)
             if parts[3] == "<":
                 prefix = ""
@@ -81,30 +81,30 @@ def verify_version(declaration, versions):
                     major = major[2:]
                     prefix = "1!"
                 if major[0] == "v":
-                    raise Exception("V in version")
+                    raise ValueError("V in version")
                 major = int(major)
                 if chunks[1] != "0":
-                    raise Exception("None minor not zero")
+                    raise ValueError("None minor not zero")
                 if chunks[2] != "0":
-                    raise Exception("None minor not zero")
+                    raise ValueError("None minor not zero")
                 chunks = version.split(".")
                 previous = chunks[0]
                 if previous[:2] == "1!":
                     previous = previous[2:]
                     if prefix != "1!":
-                        raise Exception("Prefix clash")
+                        raise ValueError("Prefix clash")
                 else:
                     if prefix != "":
-                        raise Exception("Prefix clash")
+                        raise ValueError("Prefix clash")
                 if previous[0] == "v":
-                    raise Exception("V in version")
+                    raise ValueError("V in version")
                 previous = int(previous)
                 if major != previous + 1:
-                    raise Exception("Not an major bump", declaration)
+                    raise ValueError("Not an major bump", declaration)
                 if chunks[1] != "0":
-                    raise Exception("None minor not zero")
+                    raise ValueError("None minor not zero")
                 if chunks[2] != "1":
-                    raise Exception("None minor not zero")
+                    raise ValueError("None minor not zero")
 
 
 def setup_versions(realpath, versions):

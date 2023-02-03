@@ -109,7 +109,7 @@ def check_directory(path, pynn_version):
         elif pynn_version == 8:
             pynn_ignore = "sPyNNaker7"
         else:
-            raise Exception("Unexpected version")
+            raise ValueError("Unexpected version")
         for root, dirs, files in os.walk(realpath, topdown=True):
             for name in files:
                 if name.endswith(".py"):
