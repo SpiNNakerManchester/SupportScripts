@@ -25,6 +25,13 @@ inputs:
     required: false
     default: https://www.apache.org/dyn/closer.cgi?action=download&filename=
     # Another alternative: http://www.mirrorservice.org/sites/ftp.apache.org/
+  xml_file:
+    description: Which xml file to use
+    required: false
+    default: "rat.xml"
+    # supported options are
+    # 'rat.xml'  and license acceptable to rat
+    # 'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20
 runs:
   using: composite
   steps:
@@ -41,7 +48,7 @@ runs:
       shell: bash
       env:
         SUPPORT_DIR: ${{ github.action_path }}
-        CFG: ${{ github.action_path }}/rat.xml
+        CFG: ${{ github.action_path }}/${{ inputs.xml_file }}
         LIB: ${{ github.action_path }}/apache-rat-${{ inputs.version }}
 branding:
   icon: search
