@@ -26,10 +26,10 @@ inputs:
     default: https://www.apache.org/dyn/closer.cgi?action=download&filename=
     # Another alternative: http://www.mirrorservice.org/sites/ftp.apache.org/
   config_file:
-    description: Which xml config file to use.
+    description: "Which xml config file to use.
         Supported options are:
           'rat.xml'  all license acceptable to rat
-          'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20
+          'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20"
     # The file is expected to be in the same directory as this file
     required: false
     default: "rat.xml"
