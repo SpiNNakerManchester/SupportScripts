@@ -48,7 +48,7 @@ runs:
         SUPPORT_DIR: ${{ github.action_path }}
         CFG: ${{ github.action_path }}/rat.xml
         LIB: ${{ github.action_path }}/apache-rat-${{ inputs.version }}
-    - if ${{ inputs.allow_gpl }} == true
+    - if ${{ inputs.allow_gpl }} == false
       name: "Check with no GPL"
       run: |
         ant -e -q -f "$CFG" -lib "$LIB" rat
