@@ -9,7 +9,7 @@
             	<excludesfile name="${user.dir}/.ratexcludes" />
             	<excludesfile name="${env.SUPPORT_DIR}/rat.excludes" />
             </fileset>
-            <rat:ApacheSoftwareLicense20/>
+            <rat:asl20/>
         </rat:report>
         <fail message="RAT_report.txt not generated">
             <condition>
