@@ -25,6 +25,10 @@ inputs:
     required: false
     default: https://www.apache.org/dyn/closer.cgi?action=download&filename=
     # Another alternative: http://www.mirrorservice.org/sites/ftp.apache.org/
+  allow_gpl:
+    description: Flag to say gpl license are accepted
+    required: false
+    default: true
 runs:
   using: composite
   steps:
@@ -35,7 +39,8 @@ runs:
         RAT_VERSION: ${{ inputs.version }}
         RAT_MIRROR: ${{ inputs.mirror }}
         SUPPORT_DIR: ${{ github.action_path }}
-    - name: Check
+    - if ${{ inputs.allow_gpl }} == true
+      name: "Check with GPL"
       run: |
         ant -e -q -f "$CFG" -lib "$LIB" rat
       shell: bash
@@ -43,6 +48,16 @@ runs:
         SUPPORT_DIR: ${{ github.action_path }}
         CFG: ${{ github.action_path }}/rat.xml
         LIB: ${{ github.action_path }}/apache-rat-${{ inputs.version }}
+    - if ${{ inputs.allow_gpl }} == true
+      name: "Check with no GPL"
+      run: |
+        ant -e -q -f "$CFG" -lib "$LIB" rat
+      shell: bash
+      env:
+        SUPPORT_DIR: ${{ github.action_path }}
+        CFG: ${{ github.action_path }}/rat_no_gpl.xml
+        LIB: ${{ github.action_path }}/apache-rat-${{ inputs.version }}
+
 branding:
   icon: search
   color: red
