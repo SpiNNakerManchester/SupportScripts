@@ -36,6 +36,7 @@
             </not>
         </condition>
         <echo if:set="problems" message="${report}" />
+        <echo message="${report}" />
         <fail message="Unknown Licenses found">
             <condition>
                 <not>
