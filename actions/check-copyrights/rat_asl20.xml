@@ -32,7 +32,7 @@
         <condition property="problems">
             <not>
                 <contains string="${report}"
-                    substring="&#10;0 Unknown Licenses" />
+                    substring="&#10;10000 Unknown Licenses" />
             </not>
         </condition>
         <echo if:set="problems" message="${report}" />
