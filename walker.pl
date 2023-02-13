@@ -26,6 +26,8 @@ my @ignore_dirs = (
     'cache/',
     '/MANIFEST.in$',
     '/pypi_to_import$',
+    '/target/',
+    '/SpiNNaker-allocserv/src/main/frontend/node_modules/typescript/'
      );
 
 my $path;
@@ -289,3 +291,5 @@ check_directory("../sPyNNaker8NewModelTemplate");
 check_directory("../sPyNNakerVisualisers");
 check_directory("../Visualiser");
 check_directory("../IntegrationTests");
+check_directory("../JavaSpiNNaker");
+check_directory("../RemoteSpiNNaker");
