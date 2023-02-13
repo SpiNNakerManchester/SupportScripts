@@ -2,9 +2,11 @@
 use strict;
 use warnings;
 use feature qw(say);
+use Cwd qw(getcwd);
 use File::Find qw(find);
 use File::Basename;
 use File::Spec;
+use File::Copy;
 
 my @ignore_dirs = (
     '/.git/',
@@ -24,10 +26,10 @@ my @ignore_dirs = (
     '/pypi_to_import$',
      );
 
-my $abs_path;
 my $path;
 my $line;
 my $new_path;
+my $permissions;
 my $prefix;
 my $in;
 my $out;
@@ -57,6 +59,7 @@ sub handle_top_lines{
     }
     # skip: //! \copyright      &copy; The University of Manchester - 2012-2015
     while ($line !~ /copyright (.)*The University of Manchester(\s)*$/i){
+        print $out $line;
         $line = <$in>;
         if (!defined $line){
             print("No copyright line found\n");
@@ -108,12 +111,24 @@ sub munch_existing_gnu {
     check_line('along with this program.  If not, see <http://www.gnu.org/licenses/>.(\s+)$');
 }
 
-sub handle_gnu_file {
-   #  say "gnu: ", $path;
+sub start_copy{
+    $permissions = (stat $path)[2] & 00777;
     $new_path = "${path}.bak";
     open $in,  '<', $path     or die "Can't read old file: $path";
     open $out, '>', $new_path or die "Can't write new file: $new_path";
+}
 
+sub finish_copy{
+    close $in;
+    close $out;
+    unlink $path;
+    rename $new_path, $path;
+    chmod $permissions, $path;
+}
+
+sub handle_gnu_file {
+   #  say "gnu: ", $path;
+    start_copy();
     handle_top_lines();
     munch_existing_gnu();
 
@@ -132,26 +147,18 @@ sub handle_gnu_file {
     while( <$in> ) {
         print $out $_;
     }
-    close $in;
-    close $out;
-    unlink $path;
-    rename $new_path, $path;
+    finish_copy();
 }
 
 sub handle_apache_file {
     # say "gnu: ", $path;
-    $new_path = "${path}.bak";
-    open $in,  '<', $path     or die "Can't read old file: $path";
-    open $out, '>', $new_path or die "Can't write new file: $new_path";
+    start_copy();
 
     handle_top_lines();
     while( <$in> ) {
         print $out $_;
     }
-    close $in;
-    close $out;
-    unlink $path;
-    rename $new_path, $path;
+    finish_copy();
 }
 
 sub fix_copyrights{
@@ -187,11 +194,13 @@ sub fix_copyrights{
 }
 
 sub handle_setup {
-    $path = File::Spec->catfile($abs_path, "setup.py");
+    $path = File::Spec->catfile(getcwd(), "setup.py");
     #say $path;
     if (not -e $path) {
         return;
     }
+    start_copy();
+    $permissions = (stat $path)[2] & 00777;
     $new_path = "${path}.bak";
     #say "setup: ", $new_path;
     open $in,  '<', $path     or die "Can't read old file: $path";
@@ -202,21 +211,18 @@ sub handle_setup {
        $line =~ s/GNU GPLv3.0/Apache License 2.0/i;
        print $out $line;
    }
-   close $in;
-   close $out;
-   unlink $path;
-   rename $new_path, $path;
+    finish_copy();
 }
 
 sub handle_license {
-    $path = File::Spec->catfile($abs_path, "LICENSE.md");
-    #if (not -e $path) {
-    #    return;
-    #}
-    #say $path;
-    $new_path = "${path}.bak";
-    open $in,  '<', $path     or die "Can't read old file: $path";
-    open $out, '>', $new_path or die "Can't write new file: $new_path";
+    $path = File::Spec->catfile(getcwd(), "LICENSE");
+    unlink $path;
+    my $s_l_path = File::Spec->catfile(dirname(getcwd()), "SupportScripts", "LICENSE");
+    copy($s_l_path, $path) or die "LICENSE copy failed: $!";
+    return
+
+    $path = File::Spec->catfile(getcwd(), "LICENSE.md");
+    start_copy();
     while( <$in> ) {
        $line = $_;
        $line =~ s/GPL version 3 license/Apache License 2.0/i;
@@ -225,42 +231,37 @@ sub handle_license {
        $line =~ s/common_pages\/4\.0\.0/latest/;
        print $out $line;
    }
-   close $in;
-   close $out;
-   unlink $path;
-   rename $new_path, $path;
+    finish_copy();
 }
 
 sub check_directory{
-    $abs_path = File::Spec->rel2abs($_[0]);
-    say "checking: ", $abs_path;
+    my $start_path = getcwd();
+    chdir $_[0];
+    say "checking", getcwd();
+
     handle_setup();
     handle_license();
-    find (\&fix_copyrights, $abs_path);
+    find (\&fix_copyrights, getcwd());
+
+    chdir $start_path;
 }
 
-#check_directory("../spinnaker_tools");
+check_directory("../spinnaker_tools");
 #check_directory("../spinn_common");
 #check_directory("../SpiNNUtils");
 #check_directory("../SpiNNMachine");
 #check_directory("../SpiNNMan");
 #check_directory("../DataSpecification");
+#check_directory("../spalloc");
+#check_directory("../spalloc_server");
 #check_directory("../PACMAN");
 #check_directory("../SpiNNFrontEndCommon");
 #check_directory("../TestBase");
 #check_directory("../sPyNNaker");
 #check_directory("../SpiNNakerGraphFrontEnd");
-#check_directory("../IntegrationTests");
 #check_directory("../PyNN8Examples");
-check_directory("../IntroLab");
-#check_directory("../spalloc");
-#check_directory("../spalloc_server");
+#check_directory("../IntroLab");
 #check_directory("../sPyNNaker8NewModelTemplate");
 #check_directory("../sPyNNakerVisualisers");
 #check_directory("../Visualiser");
-#$path = "/home/brenninc/spinnaker/my_spinnaker/../IntroLab/learning/simple2.py";
-#handle_num_gnu_file();
-
-
-#unlink $file;
-#rename $old_name, $new_name;
+#check_directory("../IntegrationTests");
