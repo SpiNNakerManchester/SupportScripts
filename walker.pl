@@ -136,9 +136,9 @@ sub munch_existing_gnu {
 }
 
 sub start_copy{
+    open $in,  '<', $path     or die "Can't read old file: $path";
     $permissions = (stat $path)[2] & 00777;
     $new_path = "${path}.bak";
-    open $in,  '<', $path     or die "Can't read old file: $path";
     open $out, '>', $new_path or die "Can't write new file: $new_path";
 }
 
@@ -258,38 +258,62 @@ sub handle_license {
    }
     finish_copy();
 }
+sub handle_conf_py {
+    $path = File::Spec->catfile(getcwd(), "doc", "source", "conf.py");
+    if (not -e $path) {
+        return;
+    }
+
+    start_copy();
+    while( <$in> ) {
+       $line = $_;
+       my $old_line = $line;
+       $line =~ s/(\d{4})\-(\d{4})/$1\-2023/i;
+       $line =~ s/version \= s/'6\.0\'/version \= 1\!7\.0/i
+       if ($line ne $old_line) {
+            print($line);
+            print($old_line);
+            say "--";
+       }
+       # http://www.gnu.org/copyleft/gpl.html
+       print $out $line;
+    }
+    finish_copy();
+}
 
 sub check_directory{
     my $start_path = getcwd();
     chdir $_[0];
     say "checking", getcwd();
 
-    handle_setup();
-    handle_license();
-    $repo = Git->repository();
-    find (\&fix_copyrights, getcwd());
+    #handle_setup();
+    #handle_license();
+    handle_conf_py();
+
+    #$repo = Git->repository();
+    #find (\&fix_copyrights, getcwd());
 
     chdir $start_path;
 }
 
-check_directory("../spinnaker_tools");
-check_directory("../spinn_common");
+#check_directory("../spinnaker_tools");
+#check_directory("../spinn_common");
 check_directory("../SpiNNUtils");
-check_directory("../SpiNNMachine");
-check_directory("../SpiNNMan");
-check_directory("../DataSpecification");
-check_directory("../spalloc");
-check_directory("../spalloc_server");
-check_directory("../PACMAN");
-check_directory("../SpiNNFrontEndCommon");
-check_directory("../TestBase");
-check_directory("../sPyNNaker");
-check_directory("../SpiNNakerGraphFrontEnd");
-check_directory("../PyNN8Examples");
-check_directory("../IntroLab");
-check_directory("../sPyNNaker8NewModelTemplate");
-check_directory("../sPyNNakerVisualisers");
-check_directory("../Visualiser");
-check_directory("../IntegrationTests");
-check_directory("../JavaSpiNNaker");
-check_directory("../RemoteSpiNNaker");
+#check_directory("../SpiNNMachine");
+#check_directory("../SpiNNMan");
+#check_directory("../DataSpecification");
+#check_directory("../spalloc");
+#check_directory("../spalloc_server");
+#check_directory("../PACMAN");
+#check_directory("../SpiNNFrontEndCommon");
+#check_directory("../TestBase");
+#check_directory("../sPyNNaker");
+#check_directory("../SpiNNakerGraphFrontEnd");
+#check_directory("../PyNN8Examples");
+#check_directory("../IntroLab");
+#check_directory("../sPyNNaker8NewModelTemplate");
+#check_directory("../sPyNNakerVisualisers");
+#check_directory("../Visualiser");
+#check_directory("../IntegrationTests");
+#check_directory("../JavaSpiNNaker");
+#check_directory("../RemoteSpiNNaker");
