@@ -53,7 +53,7 @@ sub fix_top_line{
     my $original = int($original_st);
 
     # Find when file first created in giut
-    my $info = $repo->command('log', '--diff-filter=A', '--follow', '--format=%aD', '-1', $path);
+    my $info = $repo->command('log', '--diff-filter=AC', '--follow', '--format=%aD', '-1', $path);
     if (length($info) > 10){
         my $year_st = $info;
         $year_st =~ s/^(.*)\s(\d{4})(.*)/$2/i;
@@ -348,18 +348,18 @@ sub check_directory{
 
     handle_setup();
     handle_license();
-    handle_conf_py();
+    #handle_conf_py();
 
     $repo = Git->repository();
     find(\&fix_copyrights, getcwd());
 
-    find(\&handle_version, getcwd());
+    #find(\&handle_version, getcwd());
     chdir $start_path;
 }
 
 #check_directory("../spinnaker_tools");
 #check_directory("../spinn_common");
-#check_directory("../SpiNNUtils");
+check_directory("../SpiNNUtils");
 #check_directory("../SpiNNMachine");
 #check_directory("../SpiNNMan");
 #check_directory("../DataSpecification");
@@ -376,5 +376,5 @@ sub check_directory{
 #check_directory("../sPyNNakerVisualisers");
 #check_directory("../Visualiser");
 #check_directory("../IntegrationTests");
-check_directory("../JavaSpiNNaker");
+#check_directory("../JavaSpiNNaker");
 #check_directory("../RemoteSpiNNaker");
