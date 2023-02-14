@@ -38,8 +38,11 @@ my $prefix;
 my $in;
 my $out;
 my $repo;
+my $changed;
+my $old_line;
 
 sub fix_top_line{
+    $old_line = $line;
     # change it to YYYY-2023
     $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) $2-2023 The University of Manchester/i;
     $line =~ s/copyright(\D*)(\d{4})(\D*)the university of manchester/Copyright (c) $2-2023 The University of Manchester/i;
@@ -63,6 +66,11 @@ sub fix_top_line{
 
     # remove double same year
     $line =~ s/(.*) 2023-2023(.*)/$1 2023$2/i;
+
+    # check the line
+    check_line('Copyright \(c\) (\d{4}-)?2023 The University of Manchester(\s)$');
+    print $out $line;
+    $changed = $line ne $old_line
 }
 
 sub check_line{
@@ -92,8 +100,6 @@ sub handle_top_lines{
     }
 
     fix_top_line();
-    check_line('Copyright \(c\) (\d{4}-)?2023 The University of Manchester(\s)$');
-    print $out $line;
 }
 
 sub munch_existing_gnu {
@@ -140,14 +146,20 @@ sub start_copy{
     $permissions = (stat $path)[2] & 00777;
     $new_path = "${path}.bak";
     open $out, '>', $new_path or die "Can't write new file: $new_path";
+    $changed = 0 # Perl has no bool type so use 0 as false
 }
 
 sub finish_copy{
     close $in;
     close $out;
-    unlink $path;
-    rename $new_path, $path;
-    chmod $permissions, $path;
+    if ($changed){
+        say "Updated: ",$path;
+        unlink $path;
+        rename $new_path, $path;
+        chmod $permissions, $path;
+    } else {
+        unlink $new_path;
+    }
 }
 
 sub handle_gnu_file {
@@ -171,6 +183,7 @@ sub handle_gnu_file {
     while( <$in> ) {
         print $out $_;
     }
+    $changed = 1; # Perl has bool so using 1 for value
     finish_copy();
 }
 
@@ -179,8 +192,10 @@ sub handle_apache_file {
     start_copy();
 
     handle_top_lines();
-    while( <$in> ) {
-        print $out $_;
+    if ($changed) {
+        while( <$in> ) {
+            print $out $_;
+        }
     }
     finish_copy();
 }
@@ -235,7 +250,8 @@ sub handle_setup {
        $line =~ s/GNU General Public License v2 \(GPLv2\)/Apache License 2.0/i;
        $line =~ s/GNU GPLv3.0/Apache License 2.0/i;
        print $out $line;
-   }
+       $changed = $changed || $line ne $_;
+    }
     finish_copy();
 }
 
@@ -255,9 +271,11 @@ sub handle_license {
        $line =~ s/http(.*)www.gnu.org(.*)html/https:\/\/www.apache.org\/licenses\/LICENSE\-2\.0/i;
        $line =~ s/common_pages\/4\.0\.0/latest/;
        print $out $line;
+       $changed = $changed || $line ne $_;
    }
     finish_copy();
 }
+
 sub handle_conf_py {
     $path = File::Spec->catfile(getcwd(), "doc", "source", "conf.py");
     if (not -e $path) {
@@ -269,15 +287,54 @@ sub handle_conf_py {
        $line = $_;
        my $old_line = $line;
        $line =~ s/(\d{4})\-(\d{4})/$1\-2023/i;
-       $line =~ s/version \= s/'6\.0\'/version \= 1\!7\.0/i
-       if ($line ne $old_line) {
-            print($line);
-            print($old_line);
-            say "--";
+       if ($line =~ m/^version/i){
+            $changed = $changed || $line !~ m/1\!7\.0/;
+            print $out "version = '1!7.0'\n";
+       } elsif ($line =~ m/^release/i){
+            $changed = $changed || $line !~ m/1\!7\.0\.0/;
+            print $out "release = '1!7.0.0'\n";
+       } else {
+           print $out $line;
        }
        # http://www.gnu.org/copyleft/gpl.html
-       print $out $line;
     }
+    finish_copy();
+}
+
+sub handle_version{
+    if (-d) {
+        return;
+    }
+    $path = $File::Find::name;
+
+    # ignore all but version files
+    if ($path !~ m/\_version\.py$/){
+        return;
+    }
+
+   start_copy();
+   $line = <$in>;
+    if (!defined $line){
+        print("No __version line found\n");
+        die $path;
+    }
+    while ($line !~ /\_version/i){
+        print $out $line;
+        $line = <$in>;
+        if (!defined $line){
+            print("No __version line found\n");
+            die $path;
+        }
+    }
+
+    print $out "__version__ = \"1!7.0.0\"\n";
+    print $out "__version_month__ = \"February\"\n";
+    print $out "__version_year__ = \"2023\"\n";
+    print $out "__version_day__ = \"TBD\"\n";
+    print $out "__version_name__ = \"Revisionist\"\n";
+
+    # assuming here there are no weird lines below
+
     finish_copy();
 }
 
@@ -286,13 +343,14 @@ sub check_directory{
     chdir $_[0];
     say "checking", getcwd();
 
-    #handle_setup();
-    #handle_license();
+    handle_setup();
+    handle_license();
     handle_conf_py();
 
-    #$repo = Git->repository();
-    #find (\&fix_copyrights, getcwd());
+    $repo = Git->repository();
+    find(\&fix_copyrights, getcwd());
 
+    find(\&handle_version, getcwd());
     chdir $start_path;
 }
 
