@@ -30,4 +30,4 @@ Documentation
 =============
 
  * [SpiNNaker online documentation](http://spinnakermanchester.github.io/)
- * [Combined python documentation](http://spinnaker8manchester.readthedocs.io)
+ * [Combined python documentation](http://spinnakermanchester.readthedocs.io)
