@@ -44,7 +44,7 @@ my $old_line;
 sub fix_top_line{
     $old_line = $line;
     # change it to YYYY-2023
-    $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) $2-$4 The University of Manchester/i;
+    $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) $2 The University of Manchester/i;
     $line =~ s/copyright(\D*)(\d{4})(\D*)the university of manchester/Copyright (c) $2 The University of Manchester/i;
 
     # Find when copyright starts
@@ -61,7 +61,6 @@ sub fix_top_line{
         if (int($original) > int($year_st)){
             say int($original)," ", int($year_st), " ", $path;
             say $line;
-            $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) ${year}-2023 The University of Manchester/i;
             $line =~ s/copyright(.*)(\d{4}) the university of manchester/Copyright (c) ${year} The University of Manchester/i;
             say $line;
         }
@@ -357,24 +356,24 @@ sub check_directory{
     chdir $start_path;
 }
 
-#check_directory("../spinnaker_tools");
-#check_directory("../spinn_common");
+check_directory("../spinnaker_tools");
+check_directory("../spinn_common");
 check_directory("../SpiNNUtils");
-#check_directory("../SpiNNMachine");
-#check_directory("../SpiNNMan");
-#check_directory("../DataSpecification");
-#check_directory("../spalloc");
-#check_directory("../spalloc_server");
-#check_directory("../PACMAN");
-#check_directory("../SpiNNFrontEndCommon");
-#check_directory("../TestBase");
-#check_directory("../sPyNNaker");
-#check_directory("../SpiNNakerGraphFrontEnd");
-#check_directory("../PyNN8Examples");
-#check_directory("../IntroLab");
-#check_directory("../sPyNNaker8NewModelTemplate");
-#check_directory("../sPyNNakerVisualisers");
-#check_directory("../Visualiser");
-#check_directory("../IntegrationTests");
-#check_directory("../JavaSpiNNaker");
-#check_directory("../RemoteSpiNNaker");
+check_directory("../SpiNNMachine");
+check_directory("../SpiNNMan");
+check_directory("../DataSpecification");
+check_directory("../spalloc");
+check_directory("../spalloc_server");
+check_directory("../PACMAN");
+check_directory("../SpiNNFrontEndCommon");
+check_directory("../TestBase");
+check_directory("../sPyNNaker");
+check_directory("../SpiNNakerGraphFrontEnd");
+check_directory("../PyNN8Examples");
+check_directory("../IntroLab");
+check_directory("../sPyNNaker8NewModelTemplate");
+check_directory("../sPyNNakerVisualisers");
+check_directory("../Visualiser");
+check_directory("../IntegrationTests");
+check_directory("../JavaSpiNNaker");
+check_directory("../RemoteSpiNNaker");
