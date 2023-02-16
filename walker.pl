@@ -351,16 +351,6 @@ sub check_directory{
     chdir $_[0];
     say "checking", getcwd();
 
-    $path = File::Spec->catfile(getcwd(), "setup.py");
-    handle_dependencies();
-    $path = File::Spec->catfile(getcwd(), "requirements.txt");
-    handle_dependencies();
-
-    if ($main_repository) {
-        handle_license();
-        handle_conf_py();
-    }
-
     $repo = Git->repository();
     if ($release){
         my $info = $repo->command('branch');
@@ -369,6 +359,19 @@ sub check_directory{
         }
         $repo->command('checkout', $release);
     }
+
+    $path = File::Spec->catfile(getcwd(), "setup.py");
+    handle_dependencies();
+    $path = File::Spec->catfile(getcwd(), "requirements.txt");
+    handle_dependencies();
+    $path = File::Spec->catfile(getcwd(), "requirements-test.txt");
+    handle_dependencies();
+
+    if ($main_repository) {
+        handle_license();
+        handle_conf_py();
+    }
+
     find(\&fix_each_file, getcwd());
 
     chdir $start_path;
@@ -377,10 +380,10 @@ sub check_directory{
 $release = "1!7.0.0";
 $main_repository = 0;
 check_directory("../SpiNNGym");
+#die "done";
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
-#die "done";
 check_directory("../sPyNNaker8Jupyter");
 $main_repository = 1;
 check_directory("../spinnaker_tools");
