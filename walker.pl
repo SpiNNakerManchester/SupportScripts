@@ -11,6 +11,7 @@ use Git;
 use List::Util qw(min);
 
 my @ignore_dirs = (
+    '/__pyache__/',,
     '/.git/',
     '/.idea/',
     '/doc/build/',
@@ -20,6 +21,7 @@ my @ignore_dirs = (
     '.coverage',
     '\.ratexclude',
     'project$',
+    '.pyc',
     '.travis.yml$',
     '/modified_src/',
     '/.settings/',
@@ -27,7 +29,8 @@ my @ignore_dirs = (
     '/MANIFEST.in$',
     '/pypi_to_import$',
     '/target/',
-    '/SpiNNaker-allocserv/src/main/frontend/node_modules/typescript/'
+    '/SpiNNaker-allocserv/src/main/frontend/node_modules/typescript/',
+    'README.md'
      );
 
 my $path;
@@ -40,6 +43,8 @@ my $out;
 my $repo;
 my $changed;
 my $old_line;
+my $main_repository;
+my $release = 0;   # if zero skips any tasks related to a release
 
 sub fix_top_line{
     $old_line = $line;
@@ -189,7 +194,7 @@ sub handle_gnu_file {
     finish_copy();
 }
 
-sub handle_apache_file {
+sub fix_copyright_year {
     # say "gnu: ", $path;
     start_copy();
 
@@ -202,7 +207,7 @@ sub handle_apache_file {
     finish_copy();
 }
 
-sub fix_copyrights{
+sub fix_each_file{
     if (-d) {
         return;
     }
@@ -223,34 +228,44 @@ sub fix_copyrights{
         return;
     }
 
+    # ignore all but version files
+    if ($path =~ m/\/\_version\.py$/){
+        handle_version();
+        return;
+    }
+
     open(FILE, $path) or die "Can't open: $path!\n";
     if (grep{/GNU General Public License/} <FILE>){
-       handle_gnu_file();
+        if ($main_repository){
+            handle_gnu_file();
+        } else {
+           fix_copyright_year();
+        }
     }
     # warning can not grep the same open file twice!
     open(FILE, $path) or die "Can't open: $path!\n";
     if (grep{/Apache License/} <FILE>){
-       handle_apache_file();
+       fix_copyright_year();
    }
 }
 
-sub handle_setup {
-    $path = File::Spec->catfile(getcwd(), "setup.py");
-    #say $path;
+sub handle_dependencies {
     if (not -e $path) {
         return;
     }
     start_copy();
-    $permissions = (stat $path)[2] & 00777;
     $new_path = "${path}.bak";
     #say "setup: ", $new_path;
     open $in,  '<', $path     or die "Can't read old file: $path";
     open $out, '>', $new_path or die "Can't write new file: $new_path";
     while( <$in> ) {
        $line = $_;
-       $line =~ s/GNU General Public License v3 \(GPLv3\)/Apache License 2.0/i;
-       $line =~ s/GNU General Public License v2 \(GPLv2\)/Apache License 2.0/i;
-       $line =~ s/GNU GPLv3.0/Apache License 2.0/i;
+       if ($main_repository) {
+           $line =~ s/GNU General Public License v3 \(GPLv3\)/Apache License 2.0/i;
+           $line =~ s/GNU General Public License v2 \(GPLv2\)/Apache License 2.0/i;
+           $line =~ s/GNU GPLv3.0/Apache License 2.0/i;
+       }
+       $line =~ s/( == 1!\d.\d.\d)/ == ${release}/;
        print $out $line;
        $changed = $changed || $line ne $_;
     }
@@ -285,35 +300,26 @@ sub handle_conf_py {
     }
 
     start_copy();
+    # assume only a single digit sub release
+    my $version = substr($release, 0, -2);
     while( <$in> ) {
        $line = $_;
        my $old_line = $line;
        $line =~ s/(\d{4})\-(\d{4})/$1\-2023/i;
        if ($line =~ m/^version/i){
-            $changed = $changed || $line !~ m/1\!7\.0/;
-            print $out "version = '1!7.0'\n";
+            $changed = index($line, $version) == -1;
+            $line = "release = \'${version}\'\n";
        } elsif ($line =~ m/^release/i){
-            $changed = $changed || $line !~ m/1\!7\.0\.0/;
-            print $out "release = '1!7.0.0'\n";
-       } else {
-           print $out $line;
+            $changed = index($line, $release) == -1;
+            $line = "release = \'${release}\'\n";
        }
+       print $out $line;
        # http://www.gnu.org/copyleft/gpl.html
     }
     finish_copy();
 }
 
 sub handle_version{
-    if (-d) {
-        return;
-    }
-    $path = $File::Find::name;
-
-    # ignore all but version files
-    if ($path !~ m/\_version\.py$/){
-        return;
-    }
-
    start_copy();
    $line = <$in>;
     if (!defined $line){
@@ -329,15 +335,15 @@ sub handle_version{
         }
     }
 
-    print $out "__version__ = \"1!7.0.0\"\n";
+    $changed = index($line, $release) == -1;
+    print $out "__version__ = \"${release}\"\n";
     print $out "__version_month__ = \"February\"\n";
     print $out "__version_year__ = \"2023\"\n";
     print $out "__version_day__ = \"TBD\"\n";
     print $out "__version_name__ = \"Revisionist\"\n";
 
     # assuming here there are no weird lines below
-
-    finish_copy();
+   finish_copy();
 }
 
 sub check_directory{
@@ -345,17 +351,38 @@ sub check_directory{
     chdir $_[0];
     say "checking", getcwd();
 
-    handle_setup();
-    handle_license();
-    #handle_conf_py();
+    $path = File::Spec->catfile(getcwd(), "setup.py");
+    handle_dependencies();
+    $path = File::Spec->catfile(getcwd(), "requirements.txt");
+    handle_dependencies();
+
+    if ($main_repository) {
+        handle_license();
+        handle_conf_py();
+    }
 
     $repo = Git->repository();
-    find(\&fix_copyrights, getcwd());
+    if ($release){
+        my $info = $repo->command('branch');
+        if (index($info, $release) == -1){
+            $repo->command('branch', $release);
+        }
+        $repo->command('checkout', $release);
+    }
+    find(\&fix_each_file, getcwd());
 
-    #find(\&handle_version, getcwd());
     chdir $start_path;
 }
 
+$release = "1!7.0.0";
+$main_repository = 0;
+check_directory("../SpiNNGym");
+check_directory("../SpiNNaker_PDP2");
+check_directory("../microcircuit_model");
+check_directory("../MarkovChainMonteCarlo");
+#die "done";
+check_directory("../sPyNNaker8Jupyter");
+$main_repository = 1;
 check_directory("../spinnaker_tools");
 check_directory("../spinn_common");
 check_directory("../SpiNNUtils");
