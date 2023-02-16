@@ -44,31 +44,33 @@ my $old_line;
 sub fix_top_line{
     $old_line = $line;
     # change it to YYYY-2023
-    $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) $2-2023 The University of Manchester/i;
-    $line =~ s/copyright(\D*)(\d{4})(\D*)the university of manchester/Copyright (c) $2-2023 The University of Manchester/i;
+    $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) $2 The University of Manchester/i;
+    $line =~ s/copyright(\D*)(\d{4})(\D*)the university of manchester/Copyright (c) $2 The University of Manchester/i;
 
     # Find when copyright starts
     my $original_st = $line;
-    $original_st =~ s/(.*)(\d{4})(.*)(\d{4})(.*)/$2/i;
+    $original_st =~ s/^(\D)+(\d{4})(.*)/$2/i;
     my $original = int($original_st);
 
     # Find when file first created in giut
-    my $info = $repo->command('log', '--diff-filter=A', '--follow', '--format=%aD', '-1', $path);
+    my $info = $repo->command('log', '--diff-filter=AC', '--follow', '--format=%aD', '-1', $path);
     if (length($info) > 10){
         my $year_st = $info;
         $year_st =~ s/^(.*)\s(\d{4})(.*)/$2/i;
         my $year = int($year_st);
         if (int($original) > int($year_st)){
             say int($original)," ", int($year_st), " ", $path;
-            $line =~ s/copyright(.*)(\d{4})(.*)(\d{4})(.*)the university of manchester/Copyright (c) ${year}-2023 The University of Manchester/i;
+            say $line;
+            $line =~ s/copyright(.*)(\d{4}) the university of manchester/Copyright (c) ${year} The University of Manchester/i;
+            say $line;
         }
     }
 
     # remove double same year
-    $line =~ s/(.*) 2023-2023(.*)/$1 2023$2/i;
+    #$line =~ s/(.*) 2023-2023(.*)/$1 2023$2/i;
 
     # check the line
-    check_line('Copyright \(c\) (\d{4}-)?2023 The University of Manchester(\s)$');
+    #check_line('Copyright \(c\) (\d{4}-)?2023 The University of Manchester(\s)$');
     print $out $line;
     $changed = $line ne $old_line
 }
@@ -345,33 +347,33 @@ sub check_directory{
 
     handle_setup();
     handle_license();
-    handle_conf_py();
+    #handle_conf_py();
 
     $repo = Git->repository();
     find(\&fix_copyrights, getcwd());
 
-    find(\&handle_version, getcwd());
+    #find(\&handle_version, getcwd());
     chdir $start_path;
 }
 
-#check_directory("../spinnaker_tools");
-#check_directory("../spinn_common");
+check_directory("../spinnaker_tools");
+check_directory("../spinn_common");
 check_directory("../SpiNNUtils");
-#check_directory("../SpiNNMachine");
-#check_directory("../SpiNNMan");
-#check_directory("../DataSpecification");
-#check_directory("../spalloc");
-#check_directory("../spalloc_server");
-#check_directory("../PACMAN");
-#check_directory("../SpiNNFrontEndCommon");
-#check_directory("../TestBase");
-#check_directory("../sPyNNaker");
-#check_directory("../SpiNNakerGraphFrontEnd");
-#check_directory("../PyNN8Examples");
-#check_directory("../IntroLab");
-#check_directory("../sPyNNaker8NewModelTemplate");
-#check_directory("../sPyNNakerVisualisers");
-#check_directory("../Visualiser");
-#check_directory("../IntegrationTests");
-#check_directory("../JavaSpiNNaker");
-#check_directory("../RemoteSpiNNaker");
+check_directory("../SpiNNMachine");
+check_directory("../SpiNNMan");
+check_directory("../DataSpecification");
+check_directory("../spalloc");
+check_directory("../spalloc_server");
+check_directory("../PACMAN");
+check_directory("../SpiNNFrontEndCommon");
+check_directory("../TestBase");
+check_directory("../sPyNNaker");
+check_directory("../SpiNNakerGraphFrontEnd");
+check_directory("../PyNN8Examples");
+check_directory("../IntroLab");
+check_directory("../sPyNNaker8NewModelTemplate");
+check_directory("../sPyNNakerVisualisers");
+check_directory("../Visualiser");
+check_directory("../IntegrationTests");
+check_directory("../JavaSpiNNaker");
+check_directory("../RemoteSpiNNaker");
