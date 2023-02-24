@@ -247,22 +247,74 @@ sub fix_http {
        return;
     }
 
-    say "http: ", $path;
     start_copy();
-
+    my $accepable_http = 0;
     while( <$in> ) {
        $line = $_;
-       $line =~ s/http\:\/\/www\.apache\.org/https\:\/\/www\.apache\.org/i;
-       $line =~ s/http\:\/\/www\.gnu\.org/https\:\/\/www\.gnu\.org/i;
-       $line =~ s/http\:\/\/www\.mirrorservice\.org/https\:\/\/www\.mirrorservice\.org/i;
-       $line =~ s/http\:\/\/mirror\.ox\.ac\.uk/https\:\/\mirror\.ox\.ac\.uk/i;
-       $line =~ s/http\:\/\/www\.oasis-open\.org/https\:\/\/www\.oasis-open\.org/i;
-       $line =~ s/http\:\/\/spinnakermanchester\.github\.io/https\:\/\/spinnakermanchester\.github\.io/i;
-       $line =~ s/http\:\/\/www\.w3\.org/https\:\/\/www\.w3\.org/i;
+       # these have all be checked to serve https
+       $line =~ s/http\:\/\/(www\.apache\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(developer\.apple\.com)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.blackpawn\.com)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(fasaxc\.blogspot\.co\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(cairographics\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(daringfireball\.net)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(fsf\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.gnu\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.graphviz\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(infocenter\.arm\.com)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(json-schema\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.jupyter\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.cs\.man\.ac\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(\w+\.cs\.manchester\.ac\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(\w*\.mathjax\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.mcternan\.me\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(\w+\.microsoft\.com)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.mirrorservice\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(mirror\.ox\.ac\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(neuralensemble\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.oasis-open\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(orcid\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(pytest\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(docs\.python\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(qt-project\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/([\w\-]+\.readthedocs\.\w+)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.riverbankcomputing\.co\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(autogen\.sf\.net)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(autogen\.sourceforge\.net)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(spinnakermanchester\.github\.io)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(sphinx-doc\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.sphinx-doc\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(www\.sussex\.ac\.uk)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(\w*\.w3\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(en\.wikipedia\.org)/https\:\/\/$1/i;
+       $line =~ s/http\:\/\/(xapian\.org)/https\:\/\/$1/i;
+       # these need fixing as broken
+       $line =~ s/http\:\/\/docs\.mathjax\.org\/en\/latest\/output\.html/https\:\/\/docs\.mathjax\.org/i;
+
        print $out $line;
        $changed = $changed || $line ne $_;
-   }
-   finish_copy();
+
+        # These we can not guarantee will have https
+       if ($line =~ /http\:\/\/127\./){
+            $accepable_http = 1;
+       }
+       if ($line =~ /http\:\/\/localhost/){
+            $accepable_http = 1;
+       }
+       if ($line =~ /http\:\/\/schemas\.humanbrainproject\.eu/){
+            $accepable_http = 1;
+       }
+       if ($line =~ /http\:\/\/\[your ip\]/){
+            $accepable_http = 1;
+       }
+       if ($line =~ /http\:\/\/\jhnet.co.uk/){
+            $accepable_http = 1;
+       }
+    }
+    unless ($changed or $accepable_http) {
+        say "Unexpected http: ", $path;
+    }
+    finish_copy();
 }
 
 sub fix_each_file{
@@ -282,10 +334,10 @@ sub fix_each_file{
         return;
     }
     # warning can not grep the same open file twice!
-    #open(FILE, $path) or die "Can't open: $path!\n";
-    #if (grep{/http\:\/\//} <FILE>){
-    #   fix_http();
-    #}
+    open(FILE, $path) or die "Can't open: $path!\n";
+    if (grep{/http\:\/\//} <FILE>){
+       fix_http();
+    }
     if ($path =~ /LICENSE/){
         return;
     }
@@ -297,6 +349,7 @@ sub fix_each_file{
         }
     }
 
+    # warning can not grep the same open file twice!
     open(FILE, $path) or die "Can't open: $path!\n";
     if (grep{/GNU General Public License/} <FILE>){
         if ($main_repository){
@@ -460,33 +513,33 @@ sub check_directory{
 
 #$release = "1!7.0.0";
 $main_repository = 0;
-check_directory("");
-check_directory("../SpiNNGym");
-check_directory("../SpiNNaker_PDP2");
-check_directory("../microcircuit_model");
-check_directory("../MarkovChainMonteCarlo");
-check_directory("../sPyNNaker8Jupyter");
+#check_directory("");
+#check_directory("../SpiNNGym");
+#check_directory("../SpiNNaker_PDP2");
+#check_directory("../microcircuit_model");
+#check_directory("../MarkovChainMonteCarlo");
+#check_directory("../sPyNNaker8Jupyter");
 # die "done";
 $main_repository = 1;
-check_directory("");
-check_directory("../spinnaker_tools");
-check_directory("../spinn_common");
-check_directory("../SpiNNUtils");
-check_directory("../SpiNNMachine");
-check_directory("../SpiNNMan");
-check_directory("../DataSpecification");
-check_directory("../spalloc");
-check_directory("../spalloc_server");
-check_directory("../PACMAN");
-check_directory("../SpiNNFrontEndCommon");
-check_directory("../TestBase");
-check_directory("../sPyNNaker");
-check_directory("../SpiNNakerGraphFrontEnd");
-check_directory("../PyNN8Examples");
-check_directory("../IntroLab");
-check_directory("../sPyNNaker8NewModelTemplate");
-check_directory("../sPyNNakerVisualisers");
-check_directory("../Visualiser");
-check_directory("../IntegrationTests");
+#check_directory("");
+#check_directory("../spinnaker_tools");
+#check_directory("../spinn_common");
+#check_directory("../SpiNNUtils");
+#check_directory("../SpiNNMachine");
+#check_directory("../SpiNNMan");
+#check_directory("../DataSpecification");
+#check_directory("../spalloc");
+#check_directory("../spalloc_server");
+#check_directory("../PACMAN");
+#check_directory("../SpiNNFrontEndCommon");
+#check_directory("../TestBase");
+#check_directory("../sPyNNaker");
+#check_directory("../SpiNNakerGraphFrontEnd");
+#check_directory("../PyNN8Examples");
+#check_directory("../IntroLab");
+#check_directory("../sPyNNaker8NewModelTemplate");
+#check_directory("../sPyNNakerVisualisers");
+#check_directory("../Visualiser");
+#check_directory("../IntegrationTests");
 check_directory("../JavaSpiNNaker");
 check_directory("../RemoteSpiNNaker");
