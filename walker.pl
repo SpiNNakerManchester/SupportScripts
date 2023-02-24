@@ -1,3 +1,20 @@
+# Copyright (c) 2023 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This workflow will install Python dependencies, run tests, lint and rat with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
 #!/usr/bin/perl
 use strict;
 use warnings;
@@ -320,13 +337,24 @@ sub handle_conf_py {
 }
 
 sub handle_version{
-   start_copy();
-   $line = <$in>;
+    if (-d) {
+        return;
+    }
+    $path = $File::Find::name;
+
+    # ignore all but version files
+
+    if (basename($path) ne "_version.py"){
+        return;
+    }
+
+    start_copy();
+    $line = <$in>;
     if (!defined $line){
         print("No __version line found\n");
         die $path;
     }
-    while ($line !~ /\_version/i){
+    while ($line !~ /\_\_version/i){
         print $out $line;
         $line = <$in>;
         if (!defined $line){
@@ -335,15 +363,29 @@ sub handle_version{
         }
     }
 
-    $changed = index($line, $release) == -1;
-    print $out "__version__ = \"${release}\"\n";
-    print $out "__version_month__ = \"February\"\n";
-    print $out "__version_year__ = \"2023\"\n";
-    print $out "__version_day__ = \"TBD\"\n";
-    print $out "__version_name__ = \"Revisionist\"\n";
+    if ($line !~ m/1\!7\.0\.0/i) {
+        $changed = 1;
 
-    # assuming here there are no weird lines below
-   finish_copy();
+        while ($line !~ /\_\_version\_name\_\_/i){
+            $line = <$in>;
+            if (!defined $line){
+                print("No __version_name__ line found\n");
+                die $path;
+            }
+        }
+
+        print $out "__version__ = \"1!7.0.0\"\n";
+        print $out "__version_month__ = \"February\"\n";
+        print $out "__version_year__ = \"2023\"\n";
+        print $out "__version_day__ = \"TBD\"\n";
+        print $out "__version_name__ = \"Revisionist\"\n";
+
+
+        while( <$in> ) {
+            print $out $_;
+        }
+    }
+    finish_copy();
 }
 
 sub check_directory{
@@ -374,13 +416,15 @@ sub check_directory{
 
     find(\&fix_each_file, getcwd());
 
+    find(\&handle_version, getcwd());
     chdir $start_path;
 }
 
 $release = "1!7.0.0";
 $main_repository = 0;
+check_directory("");
+# die "done"
 check_directory("../SpiNNGym");
-#die "done";
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
