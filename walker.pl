@@ -6,16 +6,13 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-# This workflow will install Python dependencies, run tests, lint and rat with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 use strict;
 use warnings;
@@ -188,7 +185,13 @@ sub finish_copy{
 }
 
 sub handle_gnu_file {
-   #  say "gnu: ", $path;
+    if (basename($path) eq "walker.pl"){
+       return;
+    }
+    if ($path =~ /check\-copyrights/){
+        return;
+    }
+    say "GNU ", $path;
     start_copy();
     handle_top_lines();
     munch_existing_gnu();
@@ -198,7 +201,7 @@ sub handle_gnu_file {
     print $out "${prefix} you may not use this file except in compliance with the License.\n";
     print $out "${prefix} You may obtain a copy of the License at\n";
     print $out "${prefix}\n";
-    print $out "${prefix}     http://www.apache.org/licenses/LICENSE-2.0\n";
+    print $out "${prefix}     https://www.apache.org/licenses/LICENSE-2.0\n";
     print $out "${prefix}\n";
     print $out "${prefix} Unless required by applicable law or agreed to in writing, software\n";
     print $out "${prefix} distributed under the License is distributed on an \"AS IS\" BASIS,\n";
@@ -208,7 +211,7 @@ sub handle_gnu_file {
     while( <$in> ) {
         print $out $_;
     }
-    $changed = 1; # Perl has bool so using 1 for value
+    $changed = 1; # Perl has no bool so using 1 for value
     finish_copy();
 }
 
@@ -225,6 +228,33 @@ sub fix_copyright_year {
     finish_copy();
 }
 
+sub fix_http {
+    if (-d) {
+        return;
+    }
+    $path = $File::Find::name;
+
+    # ignore the weird directories
+    foreach my $pattern (@ignore_dirs){
+        if ($path =~ $pattern) {
+            return;
+        }
+    }
+    if ($path =~ /\.bak$/){
+        return;
+    }
+
+    say "htp: ", $path;
+    #start_copy();
+
+    #if ($changed) {
+    #    while( <$in> ) {
+    #        print $out $_;
+    #    }
+    #}
+    #finish_copy();
+}
+
 sub fix_each_file{
     if (-d) {
         return;
@@ -237,7 +267,6 @@ sub fix_each_file{
             return;
         }
     }
-
     # ignore the LICENSE.md mentions copyright but has none
     if ($path =~ /LICENSE/){
         return;
@@ -247,7 +276,7 @@ sub fix_each_file{
     }
 
     # fix version files
-    if ($path =~ m/\/\_version\.py$/){
+    if (basename($path) eq "_version.py"){
         if ($release) {
             handle_version();
         }
@@ -266,6 +295,12 @@ sub fix_each_file{
     if (grep{/Apache License/} <FILE>){
        fix_copyright_year();
    }
+    # warning can not grep the same open file twice!
+    open(FILE, $path) or die "Can't open: $path!\n";
+    if (grep{/http\:\/\//} <FILE>){
+       fix_http();
+   }
+
 }
 
 sub handle_dependencies {
@@ -293,10 +328,11 @@ sub handle_dependencies {
 
 sub handle_license {
     $path = File::Spec->catfile(getcwd(), "LICENSE");
-    unlink $path;
     my $s_l_path = File::Spec->catfile(dirname(getcwd()), "SupportScripts", "LICENSE");
-    copy($s_l_path, $path) or die "LICENSE copy failed: $!";
-    return
+    if ($s_l_path ne $path) {
+        unlink $path;
+        copy($s_l_path, $path) or die "LICENSE copy failed: $!";
+    }
 
     $path = File::Spec->catfile(getcwd(), "LICENSE.md");
     start_copy();
@@ -339,17 +375,6 @@ sub handle_conf_py {
 }
 
 sub handle_version{
-    if (-d) {
-        return;
-    }
-    $path = $File::Find::name;
-
-    # ignore all but version files
-
-    if (basename($path) ne "_version.py"){
-        return;
-    }
-
     start_copy();
     $line = <$in>;
     if (!defined $line){
@@ -433,6 +458,8 @@ check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
 check_directory("../sPyNNaker8Jupyter");
 $main_repository = 1;
+check_directory("");
+die "done";
 check_directory("../spinnaker_tools");
 check_directory("../spinn_common");
 check_directory("../SpiNNUtils");
