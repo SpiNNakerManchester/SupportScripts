@@ -4,8 +4,8 @@ op="$1"
 shift
 ratver=0.13
 ### SELECT MIRROR!
-# apachebase="http://www.mirrorservice.org/sites/ftp.apache.org/"
-apachebase="http://mirror.ox.ac.uk/sites/rsync.apache.org/"
+# apachebase="https://www.mirrorservice.org/sites/ftp.apache.org/"
+apachebase="https:/mirror.ox.ac.uk/sites/rsync.apache.org/"
 raturl="${apachebase}creadur/apache-rat-${ratver}/apache-rat-${ratver}-bin.tar.gz"
 ant=${ANT-ant}
 case $op in

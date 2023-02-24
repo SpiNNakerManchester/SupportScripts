@@ -243,16 +243,24 @@ sub fix_http {
     if ($path =~ /\.bak$/){
         return;
     }
+    if (basename($path) eq "walker.pl"){
+       return;
+    }
 
-    say "htp: ", $path;
-    #start_copy();
+    say "http: ", $path;
+    start_copy();
 
-    #if ($changed) {
-    #    while( <$in> ) {
-    #        print $out $_;
-    #    }
-    #}
-    #finish_copy();
+    while( <$in> ) {
+       $line = $_;
+       $line =~ s/http\:\/\/www\.apache\.org/https\:\/\/www\.apache\.org/i;
+       $line =~ s/http\:\/\/www\.mirrorservice\.org/https\:\/\/www\.mirrorservice\.org/i;
+       $line =~ s/http\:\/\/mirror\.ox\.ac\.uk/https\:\/\mirror\.ox\.ac\.uk/i;
+       $line =~ s/http\:\/\/www\.oasis-open\.org/https\:\/\/www\.oasis-open\.org/i;
+       $line =~ s/http\:\/\/www\.w3\.org/https\:\/\/www\.w3\.org/i;
+       print $out $line;
+       $changed = $changed || $line ne $_;
+   }
+   finish_copy();
 }
 
 sub fix_each_file{
@@ -451,15 +459,13 @@ sub check_directory{
 #$release = "1!7.0.0";
 $main_repository = 0;
 check_directory("");
-check_directory("../SpiNNGym");
-die "done";
+die "done";check_directory("../SpiNNGym");
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
 check_directory("../sPyNNaker8Jupyter");
 $main_repository = 1;
 check_directory("");
-die "done";
 check_directory("../spinnaker_tools");
 check_directory("../spinn_common");
 check_directory("../SpiNNUtils");

@@ -23,7 +23,7 @@ inputs:
     description: The mirror of the Apache download site to get the library from
     required: false
     default: https://www.apache.org/dyn/closer.cgi?action=download&filename=
-    # Another alternative: http://www.mirrorservice.org/sites/ftp.apache.org/
+    # Another alternative: https://www.mirrorservice.org/sites/ftp.apache.org/
   config_file:
     description: "Which xml config file to use.
         Supported options are:
