@@ -1,4 +1,7 @@
+**/*.log
 **/*.tcl
-**/*.xsd
 **/*.xml
+**/*.xsd
 **/activate
+**/apache-rat-*
+**/rat.excludes
