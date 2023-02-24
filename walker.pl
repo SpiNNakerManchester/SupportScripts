@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 # Copyright (c) 2023 The University of Manchester
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +17,6 @@
 # This workflow will install Python dependencies, run tests, lint and rat with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-#!/usr/bin/perl
 use strict;
 use warnings;
 use feature qw(say);
@@ -245,10 +246,11 @@ sub fix_each_file{
         return;
     }
 
-    # ignore all but version files
+    # fix version files
     if ($path =~ m/\/\_version\.py$/){
-        handle_version();
-        return;
+        if ($release) {
+            handle_version();
+        }
     }
 
     open(FILE, $path) or die "Can't open: $path!\n";
@@ -402,12 +404,14 @@ sub check_directory{
         $repo->command('checkout', $release);
     }
 
-    $path = File::Spec->catfile(getcwd(), "setup.py");
-    handle_dependencies();
-    $path = File::Spec->catfile(getcwd(), "requirements.txt");
-    handle_dependencies();
-    $path = File::Spec->catfile(getcwd(), "requirements-test.txt");
-    handle_dependencies();
+    if ($release) {
+        $path = File::Spec->catfile(getcwd(), "setup.py");
+        handle_dependencies();
+        $path = File::Spec->catfile(getcwd(), "requirements.txt");
+        handle_dependencies();
+        $path = File::Spec->catfile(getcwd(), "requirements-test.txt");
+        handle_dependencies();
+    }
 
     if ($main_repository) {
         handle_license();
@@ -416,15 +420,14 @@ sub check_directory{
 
     find(\&fix_each_file, getcwd());
 
-    find(\&handle_version, getcwd());
     chdir $start_path;
 }
 
-$release = "1!7.0.0";
+#$release = "1!7.0.0";
 $main_repository = 0;
 check_directory("");
-# die "done"
 check_directory("../SpiNNGym");
+die "done";
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
