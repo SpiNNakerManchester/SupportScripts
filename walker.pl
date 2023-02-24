@@ -282,10 +282,10 @@ sub fix_each_file{
         return;
     }
     # warning can not grep the same open file twice!
-    open(FILE, $path) or die "Can't open: $path!\n";
-    if (grep{/http\:\/\//} <FILE>){
-       fix_http();
-   }
+    #open(FILE, $path) or die "Can't open: $path!\n";
+    #if (grep{/http\:\/\//} <FILE>){
+    #   fix_http();
+    #}
     if ($path =~ /LICENSE/){
         return;
     }
@@ -462,11 +462,11 @@ sub check_directory{
 $main_repository = 0;
 check_directory("");
 check_directory("../SpiNNGym");
-die "done";
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
 check_directory("../sPyNNaker8Jupyter");
+# die "done";
 $main_repository = 1;
 check_directory("");
 check_directory("../spinnaker_tools");
