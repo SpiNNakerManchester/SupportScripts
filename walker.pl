@@ -253,9 +253,11 @@ sub fix_http {
     while( <$in> ) {
        $line = $_;
        $line =~ s/http\:\/\/www\.apache\.org/https\:\/\/www\.apache\.org/i;
+       $line =~ s/http\:\/\/www\.gnu\.org/https\:\/\/www\.gnu\.org/i;
        $line =~ s/http\:\/\/www\.mirrorservice\.org/https\:\/\/www\.mirrorservice\.org/i;
        $line =~ s/http\:\/\/mirror\.ox\.ac\.uk/https\:\/\mirror\.ox\.ac\.uk/i;
        $line =~ s/http\:\/\/www\.oasis-open\.org/https\:\/\/www\.oasis-open\.org/i;
+       $line =~ s/http\:\/\/spinnakermanchester\.github\.io/https\:\/\/spinnakermanchester\.github\.io/i;
        $line =~ s/http\:\/\/www\.w3\.org/https\:\/\/www\.w3\.org/i;
        print $out $line;
        $changed = $changed || $line ne $_;
@@ -276,10 +278,15 @@ sub fix_each_file{
         }
     }
     # ignore the LICENSE.md mentions copyright but has none
-    if ($path =~ /LICENSE/){
+    if ($path =~ /\.bak$/){
         return;
     }
-    if ($path =~ /\.bak$/){
+    # warning can not grep the same open file twice!
+    open(FILE, $path) or die "Can't open: $path!\n";
+    if (grep{/http\:\/\//} <FILE>){
+       fix_http();
+   }
+    if ($path =~ /LICENSE/){
         return;
     }
 
@@ -302,11 +309,6 @@ sub fix_each_file{
     open(FILE, $path) or die "Can't open: $path!\n";
     if (grep{/Apache License/} <FILE>){
        fix_copyright_year();
-   }
-    # warning can not grep the same open file twice!
-    open(FILE, $path) or die "Can't open: $path!\n";
-    if (grep{/http\:\/\//} <FILE>){
-       fix_http();
    }
 
 }
@@ -459,7 +461,8 @@ sub check_directory{
 #$release = "1!7.0.0";
 $main_repository = 0;
 check_directory("");
-die "done";check_directory("../SpiNNGym");
+check_directory("../SpiNNGym");
+die "done";
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
