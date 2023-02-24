@@ -1,0 +1,4 @@
+**/*.tlc
+**/*.xsd
+**/*.xml
+**/activate
