@@ -1,4 +1,4 @@
-**/*.tlc
+**/*.tcl
 **/*.xsd
 **/*.xml
 **/activate
