@@ -3,5 +3,5 @@
 **/*.xml
 **/*.xsd
 **/activate
-**/apache-rat-*
+**/apache-rat-*/**
 **/rat.excludes
