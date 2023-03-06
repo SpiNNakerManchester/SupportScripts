@@ -554,11 +554,6 @@ sub check_directory{
 }
 
 #$release = "1!7.0.0";
-$main_repository = 1;
-
-check_directory("../JavaSpiNNaker");
-check_directory("../RemoteSpiNNaker");
-
 
 $main_repository = 0;
 check_directory("../SpiNNGym");
@@ -588,4 +583,7 @@ check_directory("../sPyNNaker8NewModelTemplate");
 check_directory("../sPyNNakerVisualisers");
 check_directory("../Visualiser");
 check_directory("../IntegrationTests");
+check_directory("../JavaSpiNNaker");
+check_directory("../RemoteSpiNNaker");
+
 
