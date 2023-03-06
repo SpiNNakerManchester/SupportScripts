@@ -30,7 +30,7 @@ my @ignore_dirs = (
     '/.git/',
     '/.idea/',
     '/doc/build/',
-    '/support/',
+#    '/support/',
     '/dist/',
     '\.egg-info/',
     '.coverage',
@@ -117,6 +117,9 @@ sub handle_top_lines{
         print $out $line;
         $line = <$in>;
         if (!defined $line){
+            if ($path =~ /java\-header\.txt/){
+                return;
+            }
             print("No copyright line found\n");
             die $path;
         }
@@ -292,12 +295,14 @@ sub fix_http {
             $line =~ s/http\:\/\/([\w\-]+\.readthedocs\.\w+)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.riverbankcomputing\.co\.uk)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(autogen\.sf\.net)/https\:\/\/$1/i;
-            $line =~ s/http\:\/\/(autogen\.sourceforge\.net)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(\w+\.sourceforge\.net)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(spinnakermanchester\.github\.io)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.springframework\.org)(.*)(.xsd)/https\:\/\/$1$2$3/i;
             $line =~ s/http\:\/\/(sphinx-doc\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.sphinx-doc\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(java\.sun\.com)(.*)(.xsd)/https\:\/\/$1$2$3/i;
+            $line =~ s/http\:\/\/(java\.sun\.com\/docs)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(java\.sun\.com\/j2se)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.sussex\.ac\.uk)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.telegraph\.co\.uk)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(\w*\.w3\.org)/https\:\/\/$1/i;
@@ -549,6 +554,12 @@ sub check_directory{
 }
 
 #$release = "1!7.0.0";
+$main_repository = 1;
+
+check_directory("../JavaSpiNNaker");
+check_directory("../RemoteSpiNNaker");
+
+
 $main_repository = 0;
 check_directory("../SpiNNGym");
 check_directory("../SpiNNaker_PDP2");
@@ -577,5 +588,4 @@ check_directory("../sPyNNaker8NewModelTemplate");
 check_directory("../sPyNNakerVisualisers");
 check_directory("../Visualiser");
 check_directory("../IntegrationTests");
-check_directory("../JavaSpiNNaker");
-check_directory("../RemoteSpiNNaker");
+
