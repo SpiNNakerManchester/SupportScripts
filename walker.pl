@@ -45,7 +45,8 @@ my @ignore_dirs = (
     '/pypi_to_import$',
     '/target/',
     '/SpiNNaker-allocserv/src/main/frontend/node_modules/typescript/',
-    'README.md'
+    '.png$',
+    'README.md',
      );
 
 my $path;
@@ -248,70 +249,105 @@ sub fix_http {
     }
 
     start_copy();
-    my $accepable_http = 0;
+    my $unaccepable_http = 0;
     while( <$in> ) {
-       $line = $_;
-       # these have all be checked to serve https
-       $line =~ s/http\:\/\/(www\.apache\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(developer\.apple\.com)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.blackpawn\.com)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(fasaxc\.blogspot\.co\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(cairographics\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(daringfireball\.net)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(fsf\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.gnu\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.graphviz\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(infocenter\.arm\.com)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(json-schema\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.jupyter\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.cs\.man\.ac\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(\w+\.cs\.manchester\.ac\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(\w*\.mathjax\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.mcternan\.me\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(\w+\.microsoft\.com)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.mirrorservice\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(mirror\.ox\.ac\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(neuralensemble\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.oasis-open\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(orcid\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(pytest\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(docs\.python\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(qt-project\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/([\w\-]+\.readthedocs\.\w+)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.riverbankcomputing\.co\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(autogen\.sf\.net)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(autogen\.sourceforge\.net)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(spinnakermanchester\.github\.io)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(sphinx-doc\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.sphinx-doc\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(www\.sussex\.ac\.uk)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(\w*\.w3\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(en\.wikipedia\.org)/https\:\/\/$1/i;
-       $line =~ s/http\:\/\/(xapian\.org)/https\:\/\/$1/i;
-       # these need fixing as broken
-       $line =~ s/http\:\/\/docs\.mathjax\.org\/en\/latest\/output\.html/https\:\/\/docs\.mathjax\.org/i;
+        $line = $_;
+        if ($line =~ /http\:/){
+            # these have all be checked to serve https
+            $line =~ s/http\:\/\/(cxf\.apache\.org)(.*)(.xsd)/https\:\/\/$1$2$3/i;
+            $line =~ s/http\:\/\/(www\.apache\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(maven\.apache\.org\/xsd\/)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(developer\.apple\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.blackpawn\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(fasaxc\.blogspot\.co\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(journal\.frontiersin\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(cairographics\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(daringfireball\.net)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(dx\.doi\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(ieeexplore\.iee\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(fsf\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.gnu\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(groups\.google\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.graphviz\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(infocenter\.arm\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.java\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.johndcook\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(json-schema\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(jupyter\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.jupyter\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.cs\.man\.ac\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(\w+\.cs\.manchester\.ac\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(\w*\.mathjax\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.mcternan\.me\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(\w+\.microsoft\.com)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.mirrorservice\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(mirror\.ox\.ac\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(neuralensemble\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.oasis-open\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.opengl\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.opensourcebrain\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(orcid\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(pytest\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(docs\.python\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(qt-project\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/([\w\-]+\.readthedocs\.\w+)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.riverbankcomputing\.co\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(autogen\.sf\.net)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(autogen\.sourceforge\.net)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(spinnakermanchester\.github\.io)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.springframework\.org)(.*)(.xsd)/https\:\/\/$1$2$3/i;
+            $line =~ s/http\:\/\/(sphinx-doc\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.sphinx-doc\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(java\.sun\.com)(.*)(.xsd)/https\:\/\/$1$2$3/i;
+            $line =~ s/http\:\/\/(www\.sussex\.ac\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(www\.telegraph\.co\.uk)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(\w*\.w3\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(en\.wikipedia\.org)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(xapian\.org)/https\:\/\/$1/i;
+            # these need fixing as broken
+            $line =~ s/http\:\/\/docs\.mathjax\.org\/en\/latest\/output\.html/https\:\/\/docs\.mathjax\.org/i;
+
+            $changed = $changed || $line ne $_;
+            if ($line =~ /http\:/){
+                # These we can not guarantee will have https
+                if ($line =~ /http\:\/\/127\./){
+                } elsif ($line =~ /http\:\/\/localhost/){
+                } elsif ($line =~ /http\:\/\/\[/){
+                    #http://[your ip]:8000
+                } elsif ($line =~ /http\:\/\/\{/){
+                    # http://{jupyter_ip}:{jupyter_port}/services/
+                } elsif ($line =~ /http\:\/\/compneuro.uwaterloo.ca/){
+                    # does not support https
+                } elsif ($line =~ /http\:\/\/jhnet.co.uk/){
+                    # does not support https
+                } elsif ($line =~ /http\:\/\/data.andrewdavison.info/){
+                    # broken link
+                } elsif ($line =~ m/http\:\/\/(www\.springframework\.org\/schema\/)(\w+)(\s)/){
+                    # uri not a url
+                } elsif ($line =~ m/http\:\/\/(java\.sun\.com\/xml\/)([\/\w]+)(\s)/){
+                    # uri not a url
+                } elsif ($line =~ m/http\:\/\/(cxf\.apache\.org\/)([\/\w]+)(\s)/){
+                    # uri not a url
+                } elsif ($line =~ /\<project xmlns=/){
+                    # flags a uri line
+                } elsif ($line =~ /xsi\:schemaLocation/){
+                    # flags a uri line
+                } elsif ($line =~ /\%\@ taglib prefix=/){
+                    # flags a uri line
+                } elsif ($line =~ /xmlns/){
+                    # flags a uri line
+                } elsif ($line =~ /\(\"http\:\/\/\"\)/){
+                   # .startsWith("http://")
+                } else {
+                    print $line;
+                    $unaccepable_http = 1;
+                }
+            }
+       }
 
        print $out $line;
-       $changed = $changed || $line ne $_;
-
-        # These we can not guarantee will have https
-       if ($line =~ /http\:\/\/127\./){
-            $accepable_http = 1;
-       }
-       if ($line =~ /http\:\/\/localhost/){
-            $accepable_http = 1;
-       }
-       if ($line =~ /http\:\/\/schemas\.humanbrainproject\.eu/){
-            $accepable_http = 1;
-       }
-       if ($line =~ /http\:\/\/\[your ip\]/){
-            $accepable_http = 1;
-       }
-       if ($line =~ /http\:\/\/\jhnet.co.uk/){
-            $accepable_http = 1;
-       }
     }
-    unless ($changed or $accepable_http) {
+    if ($unaccepable_http) {
         say "Unexpected http: ", $path;
     }
     finish_copy();
@@ -513,33 +549,32 @@ sub check_directory{
 
 #$release = "1!7.0.0";
 $main_repository = 0;
-#check_directory("");
-#check_directory("../SpiNNGym");
-#check_directory("../SpiNNaker_PDP2");
-#check_directory("../microcircuit_model");
-#check_directory("../MarkovChainMonteCarlo");
-#check_directory("../sPyNNaker8Jupyter");
+check_directory("../SpiNNGym");
+check_directory("../SpiNNaker_PDP2");
+check_directory("../microcircuit_model");
+check_directory("../MarkovChainMonteCarlo");
+check_directory("../sPyNNaker8Jupyter");
 # die "done";
 $main_repository = 1;
-#check_directory("");
-#check_directory("../spinnaker_tools");
-#check_directory("../spinn_common");
-#check_directory("../SpiNNUtils");
-#check_directory("../SpiNNMachine");
-#check_directory("../SpiNNMan");
-#check_directory("../DataSpecification");
-#check_directory("../spalloc");
-#check_directory("../spalloc_server");
-#check_directory("../PACMAN");
-#check_directory("../SpiNNFrontEndCommon");
-#check_directory("../TestBase");
-#check_directory("../sPyNNaker");
-#check_directory("../SpiNNakerGraphFrontEnd");
-#check_directory("../PyNN8Examples");
-#check_directory("../IntroLab");
-#check_directory("../sPyNNaker8NewModelTemplate");
-#check_directory("../sPyNNakerVisualisers");
-#check_directory("../Visualiser");
-#check_directory("../IntegrationTests");
+check_directory("");
+check_directory("../spinnaker_tools");
+check_directory("../spinn_common");
+check_directory("../SpiNNUtils");
+check_directory("../SpiNNMachine");
+check_directory("../SpiNNMan");
+check_directory("../DataSpecification");
+check_directory("../spalloc");
+check_directory("../spalloc_server");
+check_directory("../PACMAN");
+check_directory("../SpiNNFrontEndCommon");
+check_directory("../TestBase");
+check_directory("../sPyNNaker");
+check_directory("../SpiNNakerGraphFrontEnd");
+check_directory("../PyNN8Examples");
+check_directory("../IntroLab");
+check_directory("../sPyNNaker8NewModelTemplate");
+check_directory("../sPyNNakerVisualisers");
+check_directory("../Visualiser");
+check_directory("../IntegrationTests");
 check_directory("../JavaSpiNNaker");
 check_directory("../RemoteSpiNNaker");
