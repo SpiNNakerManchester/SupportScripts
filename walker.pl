@@ -272,7 +272,6 @@ sub fix_http {
             $line =~ s/http\:\/\/(infocenter\.arm\.com)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.java\.com)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.johndcook\.com)/https\:\/\/$1/i;
-            $line =~ s/http\:\/\/(json-schema\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(jupyter\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.jupyter\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.cs\.man\.ac\.uk)/https\:\/\/$1/i;
@@ -329,6 +328,8 @@ sub fix_http {
                 } elsif ($line =~ m/http\:\/\/(cxf\.apache\.org\/)([\/\w]+)(\s)/){
                     # uri not a url
                 } elsif ($line =~ /\<project xmlns=/){
+                    # flags a uri line
+                } elsif ($line =~ /\"\$schema\"/){
                     # flags a uri line
                 } elsif ($line =~ /xsi\:schemaLocation/){
                     # flags a uri line
