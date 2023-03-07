@@ -432,14 +432,21 @@ sub handle_dependencies {
 }
 
 sub handle_license {
-    $path = File::Spec->catfile(getcwd(), "LICENSE");
-    my $s_l_path = File::Spec->catfile(dirname(getcwd()), "SupportScripts", "LICENSE");
-    if ($s_l_path ne $path) {
-        unlink $path;
-        copy($s_l_path, $path) or die "LICENSE copy failed: $!";
+    #$path = File::Spec->catfile(getcwd(), "LICENSE");
+    #my $s_l_path = File::Spec->catfile(dirname(getcwd()), "SupportScripts", "LICENSE");
+    #if ($s_l_path ne $path) {
+    #    unlink $path;
+    #    copy($s_l_path, $path) or die "LICENSE copy failed: $!";
+    #}
+
+    $path = File::Spec->catfile(getcwd(), "LICENSE_POLICY.md");
+    my $old_path = File::Spec->catfile(getcwd(), "LICENSE.md");
+    if (-e $old_path) {
+        copy($old_path, $path) or die "LICENSE copy failed: $!";
+        unlink $old_path;
+        $repo->command('add', "LICENSE_POLICY.md");
     }
 
-    $path = File::Spec->catfile(getcwd(), "LICENSE.md");
     start_copy();
     while( <$in> ) {
        $line = $_;
@@ -545,23 +552,21 @@ sub check_directory{
 
     if ($main_repository) {
         handle_license();
-        handle_conf_py();
+        #handle_conf_py();
     }
 
-    find(\&fix_each_file, getcwd());
+    #find(\&fix_each_file, getcwd());
 
     chdir $start_path;
 }
 
 #$release = "1!7.0.0";
-
 $main_repository = 0;
 check_directory("../SpiNNGym");
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
 check_directory("../sPyNNaker8Jupyter");
-# die "done";
 $main_repository = 1;
 check_directory("");
 check_directory("../spinnaker_tools");
