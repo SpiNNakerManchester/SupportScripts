@@ -33,7 +33,6 @@ my @ignore_dirs = (
 #    '/support/',
     '/dist/',
     '\.egg-info/',
-    '.coverage',
     '\.ratexclude',
     'project$',
     '.pyc',
@@ -164,7 +163,7 @@ sub munch_existing_gnu {
     }
     check_line('You should have received a copy of the GNU General Public License');
     $line = <$in>;
-    check_line('along with this program.  If not, see <http://www.gnu.org/licenses/>.(\s+)$');
+    check_line('along with this program.  If not, see <https://www.gnu.org/licenses/>.(\s+)$');
 }
 
 sub start_copy{
@@ -295,7 +294,8 @@ sub fix_http {
             $line =~ s/http\:\/\/([\w\-]+\.readthedocs\.\w+)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.riverbankcomputing\.co\.uk)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(autogen\.sf\.net)/https\:\/\/$1/i;
-            $line =~ s/http\:\/\/(\w+\.sourceforge\.net)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(sourceforge\.net)/https\:\/\/$1/i;
+            $line =~ s/http\:\/\/(autogen\.sourceforge\.net)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(spinnakermanchester\.github\.io)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.springframework\.org)(.*)(.xsd)/https\:\/\/$1$2$3/i;
             $line =~ s/http\:\/\/(sphinx-doc\.org)/https\:\/\/$1/i;
@@ -305,7 +305,6 @@ sub fix_http {
             $line =~ s/http\:\/\/(java\.sun\.com\/j2se)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.sussex\.ac\.uk)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(www\.telegraph\.co\.uk)/https\:\/\/$1/i;
-            $line =~ s/http\:\/\/(\w*\.w3\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(en\.wikipedia\.org)/https\:\/\/$1/i;
             $line =~ s/http\:\/\/(xapian\.org)/https\:\/\/$1/i;
             # these need fixing as broken
@@ -320,13 +319,17 @@ sub fix_http {
                     #http://[your ip]:8000
                 } elsif ($line =~ /http\:\/\/\{/){
                     # http://{jupyter_ip}:{jupyter_port}/services/
-                } elsif ($line =~ /http\:\/\/compneuro.uwaterloo.ca/){
+                } elsif ($line =~ /http\:\/\/compneuro\.uwaterloo.ca/){
                     # does not support https
-                } elsif ($line =~ /http\:\/\/jhnet.co.uk/){
+                } elsif ($line =~ /http\:\/\/jhnet\.co\.uk/){
                     # does not support https
-                } elsif ($line =~ /http\:\/\/data.andrewdavison.info/){
+                } elsif ($line =~ /http\:\/\/data\.andrewdavison.info/){
                     # broken link
+                } elsif ($line =~ m/http\:\/\/checkstyle\.sourceforge\.net\/dtds\//){
+                    # uri not a url
                 } elsif ($line =~ m/http\:\/\/(www\.springframework\.org\/schema\/)(\w+)(\s)/){
+                    # uri not a url
+                } elsif ($line =~ m/http\:\/\/(www\.w3\.org\/2001\/XMLSchema-instance\s)/){
                     # uri not a url
                 } elsif ($line =~ m/http\:\/\/(java\.sun\.com\/xml\/)([\/\w]+)(\s)/){
                     # uri not a url
@@ -432,12 +435,12 @@ sub handle_dependencies {
 }
 
 sub handle_license {
-    #$path = File::Spec->catfile(getcwd(), "LICENSE");
-    #my $s_l_path = File::Spec->catfile(dirname(getcwd()), "SupportScripts", "LICENSE");
-    #if ($s_l_path ne $path) {
-    #    unlink $path;
-    #    copy($s_l_path, $path) or die "LICENSE copy failed: $!";
-    #}
+    $path = File::Spec->catfile(getcwd(), "LICENSE");
+    my $s_l_path = File::Spec->catfile(dirname(getcwd()), "SupportScripts", "LICENSE");
+    if ($s_l_path ne $path) {
+        unlink $path;
+        copy($s_l_path, $path) or die "LICENSE copy failed: $!";
+    }
 
     $path = File::Spec->catfile(getcwd(), "LICENSE_POLICY.md");
     my $old_path = File::Spec->catfile(getcwd(), "LICENSE.md");
@@ -447,17 +450,19 @@ sub handle_license {
         $repo->command('add', "LICENSE_POLICY.md");
     }
 
-    start_copy();
-    while( <$in> ) {
-       $line = $_;
-       $line =~ s/GPL version 3 license/Apache License 2.0/i;
-       # http://www.gnu.org/copyleft/gpl.html
-       $line =~ s/http(.*)www.gnu.org(.*)html/https:\/\/www.apache.org\/licenses\/LICENSE\-2\.0/i;
-       $line =~ s/common_pages\/4\.0\.0/latest/;
-       print $out $line;
-       $changed = $changed || $line ne $_;
-   }
-    finish_copy();
+    if (-e $path) {
+        start_copy();
+        while( <$in> ) {
+           $line = $_;
+           $line =~ s/GPL version 3 license/Apache License 2.0/i;
+           # http://www.gnu.org/copyleft/gpl.html
+           $line =~ s/http(.*)www.gnu.org(.*)html/https:\/\/www.apache.org\/licenses\/LICENSE\-2\.0/i;
+           $line =~ s/common_pages\/4\.0\.0/latest/;
+           print $out $line;
+           $changed = $changed || $line ne $_;
+       }
+        finish_copy();
+    }
 }
 
 sub handle_conf_py {
@@ -555,10 +560,12 @@ sub check_directory{
         #handle_conf_py();
     }
 
-    #find(\&fix_each_file, getcwd());
+    find(\&fix_each_file, getcwd());
 
     chdir $start_path;
 }
+$main_repository = 1;
+check_directory("../JavaSpiNNaker");
 
 #$release = "1!7.0.0";
 $main_repository = 0;
