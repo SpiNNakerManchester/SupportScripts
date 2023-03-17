@@ -48,6 +48,13 @@ runs:
         fi
       shell: bash
     - run: |
+        echo "::group::creating wheel"
+        pip -m build . --wheel
+        code=$?
+        echo "::endgroup::"
+        exit $code
+      shell: bash
+    - run: |
         if [ ${{ inputs.test-requirements }} = "true" ]; then
           echo "::group::Doing test-code install"
           pip install -r ${{ inputs.test-requirements-path }}
