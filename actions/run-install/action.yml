@@ -15,9 +15,6 @@
 
 name: "Install Python Package from Source"
 inputs:
-  project-path:
-    description: local project path
-    required: true
   requirements-path:
     description: The name of the requirements.txt
     required: false
@@ -43,20 +40,6 @@ runs:
         code=$?
         echo "::endgroup::"
         exit $code
-      shell: bash
-    - run: pwd
-      shell: bash
-    - run: ls -al
-      shell: bash
-    #- run: ls -al ${{ inputs.project-path }}
-    #  shell: bash
-    #- run: ls -al ${{ inputs.project-path }}
-    #  shell: bash
-    #- run: ls /home/runner/work
-    #  shell: bash
-    #- run: ls /home/runner
-    #  shell: bash
-    - run: ls /home/
       shell: bash
     - run: |    
         echo "::group::Doing install"
