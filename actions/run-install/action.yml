@@ -44,7 +44,7 @@ runs:
         echo "::endgroup::"
         exit $code
       shell: bash
-    - run: ls -pwd
+    - run: pwd
       shell: bash
     - run: ls -al
       shell: bash
