@@ -42,6 +42,13 @@ runs:
         exit $code
       shell: bash
     - run: |
+        echo "::group::Doing install"
+        pip install 
+        code=$?
+        echo "::endgroup::"
+        exit $code
+      shell: bash
+    - run: |
         if [ ${{ inputs.test-requirements }} = "true" ]; then
           echo "::group::Doing test-code install"
           pip install -r ${{ inputs.test-requirements-path }}
