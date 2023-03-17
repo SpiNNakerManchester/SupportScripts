@@ -57,8 +57,10 @@ runs:
     #- run: ls /home/runner
     #  shell: bash
     - run: ls /home/
+      shell: bash
+    - run: |    
         echo "::group::Doing install"
-        pip install -e ${{ inputs.project-path }}
+        pip install -e .
         code=$?
         echo "::endgroup::"
         exit $code
