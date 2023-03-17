@@ -45,11 +45,17 @@ runs:
         exit $code
       shell: bash
     - run: ls -pwd
+      shell: bash
     - run: ls -al
+      shell: bash
     - run: ls -al ${{ inputs.project-path }}
+      shell: bash
     - run: ls -al ${{ inputs.project-path }}
+      shell: bash
     - run: ls /home/runner/work
+      shell: bash
     - run: ls /home/runner
+      shell: bash
     - run: ls /home/
         echo "::group::Doing install"
         pip install -e ${{ inputs.project-path }}
