@@ -43,7 +43,7 @@ runs:
       shell: bash
     - run: |
         echo "::group::Doing install"
-        pip install 
+        pip install --build
         code=$?
         echo "::endgroup::"
         exit $code
