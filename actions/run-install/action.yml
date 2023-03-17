@@ -49,7 +49,7 @@ runs:
       shell: bash
     - run: |
         echo "::group::creating wheel"
-        pip build . --wheel
+        pip install -e
         code=$?
         echo "::endgroup::"
         exit $code
