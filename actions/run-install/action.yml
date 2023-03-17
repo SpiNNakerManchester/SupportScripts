@@ -48,17 +48,9 @@ runs:
       shell: bash
     - run: ls -al
       shell: bash
-    - run: ls -al ${{ inputs.project-path }}
-      shell: bash
-    - run: ls -al ${{ inputs.project-path }}
-      shell: bash
-    - run: ls /home/runner/work
-      shell: bash
-    - run: ls /home/runner
-      shell: bash
     - run: ls /home/
         echo "::group::Doing install"
-        pip install -e ${{ inputs.project-path }}
+        pip install -e .
         code=$?
         echo "::endgroup::"
         exit $code
