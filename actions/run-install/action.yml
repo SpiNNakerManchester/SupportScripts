@@ -46,7 +46,7 @@ runs:
       shell: bash
     - run: |
         echo "::group::Doing install"
-        pip install --build ${{ inputs.project-path }}
+        pip install -e ${{ inputs.project-path }}
         code=$?
         echo "::endgroup::"
         exit $code
