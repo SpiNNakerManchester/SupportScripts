@@ -44,7 +44,13 @@ runs:
         echo "::endgroup::"
         exit $code
       shell: bash
-    - run: |
+    - run: ls -pwd
+    - run: ls -al
+    - run: ls -al ${{ inputs.project-path }}
+    - run: ls -al ${{ inputs.project-path }}
+    - run: ls /home/runner/work
+    - run: ls /home/runner
+    - run: ls /home/
         echo "::group::Doing install"
         pip install -e ${{ inputs.project-path }}
         code=$?
