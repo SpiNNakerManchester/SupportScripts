@@ -15,51 +15,17 @@
 
 name: "Install Python Package from Source"
 inputs:
-  preinstall:
-    description: Whether to run the requirements.txt ahead of the main install
+  extras_require:
+    description: Which extras_require to included from setup.cfg
     required: false
-    default: false
-  requirements-path:
-    description: The name of the requirements.txt
-    required: false
-    default: requirements.txt
-  test-requirements:
-    description: Whether to run the requirements-test.txt after the main install
-    required: false
-    default: true
-  test-requirements-path:
-    description: The name of the requirements-test.txt
-    required: false
-    default: requirements-test.txt
-  mode:
-    description: What mode to install in
-    required: false
-    default: develop
+    default: [test]
 runs:
   using: composite
   steps: 
-    - run: |
-        if [ ${{ inputs.preinstall }} = "true" ]; then
-          echo "::group::Doing dependency preinstall"
-          pip install -r ${{ inputs.requirements-path }}
-          code=$?
-          echo "::endgroup::"
-          exit $code
-        fi
-      shell: bash
     - run: |    
         echo "::group::Doing install"
-        pip install -e .
+        pip install -e .${{ inputs.extras_require }}
         code=$?
         echo "::endgroup::"
         exit $code
-      shell: bash
-    - run: |
-        if [ ${{ inputs.test-requirements }} = "true" ]; then
-          echo "::group::Doing test-code install"
-          pip install -r ${{ inputs.test-requirements-path }}
-          code=$?
-          echo "::endgroup::"
-          exit $code
-        fi
       shell: bash
