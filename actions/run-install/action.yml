@@ -15,6 +15,10 @@
 
 name: "Install Python Package from Source"
 inputs:
+  preinstall:
+    description: Whether to run the requirements.txt ahead of the main install
+    required: false
+    default: false
   requirements-path:
     description: The name of the requirements.txt
     required: false
@@ -35,11 +39,13 @@ runs:
   using: composite
   steps: 
     - run: |
-        echo "::group::Doing dependency preinstall"
-        pip install -r ${{ inputs.requirements-path }}
-        code=$?
-        echo "::endgroup::"
-        exit $code
+        if [ ${{ inputs.preinstall }} = "true" ]; then
+          echo "::group::Doing dependency preinstall"
+          pip install -r ${{ inputs.requirements-path }}
+          code=$?
+          echo "::endgroup::"
+          exit $code
+        fi
       shell: bash
     - run: |    
         echo "::group::Doing install"
