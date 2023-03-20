@@ -23,13 +23,6 @@ runs:
   using: composite
   steps: 
     - run: |
-        echo "::group::appdirs"
-        pip install appdirs
-        code=$?
-        echo "::endgroup::"
-        exit $code
-      shell: bash
-    - run: |
         echo "::group::Doing install"
         pip install -e .${{ inputs.extras_require }}
         code=$?
