@@ -36,10 +36,16 @@ runs:
         SPIN_GITCLONE: ${{ github.action_path }}/gitclone.sh
     - run: |
         if [ $DO_INSTALL = "true" ]; then
-          for repo in $DEPENDENCIES; do
+          for repo in $DEPENDENCIES; do  
+            if [ -f "$repo/setup.py" ]; then
+              echo "::group::Setting up $repo"
+                (cd $repo && exec python setup.py develop)
+              echo "::endgroup::"
+            else
               echo "::group::Installing $repo"
               (cd $repo && pip install -e .)
               echo "::endgroup::"
+            fi
           done
         fi
       shell: bash
