@@ -15,10 +15,6 @@
 
 name: "Install Advanced Python Tools"
 inputs:
-  pylint:
-    description: Whether to install pylint tools
-    required: false
-    default: true
   pylint-version:
     description: The version of pylint desired
     required: false
@@ -37,16 +33,12 @@ runs:
   - run: |
       python -m pip install --upgrade setuptools wheel
       python -m pip install pip
-      pip install flake8
-      if [ $DO_PYLINT = "true" ]; then
-        pip "pylint $PYLINT_VERSION"
-      fi
+      pip install flake8 "pylint $PYLINT_VERSION"
       if [ $DO_COVERAGE = "true" ]; then
         pip install "coverage $COVERAGE_VERSION" coveralls
       fi
     shell: bash
     env:
-      DO_PYLING: ${{ inputs.pylint == 'true' }}
       PYLINT_VERSION: ${{ inputs.pylint-version }}
       DO_COVERAGE: ${{ inputs.coverage == 'true' }}
       COVERAGE_VERSION: ${{ inputs.coverage-version }}
