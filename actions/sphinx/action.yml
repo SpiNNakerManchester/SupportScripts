@@ -34,7 +34,12 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: |
+    - name: Install sphinx
+        if [ $(python ${{ github.action_path }}/ver.py) = $GOOD_VER ]; then
+          pip install sphinx >= 2
+        fi
+    - name: build docs
+      run: |
         if [ $(python ${{ github.action_path }}/ver.py) = $GOOD_VER ]; then
           sphinx-build -W -T -E -b $BUILDER -d _build/.cache -D language=en . _build/$BUILDER
         fi
