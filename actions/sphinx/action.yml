@@ -35,9 +35,13 @@ runs:
   using: composite
   steps:
     - name: Install sphinx
+      run: |
         if [ $(python ${{ github.action_path }}/ver.py) = $GOOD_VER ]; then
           pip install sphinx >= 2
         fi
+      shell: bash
+      env:
+        GOOD_VER: ${{ inputs.blessed-version }}
     - name: build docs
       run: |
         if [ $(python ${{ github.action_path }}/ver.py) = $GOOD_VER ]; then
