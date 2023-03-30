@@ -39,7 +39,7 @@ runs:
           for repo in $DEPENDENCIES; do  
             if [ -f "$repo/setup.cfg" ]; then
               echo "::group::Installing $repo"
-              pip install $repo
+              (cd $repo && pip install -e .)
               echo "::endgroup::"
             else
               echo "::group::Setting up $repo"
