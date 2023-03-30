@@ -37,13 +37,13 @@ runs:
     - run: |
         if [ $DO_INSTALL = "true" ]; then
           for repo in $DEPENDENCIES; do  
-            if [ -f "$repo/setup.py" ]; then
-              echo "::group::Setting up $repo"
-                (cd $repo && exec python setup.py develop)
-              echo "::endgroup::"
-            else
+            if [ -f "$repo/setup.cfg" ]; then
               echo "::group::Installing $repo"
               (cd $repo && pip install -e .)
+              echo "::endgroup::"
+            else
+              echo "::group::Setting up $repo"
+                (cd $repo && exec python setup.py develop)
               echo "::endgroup::"
             fi
           done
