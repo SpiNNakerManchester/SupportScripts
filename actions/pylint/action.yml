@@ -59,27 +59,13 @@ runs:
   using: composite
   steps:
     - name: Build composite dictionary
-      run: |
-        cat ${{ github.action_path }}/default_dict.txt >/tmp/dict.txt
-        if test -r $DICTIONARY; then
-          cat "$DICTIONARY" >>/tmp/dict.txt
-        fi
+      run: source ${{ github.action_path }}/mkdict.bash
       shell: bash
       env:
+        BASE_DICTIONARY: ${{ github.action_path }}/default_dict.txt
         DICTIONARY: ${{ inputs.dictionary }}
     - name: Run pylint
-      run: |
-        if test -n $SPELL_LANG; then
-          pylint --output-format=colorized "--disable=$DISABLE_CATS" \
-            --persistent=no "--jobs=$JOBS" --rcfile=$RC \
-            "--spelling-dict=$SPELL_LANG" --spelling-private-dict-file=/tmp/dict.txt \
-            $PACKAGES || exit $(($? & $FAIL_CODE))
-        else
-          pylint --output-format=colorized "--disable=$DISABLE_CATS" \
-            --persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
-            $PACKAGES || exit $(($? & $FAIL_CODE))
-        fi
-      # Note that there's special conditioning of the return code of pylint
+      run: source ${{ github.action_path }}/run_pylint.bash
       shell: bash
       env:
         PACKAGES: ${{ inputs.package }}
