@@ -39,18 +39,30 @@ inputs:
 runs:
   using: composite
   steps:
+  - name: Dependency preconfigure
+    shell: bash
+    run: |
+      echo "::group::Doing dependency preconfiguration"
+      sudo apt-get update
+      echo "::endgroup::"
   - name: Install spell checker
     shell: bash
     run: |
-      sudo apt-get update
+      echo "::group::Installing spell checker"
       sudo apt-get -o Dpkg::Use-Pty=0 install --fix-missing enchant-2 $SPELL_PACKAGES
+      echo "::endgroup::"
     env:
       SPELL_PACKAGES: ${{ inputs.spell-checker-implementation }}
+  - name: Upgrade Python baseline tooling
+    shell: bash
+    run: |
+      echo "::group::Upgrading Python baseline tooling"
+      python -m pip install --upgrade setuptools wheel
+      python -m pip install pip
+      echo "::endgroup::"
   - name: Install Python tooling
     shell: bash
     run: |
-      python -m pip install --upgrade setuptools wheel
-      python -m pip install pip
       pip install flake8 "pylint $PYLINT_VERSION" pyenchant
       if [ $DO_COVERAGE = "true" ]; then
         pip install "coverage $COVERAGE_VERSION" coveralls
