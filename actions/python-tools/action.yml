@@ -14,6 +14,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 name: "Install Advanced Python Tools"
+description: >
+  Installs tooling to support advanced Python testing.
 inputs:
   pylint-version:
     description: The version of pylint desired
@@ -22,22 +24,37 @@ inputs:
   coverage:
     description: Whether to install tools for coverage checking
     required: false
-    default: true
+    default: "true"
   coverage-version:
     description: The version of coverage desired
     required: false
     default: ">= 4.4, < 5.0"
+  spell-checker-implementation:
+    description: >
+      The packages required for the implementation of the spell checker. These
+      run behind the enchant API. This may include installing a particular 
+      dictionary.
+    required: false
+    default: "hunspell hunspell-en-gb"
 runs:
   using: composite
   steps:
-  - run: |
+  - name: Install spell checker
+    shell: bash
+    run: |
+      sudo apt-get update
+      sudo apt-get -o Dpkg::Use-Pty=0 install --fix-missing enchant-2 $SPELL_PACKAGES
+    env:
+      SPELL_PACKAGES: ${{ inputs.spell-checker-implementation }}
+  - name: Install Python tooling
+    shell: bash
+    run: |
       python -m pip install --upgrade setuptools wheel
       python -m pip install pip
-      pip install flake8 "pylint $PYLINT_VERSION"
+      pip install flake8 "pylint $PYLINT_VERSION" pyenchant
       if [ $DO_COVERAGE = "true" ]; then
         pip install "coverage $COVERAGE_VERSION" coveralls
       fi
-    shell: bash
     env:
       PYLINT_VERSION: ${{ inputs.pylint-version }}
       DO_COVERAGE: ${{ inputs.coverage == 'true' }}

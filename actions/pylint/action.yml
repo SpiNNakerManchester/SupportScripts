@@ -24,11 +24,11 @@ inputs:
   disable:
     description: The messages/categories to disable
     required: false
-    default: "R,C"
+    default: "R"
   jobs:
     description: The number of Python processes to use
     required: false
-    default: 1
+    default: "1"
   rcfile:
     description: The name of the pylint rc file
     required: false
@@ -36,7 +36,7 @@ inputs:
   exitcheck:
     description: The combined results code to fail on
     required: false
-    default: 35
+    default: "39"
     # Pylint should leave with following status code:
     #  0 if everything went fine
     # 1 if a fatal message was issued
@@ -47,12 +47,22 @@ inputs:
     # 32 on usage error
     # to die on fatal, error or usage the recommended way is
     # exit $(($? & 35))
+  language:
+    description: The (human) language to use for spell checking
+    required: false
+    default: en_GB
+  dictionary:
+    description: The custom dictionary to use for spell checking
+    required: false
+    default: .pylint_dict.txt
 runs:
   using: composite
   steps:
     - run: |
         pylint --output-format=colorized --disable=${{ inputs.disable }} \
           --persistent=no --jobs=${{ inputs.jobs }} --rcfile=${{ inputs.rcfile }} \
+          --spelling-dict=${{ inputs.language }} \
+          --spelling-private-dict-file=${{ inputs.dictionary }} \
           ${{ inputs.package }} || exit $(($? & ${{ inputs.exitcheck }}))
       # Note that there's special conditioning of the return code of pylint
       shell: bash
