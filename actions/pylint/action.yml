@@ -59,10 +59,23 @@ runs:
   using: composite
   steps:
     - run: |
-        pylint --output-format=colorized --disable=${{ inputs.disable }} \
-          --persistent=no --jobs=${{ inputs.jobs }} --rcfile=${{ inputs.rcfile }} \
-          --spelling-dict=${{ inputs.language }} \
-          --spelling-private-dict-file=${{ inputs.dictionary }} \
-          ${{ inputs.package }} || exit $(($? & ${{ inputs.exitcheck }}))
+        if test -r $DICTIONARY; then
+          pylint --output-format=colorized "--disable=$DISABLE_CATS" \
+            --persistent=no "--jobs=$JOBS" --rcfile=$RC \
+            "--spelling-dict=$SPELL_LANG" "--spelling-private-dict-file=$DICTIONARY" \
+            $PACKAGES || exit $(($? & $FAIL_CODE))
+        else
+          pylint --output-format=colorized "--disable=$DISABLE_CATS" \
+            --persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
+            $PACKAGES || exit $(($? & $FAIL_CODE))
+        fi
       # Note that there's special conditioning of the return code of pylint
       shell: bash
+      env:
+        PACKAGES: ${{ inputs.package }}
+        DISABLE_CATS: ${{ inputs.disable }}
+        RC: ${{ inputs.rcfile }}
+        JOBS: ${{ inputs.jobs }}
+        SPELL_LANG: ${{ inputs.language }}
+        DICTIONARY: ${{ inputs.dictionary }}
+        FAIL_CODE: ${{ inputs.exitcheck }}
