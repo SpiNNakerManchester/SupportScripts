@@ -59,13 +59,14 @@ runs:
   using: composite
   steps:
     - name: Build composite dictionary
-      run: source ${{ github.action_path }}/mkdict.bash
+      run: source $SUPPORT_DIR/mkdict.bash
       shell: bash
       env:
         BASE_DICTIONARY: ${{ github.action_path }}/default_dict.txt
         DICTIONARY: ${{ inputs.dictionary }}
+        SUPPORT_DIR: ${{ github.action_path }}
     - name: Run pylint
-      run: source ${{ github.action_path }}/run_pylint.bash
+      run: source $SUPPORT_DIR/run_pylint.bash
       shell: bash
       env:
         PACKAGES: ${{ inputs.package }}
@@ -74,3 +75,4 @@ runs:
         JOBS: ${{ inputs.jobs }}
         SPELL_LANG: ${{ inputs.language }}
         FAIL_CODE: ${{ inputs.exitcheck }}
+        SUPPORT_DIR: ${{ github.action_path }}
