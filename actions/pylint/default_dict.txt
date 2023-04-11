@@ -16,9 +16,7 @@
 FEC
 ASB
 sPyNNaker
-CFF
 DBs
-LCM
 
 # Sphinx keyword
 py
