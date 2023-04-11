@@ -50,7 +50,7 @@ inputs:
   language:
     description: The (human) language to use for spell checking
     required: false
-    default: en_GB
+    default: ""
   dictionary:
     description: The custom dictionary to use for spell checking
     required: false
@@ -58,11 +58,21 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: |
+    - name: Build composite dictionary
+      run: |
+        cat ${{ github.action_path }}/default_dict.txt >/tmp/dict.txt
         if test -r $DICTIONARY; then
+          cat "$DICTIONARY" >>/tmp/dict.txt
+        fi
+      shell: bash
+      env:
+        DICTIONARY: ${{ inputs.dictionary }}
+    - name: Run pylint
+      run: |
+        if test -n $SPELL_LANG; then
           pylint --output-format=colorized "--disable=$DISABLE_CATS" \
             --persistent=no "--jobs=$JOBS" --rcfile=$RC \
-            "--spelling-dict=$SPELL_LANG" "--spelling-private-dict-file=$DICTIONARY" \
+            "--spelling-dict=$SPELL_LANG" --spelling-private-dict-file=/tmp/dict.txt \
             $PACKAGES || exit $(($? & $FAIL_CODE))
         else
           pylint --output-format=colorized "--disable=$DISABLE_CATS" \
@@ -77,5 +87,4 @@ runs:
         RC: ${{ inputs.rcfile }}
         JOBS: ${{ inputs.jobs }}
         SPELL_LANG: ${{ inputs.language }}
-        DICTIONARY: ${{ inputs.dictionary }}
         FAIL_CODE: ${{ inputs.exitcheck }}
