@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+set +e
 if test -n "$SPELL_LANG"; then
 	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
 		--persistent=no "--jobs=$JOBS" --rcfile=$RC \
