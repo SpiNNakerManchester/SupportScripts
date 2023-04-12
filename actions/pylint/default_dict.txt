@@ -19,6 +19,8 @@ sPyNNaker
 DBs
 
 # Sphinx keyword
+attr
+ivar
 py
 rtype
 
