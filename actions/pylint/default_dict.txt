@@ -29,6 +29,7 @@ str
 dict
 bytearray
 memoryview
+ndarray
 traceback
 timedelta
 
