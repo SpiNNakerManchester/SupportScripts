@@ -27,6 +27,7 @@ bool
 int
 str
 dict
+frozenset
 bytearray
 memoryview
 ndarray
