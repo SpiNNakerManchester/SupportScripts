@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,8 @@ op="$1"
 shift
 ratver=0.13
 ### SELECT MIRROR!
-# apachebase="http://www.mirrorservice.org/sites/ftp.apache.org/"
-apachebase="http://mirror.ox.ac.uk/sites/rsync.apache.org/"
+# apachebase="https://www.mirrorservice.org/sites/ftp.apache.org/"
+apachebase="https://mirror.ox.ac.uk/sites/rsync.apache.org/"
 raturl="${apachebase}creadur/apache-rat-${ratver}/apache-rat-${ratver}-bin.tar.gz"
 ant=${ANT-ant}
 case $op in
