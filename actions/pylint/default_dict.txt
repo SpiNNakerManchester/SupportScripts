@@ -17,6 +17,14 @@ FEC
 ASB
 sPyNNaker
 DBs
+SCP
+SDP
+BMP
+EIEIO
+STDP
+SDRAM
+APLX
+DSG
 
 # Sphinx keyword
 attr
@@ -51,11 +59,16 @@ classmethod
 classproperty
 getx
 setx
+isinstance
 
 # Python packages
 math
+io
+os
+sys
 datetime
 configparser
+matplotlib
 numpy
 scipy
 testfixtures
@@ -68,9 +81,24 @@ whitespace
 ids
 submessage
 subclassed
+subclassing
 src
 dest
 msg
 spynnaker
 cfg
 etc
+defaultable
+undelayed
+unpartitioned
+unregisters
+unsets
+writable
+datasheet
+microsiemens
+nanoamps
+nanofarads
+timestep
+timesteps
+bitfield
+bitfields
