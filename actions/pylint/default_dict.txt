@@ -25,6 +25,7 @@ STDP
 SDRAM
 APLX
 DSG
+RNG
 
 # Sphinx keyword
 attr
