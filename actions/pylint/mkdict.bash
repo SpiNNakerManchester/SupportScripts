@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-target=/tmp/dict.txt
+dict=/tmp/dict.txt
 
-cat "$BASE_DICTIONARY" >$target
+cat "$BASE_DICTIONARY" >$dict
 if test -r $DICTIONARY; then
-	cat "$DICTIONARY" >>$target
+	cat "$DICTIONARY" >>$dict
 fi

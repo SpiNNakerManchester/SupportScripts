@@ -14,6 +14,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 name: "Install sPyNNaker into PyNN"
+description: >
+  Installs sPyNNaker into the PyNN package.
+  Evil code! Requires that the PyNN package be somewhere editable.
 runs:
   using: composite
   steps: 

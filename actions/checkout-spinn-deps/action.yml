@@ -14,18 +14,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 name: "Check out and install SpiNNaker dependencies"
+description: >
+  Checks out (and optionally installs) SpiNNaker dependencies.
 inputs:
   repositories:
-    description: The list of SpiNNaker dependencies to check out
+    description: >
+      The list of SpiNNaker dependencies to check out. Space-separated
     required: true
   install:
     description: Whether to install the dependency after checking it out
     required: false
-    default: false
+    default: "false"
   preinstall:
-    description: Whether to pre-install the dependencies before running the installer
+    description: >
+      Whether to pre-install the dependencies before running the installer
     required: false
-    default: false
+    default: "false"
   requirements-filename:
     description: The name of the requirements file
     required: false

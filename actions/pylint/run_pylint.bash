@@ -15,16 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+dict=/tmp/dict.txt
+
 set +e
 if test -n "$SPELL_LANG"; then
 	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
-		--persistent=no "--jobs=$JOBS" --rcfile=$RC \
-		"--spelling-dict=$SPELL_LANG" --spelling-private-dict-file=/tmp/dict.txt \
+		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
+		"--spelling-dict=$SPELL_LANG" "--spelling-private-dict-file=$dict" \
 		$PACKAGES
 else
 	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
 		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
 		$PACKAGES
 fi
+
 # Note that there's special conditioning of the return code of pylint
-exit $(($? & $FAIL_CODE))
+exit $(( $? & ($FAIL_CODE | 33) ))
+# Fatal (1) and Usage (32) errors are ALWAYS enabled in the bit mask

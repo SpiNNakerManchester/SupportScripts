@@ -36,17 +36,21 @@ inputs:
   exitcheck:
     description: The combined results code to fail on
     required: false
-    default: "39"
+    default: "6"  # Action fails on ERROR or WARNING
     # Pylint should leave with following status code:
-    #  0 if everything went fine
-    # 1 if a fatal message was issued
-    # 2 if an error message was issued
-    # 4 if a warning message was issued
-    # 8 if a refactor message was issued
-    # 16 if a convention message was issued
-    # 32 on usage error
+    #    0 if everything went fine
+    #    1 if a fatal message was issued
+    #    2 if an error message was issued
+    #    4 if a warning message was issued
+    #    8 if a refactor message was issued
+    #   16 if a convention message was issued
+    #   32 on usage error
     # to die on fatal, error or usage the recommended way is
-    # exit $(($? & 35))
+    #   exit $(($? & 35))
+    # We handle that internally.
+    #
+    # Also note that we ALWAYS die on Fatal or Usage problems; others are 
+    # selectable.
   language:
     description: The (human) language to use for spell checking
     required: false

@@ -14,7 +14,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 name: "Configure sPyNNaker for Execution"
-description: "Creates a sPyNNaker configuration file."
+description: >
+  Creates a sPyNNaker configuration file.
 inputs:
   board-address:
     description: The IP address of the SpiNNaker board to talk to directly
@@ -23,7 +24,7 @@ inputs:
   version:
     description: What version of SpiNNaker board to talk to
     required: false
-    default: 5
+    default: "5"
   spalloc:
     description: Where the spalloc server is located
     required: false
@@ -31,7 +32,7 @@ inputs:
   port:
     description: What port to contact spalloc on
     required: false
-    default: 22444
+    default: "22444"
   user:
     description: What user name to use for spalloc
     required: false
@@ -39,15 +40,15 @@ inputs:
   virtual:
     description: Whether to use a virtual machine
     required: false
-    default: false
+    default: "false"
   width:
     description: The width of the virtual machine, in chips
     required: false
-    default: 8
+    default: "8"
   height:
     description: The height of the virtual machine, in chips
     required: false
-    default: 8
+    default: "8"
   time_scale_factor:
     description: Time scale factor allows the slowing down of the simulation
     required: false
