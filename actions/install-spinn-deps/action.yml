@@ -45,9 +45,11 @@ runs:
               pip install ./$repo
               echo "::endgroup::"
             else
-              echo "::group::Setting up $repo"
-                (cd $repo && exec python setup.py develop)
-              echo "::endgroup::"
+              if [ -f "$repo/setup.py" ]; then
+                echo "::group::Setting up $repo"
+                  (cd $repo && exec python setup.py develop)
+                echo "::endgroup::"
+              fi
             fi
           done
         fi
