@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright (c) 2020 The University of Manchester
 #
 # This program is free software: you can redistribute it and/or modify
@@ -13,23 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-name: "Install Python Package from Source"
-description: >
-  Installs a (presumably SpiNNaker-related) Python package from a checkout of 
-  the source tree.
-  Should be run with the working directory at the root of the checkout.
-inputs:
-  extras_require:
-    description: Which extras_require to included from setup.cfg
-    required: false
-    default: "[test]"
-runs:
-  using: composite
-  steps: 
-    - run: |
-        echo "::group::Doing install"
-        pip install -e .${{ inputs.extras_require }}
-        code=$?
-        echo "::endgroup::"
-        exit $code
-      shell: bash
+dict=/tmp/dict.txt
+
+set +e
+if test -n "$SPELL_LANG"; then
+	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
+		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
+		"--spelling-dict=$SPELL_LANG" "--spelling-private-dict-file=$dict" \
+		$PACKAGES
+else
+	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
+		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
+		$PACKAGES
+fi
+
+# Note that there's special conditioning of the return code of pylint
+exit $(( $? & ($FAIL_CODE | 33) ))
+# Fatal (1) and Usage (32) errors are ALWAYS enabled in the bit mask

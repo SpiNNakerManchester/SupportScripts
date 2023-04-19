@@ -24,11 +24,11 @@ inputs:
   disable:
     description: The messages/categories to disable
     required: false
-    default: "R,C"
+    default: "R"
   jobs:
     description: The number of Python processes to use
     required: false
-    default: 1
+    default: "1"
   rcfile:
     description: The name of the pylint rc file
     required: false
@@ -36,23 +36,47 @@ inputs:
   exitcheck:
     description: The combined results code to fail on
     required: false
-    default: 35
+    default: "6"  # Action fails on ERROR or WARNING
     # Pylint should leave with following status code:
-    #  0 if everything went fine
-    # 1 if a fatal message was issued
-    # 2 if an error message was issued
-    # 4 if a warning message was issued
-    # 8 if a refactor message was issued
-    # 16 if a convention message was issued
-    # 32 on usage error
+    #    0 if everything went fine
+    #    1 if a fatal message was issued
+    #    2 if an error message was issued
+    #    4 if a warning message was issued
+    #    8 if a refactor message was issued
+    #   16 if a convention message was issued
+    #   32 on usage error
     # to die on fatal, error or usage the recommended way is
-    # exit $(($? & 35))
+    #   exit $(($? & 35))
+    # We handle that internally.
+    #
+    # Also note that we ALWAYS die on Fatal or Usage problems; others are 
+    # selectable.
+  language:
+    description: The (human) language to use for spell checking
+    required: false
+    default: ""
+  dictionary:
+    description: The custom dictionary to use for spell checking
+    required: false
+    default: .pylint_dict.txt
 runs:
   using: composite
   steps:
-    - run: |
-        pylint --output-format=colorized --disable=${{ inputs.disable }} \
-          --persistent=no --jobs=${{ inputs.jobs }} --rcfile=${{ inputs.rcfile }} \
-          ${{ inputs.package }} || exit $(($? & ${{ inputs.exitcheck }}))
-      # Note that there's special conditioning of the return code of pylint
+    - name: Build composite dictionary
+      run: source $SUPPORT_DIR/mkdict.bash
       shell: bash
+      env:
+        BASE_DICTIONARY: ${{ github.action_path }}/default_dict.txt
+        DICTIONARY: ${{ inputs.dictionary }}
+        SUPPORT_DIR: ${{ github.action_path }}
+    - name: Run pylint
+      run: source $SUPPORT_DIR/run_pylint.bash
+      shell: bash
+      env:
+        PACKAGES: ${{ inputs.package }}
+        DISABLE_CATS: ${{ inputs.disable }}
+        RC: ${{ inputs.rcfile }}
+        JOBS: ${{ inputs.jobs }}
+        SPELL_LANG: ${{ inputs.language }}
+        FAIL_CODE: ${{ inputs.exitcheck }}
+        SUPPORT_DIR: ${{ github.action_path }}

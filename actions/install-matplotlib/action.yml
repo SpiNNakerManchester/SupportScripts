@@ -17,9 +17,12 @@
 # as different versions of matplotlib and python are released.
 
 name: Install matplotlib
+description: >
+  Installs matplotlib in a way that is suitable for running CI workflows
+  against for the purposes of testing.
 inputs:
   back-end: 
-    description: Which rendering engine to use, a python module name
+    description: Which rendering engine to use, a Python module name
     required: false
     default: matplotlib.backends.backend_agg
 runs:

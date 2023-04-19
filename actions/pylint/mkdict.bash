@@ -1,4 +1,6 @@
-# Copyright (c) 2020 The University of Manchester
+#!/bin/bash
+
+# Copyright (c) 2023 The University of Manchester
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,23 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-name: "Install Python Package from Source"
-description: >
-  Installs a (presumably SpiNNaker-related) Python package from a checkout of 
-  the source tree.
-  Should be run with the working directory at the root of the checkout.
-inputs:
-  extras_require:
-    description: Which extras_require to included from setup.cfg
-    required: false
-    default: "[test]"
-runs:
-  using: composite
-  steps: 
-    - run: |
-        echo "::group::Doing install"
-        pip install -e .${{ inputs.extras_require }}
-        code=$?
-        echo "::endgroup::"
-        exit $code
-      shell: bash
+dict=/tmp/dict.txt
+
+cat "$BASE_DICTIONARY" >$dict
+if test -r $DICTIONARY; then
+	cat "$DICTIONARY" >>$dict
+fi
