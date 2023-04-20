@@ -28,7 +28,7 @@ inputs:
   coverage-version:
     description: The version of coverage desired
     required: false
-    default: ">= 4.4, < 5.0"
+    default: ">= 6.0"
   spell-checker-implementation:
     description: >
       The packages required for the implementation of the spell checker. These
