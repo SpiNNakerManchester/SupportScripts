@@ -37,7 +37,7 @@ runs:
     - name: Install sphinx
       run: |
         if [ $(python ${{ github.action_path }}/ver.py) = $GOOD_VER ]; then
-          pip install sphinx >= 4
+          pip install "sphinx >= 4"
         fi
       shell: bash
       env:
