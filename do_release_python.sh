@@ -29,7 +29,6 @@ release $reponame $repo SpiNNUtils
 release $reponame $repo SpiNNMachine
 release $reponame $repo SpiNNMan
 release $reponame $repo PACMAN
-release $reponame $repo DataSpecification
 release $reponame $repo spalloc
 release $reponame $repo SpiNNFrontEndCommon
 release $reponame $repo SpiNNakerGraphFrontEnd
