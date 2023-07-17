@@ -28,7 +28,6 @@ do_setup SpiNNUtils
 do_setup SpiNNMachine
 do_setup SpiNNMan
 do_setup PACMAN
-do_setup DataSpecification
 do_setup spalloc
 do_setup SpiNNFrontEndCommon
 do_setup SpiNNakerGraphFrontEnd

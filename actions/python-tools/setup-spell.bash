@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright (c) 2020 The University of Manchester
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "Install sPyNNaker into PyNN"
-description: >
-  Installs sPyNNaker into the PyNN package.
-  Evil code! Requires that the PyNN package be somewhere editable.
-runs:
-  using: composite
-  steps: 
-  - run: |
-      echo "::group::Running setup-pynn"
-      python -m spynnaker.pyNN.setup_pynn
-      echo "::endgroup::"
-      exit $code
-    shell: bash
+echo "::group::Doing dependency preconfiguration"
+sudo apt-get update
+echo "::endgroup::"
+
+echo "::group::Installing spell checker"
+sudo apt-get -o Dpkg::Use-Pty=0 install --fix-missing enchant-2 $SPELL_PACKAGES
+echo "::endgroup::"

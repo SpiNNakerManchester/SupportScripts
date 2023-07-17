@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright (c) 2020 The University of Manchester
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "Install sPyNNaker into PyNN"
-description: >
-  Installs sPyNNaker into the PyNN package.
-  Evil code! Requires that the PyNN package be somewhere editable.
-runs:
-  using: composite
-  steps: 
-  - run: |
-      echo "::group::Running setup-pynn"
-      python -m spynnaker.pyNN.setup_pynn
-      echo "::endgroup::"
-      exit $code
-    shell: bash
+dict=/tmp/dict.txt
+
+cat "$BASE_DICTIONARY" >$dict
+if test -r $DICTIONARY; then
+	cat "$DICTIONARY" >>$dict
+fi

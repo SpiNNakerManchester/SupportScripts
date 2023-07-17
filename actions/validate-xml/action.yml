@@ -13,6 +13,8 @@
 # limitations under the License.
 
 name: "Validate SpiNNaker XML"
+description: >
+  Validate some XML files against one of the schemas known to this action.
 inputs:
   base-path:
     description: 

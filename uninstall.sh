@@ -33,7 +33,6 @@ do_uninstall SpiNNUtils SpiNNUtilities
 do_uninstall SpiNNMachine SpiNNMachine
 do_uninstall SpiNNMan SpiNNMan
 do_uninstall PACMAN SpiNNaker_PACMAN
-do_uninstall DataSpecification SpiNNaker_DataSpecification
 do_uninstall spalloc spalloc
 do_uninstall SpiNNFrontEndCommon SpiNNFrontEndCommon
 do_uninstall SpiNNakerGraphFrontEnd SpiNNakerGraphFrontEnd
