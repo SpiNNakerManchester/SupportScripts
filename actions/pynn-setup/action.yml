@@ -13,6 +13,9 @@
 # limitations under the License.
 
 name: "Install sPyNNaker into PyNN"
+description: >
+  Installs sPyNNaker into the PyNN package.
+  Evil code! Requires that the PyNN package be somewhere editable.
 runs:
   using: composite
   steps: 

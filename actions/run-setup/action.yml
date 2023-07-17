@@ -13,11 +13,16 @@
 # limitations under the License.
 
 name: "Install Python Package from Source"
+description: >
+  Installs a (presumably SpiNNaker-related) Python package from a checkout of 
+  the source tree.
+  Should be run with the working directory at the root of the checkout.
+  Requires the existance of a setup.py in the working directory.
 inputs:
   preinstall:
     description: Whether to run the requirements.txt ahead of the main install
     required: false
-    default: false
+    default: "false"
   requirements-path:
     description: The name of the requirements.txt
     required: false
@@ -25,7 +30,7 @@ inputs:
   test-requirements:
     description: Whether to run the requirements-test.txt after the main install
     required: false
-    default: true
+    default: "true"
   test-requirements-path:
     description: The name of the requirements-test.txt
     required: false

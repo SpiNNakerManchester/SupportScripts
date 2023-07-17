@@ -81,7 +81,6 @@ check_or_install SpiNNUtils https://github.com/SpiNNakerManchester/SpiNNUtils.gi
 check_or_install SpiNNMachine https://github.com/SpiNNakerManchester/SpiNNMachine.git
 check_or_install PACMAN https://github.com/SpiNNakerManchester/PACMAN.git
 check_or_install SpiNNMan https://github.com/SpiNNakerManchester/SpiNNMan.git
-check_or_install DataSpecification https://github.com/SpiNNakerManchester/DataSpecification.git
 check_or_install SpiNNFrontEndCommon https://github.com/SpiNNakerManchester/SpiNNFrontEndCommon.git
 check_or_install sPyNNakerVisualisers https://github.com/SpiNNakerManchester/sPyNNakerVisualisers.git
 check_or_install IntroLab https://github.com/SpiNNakerManchester/IntroLab.git
