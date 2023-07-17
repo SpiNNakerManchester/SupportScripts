@@ -3,7 +3,6 @@
 **/dist/**
 **/*.egg-info/**
 **/*.pyc
-**/.coverage*
 **/*.dict
 **/*.md
 **/*.rst
