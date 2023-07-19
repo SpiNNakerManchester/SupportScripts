@@ -23,11 +23,17 @@ headers = {
 
 log_url = NMPI_LOG_URL.format(args.job)
 response = requests.get(log_url, headers=headers)
-log = response.json()
-log["content"] += "\\n" + args.reason
-response = requests.put(log_url, json=log, headers=headers)
-print(log)
-print("Log update response:", response)
+if response.status_code == 404:
+    log = dict()
+    log["content"] = args.reason
+    response = requests.put(log_url, json=log, headers=headers)
+    print("Log update response:", response)
+else:
+    log = response.json()
+    log["content"] += "\\n" + args.reason
+    response = requests.put(log_url, json=log, headers=headers)
+    print(log)
+    print("Log update response:", response)
 
 job_url = NMPI_URL.format(args.job)
 response = requests.get(job_url, headers=headers)
