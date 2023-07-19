@@ -88,6 +88,9 @@ sub git_setup_branch{
         say "removing previous remote branch";
         eval {
             $repo->command('push', "origin", "--delete", $branch);
+        } or do {
+            my $e = $@;
+            say "Something went wrong: $e#";
         };
     }
 
@@ -287,7 +290,9 @@ sub handle_index_rst {
     start_copy();
     while( <$in> ) {
         $line = $_;
+        print $line;
         $line =~ s/readthedocs\.io(.*)$/readthedocs\.io\/en\/${release}/;
+        print $line;
         $changed = $changed || $line ne $_;
         print $out $line;
     }
