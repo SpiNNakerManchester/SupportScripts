@@ -17,7 +17,7 @@ Assumes twine is installed and pypi accounts setup
 Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 
 1. Update master/main locally on all repositories
-2. Run Automatic main
+2. Run automatic_make.sh
 3. Update version number in release.pl
 4. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
 5. perl release.pl (from inside SupportScripts)
@@ -39,8 +39,9 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
     -  Python install from testpypi ->  Python install from pypi
     remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
 12. commit and push
-13. Chek Jenkins
+13. Check Jenkins
 
 14. Change version in tag.pl
 15. perl tag.pl (from inside SupportScripts)
 
+After a full (not pre release)
