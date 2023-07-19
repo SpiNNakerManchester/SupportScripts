@@ -18,6 +18,8 @@
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
 my $release = "7.0.0";  # Without the leading 1!
+my $branch = $release;
+#my $branch = "version_bump";
 
 use strict;
 use warnings;
@@ -71,10 +73,10 @@ sub git_setup_branch{
 
     # remove previously branches
     my $info = $repo->command('branch');
-    if (index($info, $release) != -1){
-        say "removing previous branch $release";
+    if (index($info, $branch) != -1){
+        say "removing previous branch $branch";
         eval {
-            $repo->command('branch', '-D', $release);
+            $repo->command('branch', '-D', $branch);
         } or do {
             my $e = $@;
             say "Something went wrong: $e#";
@@ -82,10 +84,10 @@ sub git_setup_branch{
     }
 
     $info = $repo->command('ls-remote', '--heads', 'origin');
-    if (index($info, $release) != -1){
+    if (index($info, $branch) != -1){
         say "removing previous remote branch";
         eval {
-            $repo->command('push', "origin", "--delete", $release);
+            $repo->command('push', "origin", "--delete", $branch);
         } or do {
             my $e = $@;
             say "Something went wrong: $e#";
@@ -93,15 +95,15 @@ sub git_setup_branch{
     }
 
     # Move to release branch
-    $repo->command('branch', $release);
-    $repo->command('checkout', $release);
+    $repo->command('branch', $branch);
+    $repo->command('checkout', $branch);
 }
 
 sub git_push_branch{
     # Pushes the release as a branch
-    $repo->command('push', 'origin', $release);
+    $repo->command('push', 'origin', $branch);
     git_main();
-    $repo->command('branch', '-D', $release);
+    $repo->command('branch', '-D', $branch);
 }
 
 sub start_copy{
@@ -208,10 +210,12 @@ sub handle_readme {
     start_copy();
     while( <$in> ) {
         $line = $_;
-        if ($line =~ /^\[\!\[/) {
-            $line = ""
+        if ($release == $branch) {
+            if ($line =~ /^\[\!\[/) {
+                $line = ""
+            }
         }
-        $line =~ s/readthedocs\.io\)$/readthedocs\.io\/en\/${release}\)/;
+        $line =~ s/readthedocs\.io.*\)$/readthedocs\.io\/en\/${release}\)/;
         $changed = $changed || $line ne $_;
         print $out $line;
     }
@@ -286,7 +290,9 @@ sub handle_index_rst {
     start_copy();
     while( <$in> ) {
         $line = $_;
+        print $line;
         $line =~ s/readthedocs\.io(.*)$/readthedocs\.io\/en\/${release}/;
+        print $line;
         $changed = $changed || $line ne $_;
         print $out $line;
     }
@@ -388,6 +394,9 @@ sub update_integration_tests{
 }
 
 sub wait_doc_built{
+    if ($release != $branch){
+        return;
+    }
     # Blocks the script to make sure the readthedocs build finished
     my $url = "https://${_[0]}.readthedocs.io/en/${release}/";
     say $url;
