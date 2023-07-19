@@ -17,7 +17,7 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.0.0-a6";  # Without the leading 1!
+my $release = "7.0.0";  # Without the leading 1!
 
 use strict;
 use warnings;
@@ -64,19 +64,32 @@ sub git_main{
 
 sub git_setup_branch{
     # clears previous versions of the branch and creates a new one.
+    # the eval is because check if release essist may have a flase possitive
+    # Especially if doing a full release while an alpha is still in Jenkins
+
+    $repo->command('fetch');
 
     # remove previously branches
-    $repo->command('fetch');
     my $info = $repo->command('branch');
     if (index($info, $release) != -1){
         say "removing previous branch $release";
-        $repo->command('branch', '-D', $release);
-        $info = $repo->command('branch');
-   }
+        eval {
+            $repo->command('branch', '-D', $release);
+        } or do {
+            my $e = $@;
+            say "Something went wrong: $e#";
+        };
+    }
+
     $info = $repo->command('ls-remote', '--heads', 'origin');
     if (index($info, $release) != -1){
         say "removing previous remote branch";
-        $repo->command('push', "origin", "--delete", $release);
+        eval {
+            $repo->command('push', "origin", "--delete", $release);
+        } or do {
+            my $e = $@;
+            say "Something went wrong: $e#";
+        };
     }
 
     # Move to release branch
