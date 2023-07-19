@@ -1,0 +1,46 @@
+# Copyright (c) 2023 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+This is the steps used for release 7.0.0 using ubuntu
+Assumes twine is installed and pypi accounts setup
+Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
+
+1. Update master/main locally on all repositories
+2. Run Automatic main
+3. Update version number in release.pl
+4. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
+5. perl release.pl (from inside SupportScripts)
+   - This creates new branches with this release
+   - This updates version number as required.
+   - This does a new -python3 build
+   - This pushes the branches to github
+   - This checks the readthedocs
+   - This script can be repeated in which case it delete previous branches
+6. Check all github actions passed
+    Note Intergation tests branch prepared but not pushed
+
+7. sh SupportScripts/testpypi.sh (from parent)
+8. push Intergation test branch
+9. Check Jenkins
+
+10. sh SupportScripts/pypi.sh (from parent)
+11. edit Jenkins
+    -  Python install from testpypi ->  Python install from pypi
+    remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
+12. commit and push
+13. Chek Jenkins
+
+14. Change version in tag.pl
+15. perl tag.pl (from inside SupportScripts)
+
