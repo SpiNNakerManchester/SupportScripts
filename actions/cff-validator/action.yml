@@ -1,4 +1,4 @@
-# Copyright (c) 2023 The University of Manchester
+# Copyright (c) 2020 The University of Manchester
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,15 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "Run cff-validator"
-description: |
-  Runs dieghernan/cff-validator@main
-  Note Does it indirectly so it is easier to enable or disable as needed,
-  currently disabled due to https://github.com/dieghernan/cff-validator/issues/10
+name: "Install sPyNNaker into PyNN"
+description: >
+  Installs sPyNNaker into the PyNN package.
+  Evil code! Requires that the PyNN package be somewhere editable.
 runs:
   using: composite
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Validate CITATION.cff
-      uses: dieghernan/cff-validator@main
+  steps: 
+  - run: |
+      echo "::group::Running setup-pynn"
+      python -m spynnaker.pyNN.setup_pynn
+      echo "::endgroup::"
+      exit $code
+    shell: bash
