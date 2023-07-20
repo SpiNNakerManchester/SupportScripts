@@ -17,9 +17,10 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.0.0";  # Without the leading 1!
-my $branch = $release;
-#my $branch = "version_bump";
+my $release = "7.1.0";  # Without the leading 1!
+my $release_name = "Not yet released";
+#my $branch = $release;
+my $branch = "version_bump";
 
 use strict;
 use warnings;
@@ -182,13 +183,19 @@ sub handle_version{
         }
 
         print $out "__version__ = \"1!${release}\"\n";
-        my $month = strftime "%B", localtime;
-        print $out "__version_month__ = \"${month}\"\n";
-        my $year = strftime "%Y", localtime;
-        print $out "__version_year__ = \"${year}\"\n";
-        my $day = strftime "%d", localtime;
-        print $out "__version_day__ = \"${day}\"\n";
-        print $out "__version_name__ = \"Revisionist\"\n";
+        if ($release eq $branch){
+            my $month = strftime "%B", localtime;
+            print $out "__version_month__ = \"${month}\"\n";
+            my $year = strftime "%Y", localtime;
+            print $out "__version_year__ = \"${year}\"\n";
+            my $day = strftime "%d", localtime;
+            print $out "__version_day__ = \"${day}\"\n";
+        } else {
+            print $out "__version_month__ = \"TBD\"\n";
+            print $out "__version_year__ = \"TBD\"\n";
+            print $out "__version_day__ = \"TBD\"\n";
+        }
+        print $out "__version_name__ = \"${release_name}\"\n";
 
         while( <$in> ) {
             print $out $_;
@@ -201,6 +208,10 @@ sub handle_version{
 sub handle_readme {
     # Updates the README.md file
     # change readthedocs.io link to version specific
+
+    if ($release ne $branch){
+        return;
+    }
 
     $path = File::Spec->catfile(getcwd(), "README.md");
     if (not -e $path) {
@@ -223,6 +234,10 @@ sub handle_readme {
 }
 
 sub handle_jenkins {
+    if ($release ne $branch){
+        return;
+    }
+
     # update Jenkins file to use a specific version
     $path = File::Spec->catfile(getcwd(), "Jenkinsfile");
     start_copy();
@@ -235,12 +250,15 @@ sub handle_jenkins {
         print $out $line;
     }
     finish_copy();
-   say $release;
+    say $release;
 }
 
 sub handle_conf_py {
     # update doc/source/conf.py file
     # Updates various lines with version
+    if ($release ne $branch){
+        return;
+    }
 
     $path = File::Spec->catfile(getcwd(), "doc", "source", "conf.py");
     if (not -e $path) {
@@ -267,6 +285,10 @@ sub handle_doc_requirements_txt {
     # updates doc/doc_requirements.txt
     # use the version specific branches for dependecies dependencies
 
+    if ($release ne $branch){
+        return;
+    }
+
     $path = File::Spec->catfile(getcwd(), "doc", "doc_requirements.txt");
     if (not -e $path) {
         return;
@@ -285,6 +307,10 @@ sub handle_doc_requirements_txt {
 
 sub handle_index_rst {
     # Updates the index.rst by changing readthedoc links to version specific
+
+    if ($release ne $branch){
+        return;
+    }
 
     # $path set by caller
     start_copy();
@@ -334,6 +360,10 @@ sub handle_doxyfile {
 
 sub do_build{
     # clears any previous python build and does a new one
+    if ($release ne $branch){
+        return;
+    }
+
     $path = File::Spec->catfile(getcwd(), "setup.py");
     if (not -e $path) {
         return;
@@ -375,7 +405,7 @@ sub update_directory{
 
     do_build();
 
-    #git_push_branch();
+    git_push_branch();
     chdir $start_path;
 }
 
@@ -385,7 +415,11 @@ sub update_integration_tests{
     chdir $_[0];
     say "updating", getcwd();
 
-    git_test_pypi();
+    if ($release eq $branch) {
+        git_test_pypi();
+    } else {
+        git_main();
+    }
     git_setup_branch();
     handle_jenkins();
 
@@ -394,7 +428,7 @@ sub update_integration_tests{
 }
 
 sub wait_doc_built{
-    if ($release != $branch){
+    if ($release ne $branch){
         return;
     }
     # Blocks the script to make sure the readthedocs build finished
@@ -412,7 +446,6 @@ sub wait_doc_built{
         $response = $browser->get( $url );
     }
 }
-
 update_directory("../spinnaker_tools");
 update_directory("../spinn_common");
 update_directory("../SpiNNUtils");
@@ -446,6 +479,6 @@ update_directory("../sPyNNaker8Jupyter");
 wait_doc_built('spynnaker');
 wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");
-update_integration_tests("../IntegrationTests");
+#update_integration_tests("../IntegrationTests");
 # die "stop";
 

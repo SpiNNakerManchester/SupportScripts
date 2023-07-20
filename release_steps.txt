@@ -18,7 +18,8 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 
 1. Update master/main locally on all repositories
 2. Run automatic_make.sh
-3. Update version number in release.pl
+3. Update release number and name in release.pl
+    - #my $branch = $release;
 4. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
 5. perl release.pl (from inside SupportScripts)
    - This creates new branches with this release
@@ -45,3 +46,7 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 15. perl tag.pl (from inside SupportScripts)
 
 After a full (not pre release)
+16. change release.pl
+   - dump $relase
+   - my $branch = "version_bump";
+17. perl release.pl (from inside SupportScripts)
