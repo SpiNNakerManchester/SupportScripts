@@ -20,9 +20,7 @@ description: >
 runs:
   using: composite
   steps:
-  - run: |
-      echo "::group::Running setup-pynn"
-      python -m spynnaker.pyNN.setup_pynn
-      echo "::endgroup::"
-      exit $code
-    shell: bash
+  - name: Checkout
+    uses: actions/checkout@v3
+  - name: Validate CITATION.cff
+    uses: dieghernan/cff-validator@main
