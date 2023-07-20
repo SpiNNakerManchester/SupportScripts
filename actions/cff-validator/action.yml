@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "Install sPyNNaker into PyNN"
+name: "Run cff-validator"
 description: >
-  Installs sPyNNaker into the PyNN package.
-  Evil code! Requires that the PyNN package be somewhere editable.
+  Runs dieghernan cff-validator
+  Note Does it indirectly so it is easier to enable or disable as needed,
+  Currently disabled due to https://github.com/dieghernan/cff-validator/issues/10
 runs:
   using: composite
   steps:
