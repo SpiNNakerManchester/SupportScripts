@@ -28,7 +28,6 @@ do_twine SpiNNMachine
 do_twine SpiNNMan
 do_twine PACMAN
 do_twine spalloc
-do_twine spalloc_server
 do_twine SpiNNFrontEndCommon
 do_twine TestBase
 do_twine SpiNNakerGraphFrontEnd
