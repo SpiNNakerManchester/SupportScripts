@@ -15,47 +15,39 @@
 # limitations under the License.
 
 # This script assumes it is run from the directory holding all github projects in parellel
-# sh SupportScripts/gitupdate.sh a_branch_name
+# sh SupportScripts/gitupdate.sh a_branch_name any_thing_as_a_do_all_flag
 
 # checks a branch found locally
 # May try to merge but exits on a conflict
 check_remove(){
-	if [ $1 = "master" ]; then 
+  echo branch $1 main $2
+	if [ $1 = $2 ]; then
 		return 
 	fi
-	# if the remote brnach exist update the local branch with master and the remote branch
+	# if the remote branch exist update the local branch with master and the remote branch
 	if git ls-remote --heads | grep -sw $1>/dev/null; then
 		echo $1 Still on remote
 		git checkout $1
 		git merge -m"merged in remote/$1" refs/remotes/origin/$1 || exit -1
-		git merge -m"merged in master" refs/remotes/origin/master || git merge -m"merged in main" refs/remotes/origin/main || exit -1
+		git merge -m"merged in $2" refs/remotes/origin/$2 || exit -1
 		git checkout -q master
 		return
+	else
+	  echo no remote
 	fi
 	# Check if the local branch has been fully merged into master
-	if git merge-base --is-ancestor refs/heads/$1 refs/remotes/origin/master; then
-	    # check the local branch has falled behind master
+	if git merge-base --is-ancestor refs/heads/$1 refs/remotes/origin/$2; then
+    # check the local branch has falled behind master
 		if git merge-base --is-ancestor refs/remotes/origin/master refs/heads/$1 ; then
 		        # Same as Master so probably a new branch
-		     	echo $1 Same as Master
+		     	echo $1 Same as $2
 		else
 		    # behind master so assumed no longer required
 			git branch -d $1 || exit -1
 			echo $1 deleted
 		fi
-	# Check if the local branch has been fully merged into master
-	elif git merge-base --is-ancestor refs/heads/$1 refs/remotes/origin/main; then
-	    # check the local branch has falled behind master
-		if git merge-base --is-ancestor refs/remotes/origin/main refs/heads/$1 ; then
-		        # Same as Main so probably a new branch
-		     	echo $1 Same as Main
-		else
-		    # behind main so assumed no longer required
-			git branch -d $1 || exit -1
-			echo $1 deleted
-		fi
 	else
-	    # Never automaically delete a branch which has not been committed
+    # Never automaically delete a branch which has not been committed
 		echo $1 not merged
 	fi
 }
@@ -63,24 +55,39 @@ check_remove(){
 
 update(){
 	cd $1 || return
-	echo
-	pwd
+	echo # A blank line
+	pwd  # print the directory
+	echo $(git for-each-ref --format='%(refname)' refs/remotes/origin/heads/)
+	main="NO Main"
+	for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
+    name=${branch:11}
+    if [ ${name} = "master" ] || [ ${name} = "main" ]; then
+      main=${name}
+    fi
+	done
+	#echo main = ${main}
 	if [ -d .git ]; then
 	    # update master
 	    git fetch
-	    git checkout -q master || git checkout -q main || exit -1
-	    git merge -m "merged in remote master" refs/remotes/origin/master || git merge -m "merged in remote main" refs/remotes/origin/main  || exit -1
+	    git checkout -q $main || exit -1
+	    git merge -m "merged in remote master" refs/remotes/origin/$main || exit -1
+	    # "Already up-to-date." or a list of updates
 	    # git gc --prune=now || exit -1
-	    # check each local branch
-	    for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
-	        echo ${branch:11}
-		    check_remove ${branch:11}
-	    done
-	    # switch back to master and then if available the branch selected
-        git checkout -q master || git checkout -q main
-	    if [ -n "$2" ]; then
-            git checkout -q $2
-        fi
+
+      # check each local branch
+      if [ -n "$3" ]; then
+        for branch in $(git for-each-ref --format='%(refname)' refs/heads/); do
+          name=${branch:11}
+          check_remove $name $main
+        done
+      fi
+      if [ -n "$2" ]; then
+        check_remove $2 $main
+      fi
+      if [ -n "$2" ]; then
+        git checkout -q $main
+        git checkout -q $2
+      fi
 	else
 	    echo "Not a git repsoitory"
 	fi
@@ -89,7 +96,7 @@ update(){
 
 for D in *; do
 	if [ -d "${D}" ]; then
-        update "${D}" $1 
+        update "${D}" $1 $2
     fi
 done
-
+echo finished
