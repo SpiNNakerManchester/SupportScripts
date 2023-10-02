@@ -17,10 +17,10 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.1.0";  # Without the leading 1!
-my $release_name = "HBP_End";
-my $branch = $release;
-#my $branch = "version_bump";
+my $release = "7.1.1";  # Without the leading 1!
+my $release_name = "Post_HBP";
+#my $branch = $release;
+my $branch = "version_bump";
 
 use strict;
 use warnings;
@@ -146,7 +146,7 @@ sub handle_setup_cfg {
     while( <$in> ) {
         $line = $_;
         $line =~ s/( == 1!\d.\d.\d.*)/ == 1!${release}/;
-        #print $out $line;
+        print $out $line;
         $changed = $changed || $line ne $_;
     }
     finish_copy();

@@ -35,18 +35,20 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 8. push Intergation test branch
 9. Check Jenkins
 
-10. sh SupportScripts/pypi.sh (from parent)
-11. edit Jenkins
+11. (optional) Add pip freeze info from Jenkins (install) to read.me files
+
+11. sh SupportScripts/pypi.sh (from parent)
+12. edit Jenkins
     -  Python install from testpypi ->  Python install from pypi
     remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
-12. commit and push
-13. Check Jenkins
+13. commit and push
+14. Check Jenkins
 
-14. Change version in tag.pl
-15. perl tag.pl (from inside SupportScripts)
+15. Change version in tag.pl
+16. perl tag.pl (from inside SupportScripts)
 
 After a full (not pre release)
 16. change release.pl
-   - dump $relase
+   - dump $release
    - my $branch = "version_bump";
 17. perl release.pl (from inside SupportScripts)
