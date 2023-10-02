@@ -18,9 +18,9 @@
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
 my $release = "7.1.0";  # Without the leading 1!
-my $release_name = "Not yet released";
-#my $branch = $release;
-my $branch = "version_bump";
+my $release_name = "HBP_End";
+my $branch = $release;
+#my $branch = "version_bump";
 
 use strict;
 use warnings;
@@ -146,7 +146,7 @@ sub handle_setup_cfg {
     while( <$in> ) {
         $line = $_;
         $line =~ s/( == 1!\d.\d.\d.*)/ == 1!${release}/;
-        print $out $line;
+        #print $out $line;
         $changed = $changed || $line ne $_;
     }
     finish_copy();
@@ -446,6 +446,7 @@ sub wait_doc_built{
         $response = $browser->get( $url );
     }
 }
+
 update_directory("../spinnaker_tools");
 update_directory("../spinn_common");
 update_directory("../SpiNNUtils");
@@ -477,6 +478,6 @@ update_directory("../sPyNNaker8Jupyter");
 wait_doc_built('spynnaker');
 wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");
-#update_integration_tests("../IntegrationTests");
+update_integration_tests("../IntegrationTests");
 # die "stop";
 
