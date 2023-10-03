@@ -1,0 +1,54 @@
+# Copyright (c) 2023 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+This is the steps used for release 7.0.0 using ubuntu
+Assumes twine is installed and pypi accounts setup
+Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
+
+1. Update master/main locally on all repositories
+2. Run automatic_make.sh
+3. Update release number and name in release.pl
+    - #my $branch = $release;
+4. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
+5. perl release.pl (from inside SupportScripts)
+   - This creates new branches with this release
+   - This updates version number as required.
+   - This does a new -python3 build
+   - This pushes the branches to github
+   - This checks the readthedocs
+   - This script can be repeated in which case it delete previous branches
+6. Check all github actions passed
+    Note Intergation tests branch prepared but not pushed
+
+7. sh SupportScripts/testpypi.sh (from parent)
+8. push Intergation test branch
+9. Check Jenkins
+
+11. (optional) Add pip freeze info from Jenkins (install) to read.me files
+
+11. sh SupportScripts/pypi.sh (from parent)
+12. edit Jenkins
+    -  Python install from testpypi ->  Python install from pypi
+    remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
+13. commit and push
+14. Check Jenkins
+
+15. Change version in tag.pl
+16. perl tag.pl (from inside SupportScripts)
+
+After a full (not pre release)
+16. change release.pl
+   - dump $release
+   - my $branch = "version_bump";
+17. perl release.pl (from inside SupportScripts)
