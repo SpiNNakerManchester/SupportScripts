@@ -25,6 +25,10 @@ inputs:
     description: Extra options to pass to pytest
     required: false
     default: ""
+  type_overrides:
+    description: Flafg to say if all overrides should eb checked that they are typed
+    reguired: false
+    default: "true"
   coverage:
     description: Whether to do coverage
     required: false
@@ -70,6 +74,7 @@ runs:
         TEST_PKG: ${{ inputs.tests }}
         DO_COVERAGE: ${{ inputs.coverage == 'true' }}
         EXTRA_OPTS: ${{ inputs.options }}
+        TYPE_OVERRIDES: ${{ inputs.type_overrides }}
     - name: coverage
       run: |
         if [ $DO_COVERAGE = "true" ]; then
