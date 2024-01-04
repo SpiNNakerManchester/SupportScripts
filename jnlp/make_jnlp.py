@@ -16,9 +16,13 @@ import sys
 import requests
 import tempfile
 import os
+import inspect
 import subprocess
 from getpass import getpass
 from xml.etree import ElementTree
+
+current_script_path = os.path.dirname(inspect.getfile(inspect.currentframe()))
+print(current_script_path)
 
 base_uri = input("Base URI: ")
 
@@ -28,7 +32,7 @@ if len(sys.argv) > 1:
 else:
     filename = input("Filename: ")
 
-print(f"Downloading to: {filename}")
+print(f"Making: {filename}")
 
 session = requests.Session()
 session.post(
@@ -37,14 +41,15 @@ session.post(
 session.get(f"{base_uri}/cgi/Build_jnlp.cgi?time_stamp=1")
 sid = session.cookies.get_dict()["SID"]
 
-jnlp = session.get(f"{base_uri}/jnlp/sess_{sid}.jnlp")
-jnlp_xml = ElementTree.ElementTree(
-    ElementTree.fromstring(jnlp.content.decode()))
+print(f"Session: {sid}")
+
+jnlp_xml = ElementTree.parse("template.jnlp")
 root = jnlp_xml.getroot()
-root.set("codebase", base_uri)
-app_desc = next(root.iter("application-desc"))
-first_argument = next(app_desc.iter('argument'))
-first_argument.text = "localhost"
+root.set("codebase", f"file://{current_script_path}")
+app_desc = root.find("application-desc")
+args = app_desc.findall('argument')
+args[1].text = sid
+args[2].text = sid
 
 jnlp_xml.write(filename)
 
