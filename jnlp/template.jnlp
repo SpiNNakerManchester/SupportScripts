@@ -1,0 +1,38 @@
+<jnlp spec="1.0+">
+  <information>
+    <title>ATEN Java iKVM Viewer</title>
+    <vendor>ATEN</vendor>
+    <description>Java Web Start Application</description>
+  </information>
+
+  <security>
+   <all-permissions />
+  </security>
+
+  <resources>
+    <j2se version="1.6.0+" initial-heap-size="32M" max-heap-size="40M" />
+    <jar href="iKVM.jar" download="eager" main="true" />
+  </resources>
+
+  <resources os="Windows">
+    <nativelib href="libwin.jar" download="eager" />
+  </resources>
+
+  <resources os="Linux">
+    <nativelib href="liblinux.jar" download="eager" />
+  </resources>
+
+  <resources os="Mac OS X">
+    <nativelib href="libmac.jar" download="eager" />
+  </resources>
+
+  <application-desc main-class="tw.com.aten.ikvm.KVMMain">
+    <argument>localhost</argument>
+    <argument></argument>
+    <argument></argument>
+    <argument>5900</argument>
+    <argument>623</argument>
+    <argument>2</argument>
+    <argument>0</argument>
+  </application-desc>
+</jnlp>
