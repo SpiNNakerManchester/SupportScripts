@@ -12,26 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Our abbreviations/names
-FEC
-ASB
-sPyNNaker
-DBs
-SCP
-SDP
-BMP
-EIEIO
-STDP
-SDRAM
-APLX
-DSG
-RNG
-
-# Sphinx keyword
-attr
-ivar
-py
-rtype
+# Python packages
+abc
+configparser
+datetime
+io
+json
+os
+math
+matplotlib
+numpy
+scipy
+sys
+testfixtures
+zipfile
 
 # Python types
 bool
@@ -48,60 +42,84 @@ timedelta
 # Python pseudo-types
 iterable
 
+# Sphinx keyword
+attr
+ivar
+py
+rtype
+
 # Python specials
 args
-kwargs
-eval
-setattr
-metaclass
 abstractmethod
 abstractproperty
 classmethod
 classproperty
-getx
-setx
+eval
 isinstance
+getter
+getx
+kwargs
+metaclass
+namespace
+noqa
+pragma
+pythonic
+ReservedAssignment
+setattr
+setx
+superclass
 
-# Python packages
-math
-io
-os
-sys
-datetime
-configparser
-json
-matplotlib
-numpy
-scipy
-testfixtures
-abc
-zipfile
+# Our Packages
+spynnaker
+
+# Our abbreviations/names
+APLX
+ASB
+BMP
+EIEIO
+FEC
+DBs
+DSG
+GCD
+RNG
+SCP
+SDP
+SDRAM
+STDP
+UDP
 
 # Misc
-stdin
-whitespace
-ids
-submessage
-subclassed
-subclassing
-src
-dest
-msg
-spynnaker
-cfg
-etc
+bitfield
+bitfields
+datasheet
 defaultable
+dest
+cfg
+closeable
+etc
+executables
+hostnames
+ids
+microsiemens
+msg
+nanoamps
+nanofarads
+parsers
+precompile
+routable
+src
+stdin
+subclassed
+subclasses
+subclassing
+submessage
+subprocess
+superclasses
+timestep
+timesteps
 undelayed
 unpartitioned
 unregisters
 unsets
 writable
-datasheet
-microsiemens
-nanoamps
-nanofarads
-timestep
-timesteps
-bitfield
-bitfields
-routable
+whitespace
