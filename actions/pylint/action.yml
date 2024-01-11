@@ -77,8 +77,8 @@ runs:
         PACKAGES: ${{ inputs.package }}
         DISABLE_CATS: ${{ inputs.disable }}
         RC: ${{ inputs.rcfile }}
-        STRICT_RC=${{ github.action_path }}/strict_rcfile
-        RELAXED_RC=${{ github.action_path }}/relaxed_rcfile
+        STRICT_RC: ${{ github.action_path }}/strict_rcfile
+        RELAXED_RC: ${{ github.action_path }}/relaxed_rcfile
         JOBS: ${{ inputs.jobs }}
         SPELL_LANG: ${{ inputs.language }}
         FAIL_CODE: ${{ inputs.exitcheck }}
