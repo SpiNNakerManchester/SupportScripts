@@ -31,7 +31,9 @@ inputs:
   rcfile:
     description: The name of the pylint rc file
     required: false
-    default: .pylintrc
+    default: global_relaxed
+    # global_relaxed and global_strict will use files in support scripts
+    # Any other value will be looked for in the calling repository
   exitcheck:
     description: The combined results code to fail on
     required: false
@@ -75,6 +77,8 @@ runs:
         PACKAGES: ${{ inputs.package }}
         DISABLE_CATS: ${{ inputs.disable }}
         RC: ${{ inputs.rcfile }}
+        STRICT_RC=${{ github.action_path }}/strict_rcfile
+        RELAXED_RC=${{ github.action_path }}/relaxed_rcfile
         JOBS: ${{ inputs.jobs }}
         SPELL_LANG: ${{ inputs.language }}
         FAIL_CODE: ${{ inputs.exitcheck }}
