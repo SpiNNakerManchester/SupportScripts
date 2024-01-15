@@ -105,6 +105,7 @@ msg
 nanoamps
 nanofarads
 parsers
+pragma
 precompile
 routable
 src
