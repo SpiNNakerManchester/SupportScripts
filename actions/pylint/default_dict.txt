@@ -21,6 +21,7 @@ json
 os
 math
 matplotlib
+nbmake
 numpy
 scipy
 sys
@@ -36,6 +37,7 @@ frozenset
 bytearray
 memoryview
 ndarray
+TextIOBase
 traceback
 timedelta
 
@@ -102,6 +104,7 @@ hostnames
 ids
 microsiemens
 msg
+multicast
 nanoamps
 nanofarads
 parsers
@@ -124,3 +127,6 @@ unregisters
 unsets
 writable
 whitespace
+xy
+xys
+
