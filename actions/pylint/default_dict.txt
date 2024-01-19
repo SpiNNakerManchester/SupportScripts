@@ -23,6 +23,7 @@ math
 matplotlib
 nbmake
 numpy
+mypy
 PyNN
 scipy
 struct
@@ -133,6 +134,7 @@ VariableSDRAM
 eieio
 enum
 enums
+sark
 scp
 
 # Our abbreviations/names
@@ -160,6 +162,7 @@ arounds
 backplane
 bitfield
 bitfields
+bitmask
 Datagram
 datasheet
 deallocate
@@ -182,6 +185,8 @@ ids
 infos
 iptag
 iptags
+malloc
+malloc'ed
 microsiemens
 msg
 multicast
@@ -189,11 +194,14 @@ nanoamps
 nanofarads
 params
 parsers
+prefetch
 proxied
 proxying
 precompile
+reinjection
 resends
 routable
+runtime
 Serializable
 src
 stdin
@@ -207,7 +215,9 @@ timestep
 timesteps
 toolchain
 unallocated
+unconfigured
 undelayed
+unhandled
 unpacker
 unpartitioned
 unregisters
