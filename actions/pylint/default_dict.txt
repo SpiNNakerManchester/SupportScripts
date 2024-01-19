@@ -63,6 +63,7 @@ abstractproperty
 classmethod
 classproperty
 eval
+init
 isinstance
 getter
 getx
