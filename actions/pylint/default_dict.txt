@@ -77,6 +77,18 @@ setattr
 setx
 superclass
 
+# People names
+Bogdan
+Djurfeldt
+Gerstner
+Habenschuss
+Izhikevich
+Jonke
+Maass
+Mundy
+Petrut
+Vogels
+
 # Our Packages
 pacman
 spalloc
@@ -118,6 +130,7 @@ VariableSDRAM
 
 # our directories
 eieio
+enum
 enums
 scp
 
@@ -143,20 +156,29 @@ UDP
 
 # Misc
 arounds
+backplane
 bitfield
 bitfields
+Datagram
 datasheet
+deallocate
+deallocated
+deallocating
 defaultable
+demultiplexer
 dest
 cfg
 closeable
 config
 configs
+deregister
+endian
 etc
 executables
 hostname
 hostnames
 ids
+infos
 iptag
 iptags
 microsiemens
@@ -166,8 +188,12 @@ nanoamps
 nanofarads
 params
 parsers
+proxied
+proxying
 precompile
+resends
 routable
+Serializable
 src
 stdin
 subclassed
@@ -178,8 +204,10 @@ subprocess
 superclasses
 timestep
 timesteps
+toolchain
 unallocated
 undelayed
+unpacker
 unpartitioned
 unregisters
 unsets
