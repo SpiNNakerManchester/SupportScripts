@@ -23,9 +23,12 @@ math
 matplotlib
 nbmake
 numpy
+PyNN
 scipy
+struct
 sys
 testfixtures
+unittest
 zipfile
 
 # Python types
@@ -33,10 +36,13 @@ bool
 int
 str
 dict
+FileIO
 frozenset
 bytearray
 memoryview
+ModuleType
 ndarray
+RawIOBase
 TextIOBase
 traceback
 timedelta
@@ -72,25 +78,71 @@ setx
 superclass
 
 # Our Packages
+pacman
+spalloc
+spinnman
+SpiNNakerGraphFrontEnd
 spynnaker
 
+# our types
+AbstractEdge
+AbstractMulticastRoutingTable
+AbstractSDRAM
+AbstractVertex
+ApplicationEdge
+ApplicationEdgePartition
+ApplicationGraph
+ApplicationVertex
+BMPConnectionData
+CoreSubset
+CoreSubsets
+CPUState
+DataSpecificationGenerator
+EIEIOPrefix
+EIEIOType
+ExecutableTargets
+ExecutableType
+FPGAConnection
+IOBuffer
+IPTag
+IPtagResource
+MachineEdge
+MachineVertex
+MulticastRoutingTable
+MulticastRoutingTables
+ProgressBar
+RoutingTableEntry
+SCAMPConnection
+SpallocJob
+VariableSDRAM
+
+# our directories
+eieio
+enums
+scp
+
 # Our abbreviations/names
-APLX
+aplx
 ASB
 BMP
-EIEIO
-FEC
+cpu
 DBs
 DSG
+EIEIO
+FEC
 GCD
+iobuf
 RNG
 SCP
 SDP
 SDRAM
 STDP
+TCP
+txrx
 UDP
 
 # Misc
+arounds
 bitfield
 bitfields
 datasheet
@@ -98,17 +150,22 @@ defaultable
 dest
 cfg
 closeable
+config
+configs
 etc
 executables
+hostname
 hostnames
 ids
+iptag
+iptags
 microsiemens
 msg
 multicast
 nanoamps
 nanofarads
+params
 parsers
-pragma
 precompile
 routable
 src
@@ -121,12 +178,15 @@ subprocess
 superclasses
 timestep
 timesteps
+unallocated
 undelayed
 unpartitioned
 unregisters
 unsets
+url
 writable
 whitespace
 xy
+xyp
 xys
 
