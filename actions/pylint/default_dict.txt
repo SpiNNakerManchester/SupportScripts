@@ -159,6 +159,8 @@ txrx
 UDP
 
 # Misc
+al
+allocator
 arounds
 backplane
 bitfield
@@ -178,6 +180,7 @@ config
 configs
 deregister
 endian
+et
 etc
 executables
 hostname
@@ -195,6 +198,8 @@ nanoamps
 nanofarads
 params
 parsers
+png
+pre
 prefetch
 proxied
 proxying
@@ -203,7 +208,10 @@ reinjection
 resends
 routable
 runtime
+sdram
 Serializable
+splitter
+splitters
 src
 stdin
 subclassed
@@ -211,6 +219,8 @@ subclasses
 subclassing
 submessage
 subprocess
+subtree
+subtrees
 superclasses
 timestep
 timesteps
