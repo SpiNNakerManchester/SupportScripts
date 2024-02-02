@@ -79,6 +79,7 @@ ReservedAssignment
 setattr
 setx
 superclass
+UnusedImport
 
 # People names
 Bogdan
@@ -172,6 +173,7 @@ deallocate
 deallocated
 deallocating
 defaultable
+deployable
 demultiplexer
 dest
 cfg
@@ -198,6 +200,7 @@ nanoamps
 nanofarads
 params
 parsers
+partitioners
 png
 pre
 prefetch
