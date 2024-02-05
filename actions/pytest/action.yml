@@ -26,7 +26,7 @@ inputs:
     required: false
     default: ""
   type_overrides:
-    description: Flafg to say if all overrides should eb checked that they are typed
+    description: Flag to say if all overrides should be checked that they are typed
     reguired: false
     default: "true"
   coverage:

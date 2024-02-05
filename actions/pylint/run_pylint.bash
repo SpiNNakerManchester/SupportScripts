@@ -17,6 +17,17 @@
 dict=/tmp/dict.txt
 
 set +e
+
+if [ "$RC" = "global_relaxed" ]; then
+  RC="$RELAXED_RC"
+  echo "Using global relaxed rcfile $RC"
+elif [ "$RC" = "global_strict" ]; then
+  RC="$STRICT_RC"
+  echo "Using global strict rcfile $RC"
+else
+  echo "Using local rcfile $RC"
+fi
+
 if test -n "$SPELL_LANG"; then
 	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
 		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \

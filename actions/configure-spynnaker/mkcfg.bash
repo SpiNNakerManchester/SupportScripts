@@ -18,26 +18,17 @@ cfg=~/.spynnaker.cfg
 
 echo '[Machine]' > $cfg
 
-if [ "x$M_ADDR}" = "x" ]; then
-	echo "machineName = None" >> $cfg
-	echo "version = None" >> $cfg
-
+if [ "x$V_TYPE" = "xtrue" ]; then
+	echo "virtual_board = True" >> $cfg
+	echo "width = $V_WIDTH" >> $cfg
+	echo "height = $V_HEIGHT" >> $cfg
+elif [ "x$M_ADDR}" = "x" ]; then
 	echo "spalloc_server = $S_HOST" >> $cfg
 	echo "spalloc_port = $S_PORT" >> $cfg
 	echo "spalloc_user = $S_USER" >> $cfg
 else
 	echo "machineName = $M_ADDR" >> $cfg
 	echo "version = $M_VERSION" >> $cfg
-fi
-
-if [ "x$V_TYPE" = "xtrue" ]; then
-	echo "virtual_board = True" >> $cfg
-	echo "width = $V_WIDTH" >> $cfg
-	echo "height = $V_HEIGHT" >> $cfg
-else
-	echo "virtual_board = False" >> $cfg
-	echo "width = None" >> $cfg
-	echo "height = None" >> $cfg
 fi
 
 echo "time_scale_factor = $M_TSF" >> $cfg
