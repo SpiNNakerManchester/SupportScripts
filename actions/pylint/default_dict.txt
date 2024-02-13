@@ -425,6 +425,7 @@ reinjected
 reinjection
 reinjector
 reentrant
+regex
 reorderable
 replacer
 representability
