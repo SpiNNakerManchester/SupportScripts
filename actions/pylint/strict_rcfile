@@ -29,7 +29,9 @@ ignore-patterns=
 
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-#init-hook=
+# When run locally This to allow adding other spinnaker repositories temporary
+# github action does not need it so will not find an import_hoork.py
+init-hook=import sys; import os; sys.path.append(os.getcwd()); exec('try: import import_hook  \nexcept Exception: pass')
 
 # Use multiple processes to speed up Pylint.
 jobs=1
