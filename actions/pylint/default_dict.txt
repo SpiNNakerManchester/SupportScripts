@@ -215,7 +215,7 @@ DatabaseReader
 DataSpecificationGenerator
 DataSpeedUpPacketGatherMachineVertex
 DataWritten
-datatype
+DataType
 DelayedApplicationEdge
 DelayExtensionVertex
 DiagnosticFilter
