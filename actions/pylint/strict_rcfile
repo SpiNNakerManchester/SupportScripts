@@ -29,7 +29,9 @@ ignore-patterns=
 
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-#init-hook=
+# When run locally This to allow adding other spinnaker repositories temporary
+# github action does not need it so will not find an import_hoork.py
+init-hook=import sys; import os; sys.path.append(os.getcwd()); exec('try: import import_hook  \nexcept Exception: pass')
 
 # Use multiple processes to speed up Pylint.
 jobs=1
@@ -68,7 +70,7 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=consider-using-dict-items, missing-module-docstring, unsubscriptable-object, too-many-lines, superfluous-parens
+disable=consider-using-dict-items, missing-module-docstring, unsubscriptable-object, too-many-lines, superfluous-parens, line-too-long
 
 # consider-using-dict-items "for x in foo:"  is fine!
 
@@ -80,6 +82,8 @@ disable=consider-using-dict-items, missing-module-docstring, unsubscriptable-obj
 # too-many-lines would limit py files to 1000 lines.
 
 # superfluous-parens: does not like extra brackets put in for read ability
+
+# line-too-long: Flake8 does a better job at know which lines can be too long
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -167,7 +171,7 @@ const-naming-style=UPPER_CASE
 
 # Regular expression matching correct constant names. Overrides const-naming-
 # style
-const-rgx=^(_.*|[A-Z][A-Z_]*)$
+const-rgx=^(_.*|[A-Z][A-Z0-9_]*)$
 
 # Minimum line length for functions/classes that require docstrings, shorter
 # ones are exempt.
