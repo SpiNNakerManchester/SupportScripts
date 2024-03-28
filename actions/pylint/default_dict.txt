@@ -268,7 +268,6 @@ RoutingTableEntry
 RoutingTree
 Routing
 RouterDiagnostics
-RTEntry
 SCAMPConnection
 SCPResult
 SDPMessage
