@@ -248,6 +248,7 @@ MachineVertex
 MDSlice
 MulticastEdgePartition
 MultiCastCommand
+MulticastRoutingEntry
 MulticastRoutingTable
 MulticastRoutingTables
 MultiRegionSDRAM
@@ -264,7 +265,7 @@ ProvenanceDataItem
 RawConfigParser
 ReInjectionStatus
 ReverseIPtagResource
-RoutingTableEntry
+RoutingEntry
 RoutingTree
 Routing
 RouterDiagnostics
