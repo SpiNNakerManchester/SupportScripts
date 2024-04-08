@@ -485,3 +485,4 @@ xys
 
 # needed until PRs approved.
 RTEntry
+RoutingTableEntry
