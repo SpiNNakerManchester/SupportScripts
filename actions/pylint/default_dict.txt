@@ -248,6 +248,7 @@ MachineVertex
 MDSlice
 MulticastEdgePartition
 MultiCastCommand
+MulticastRoutingEntry
 MulticastRoutingTable
 MulticastRoutingTables
 MultiRegionSDRAM
@@ -264,11 +265,10 @@ ProvenanceDataItem
 RawConfigParser
 ReInjectionStatus
 ReverseIPtagResource
-RoutingTableEntry
+RoutingEntry
 RoutingTree
 Routing
 RouterDiagnostics
-RTEntry
 SCAMPConnection
 SCPResult
 SDPMessage
@@ -483,3 +483,6 @@ xy
 xyp
 xys
 
+# needed until PRs approved.
+RTEntry
+RoutingTableEntry
