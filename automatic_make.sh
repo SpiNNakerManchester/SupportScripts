@@ -54,3 +54,4 @@ do_make SpiNNakerGraphFrontEnd/gfe_integration_tests/
 do_make SpiNNGym/c_code
 do_make SpiNNaker_PDP2/c_code
 do_make MarkovChainMonteCarlo/c_models
+do_make TSPonSpiNNaker/spinnaker_c
