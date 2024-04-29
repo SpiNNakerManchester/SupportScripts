@@ -314,6 +314,9 @@ iobuf
 LIF
 LUT
 MPI
+qp
+qx
+qy
 RNG
 SCP
 SDP
