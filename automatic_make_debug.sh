@@ -53,3 +53,4 @@ do_make SpiNNakerGraphFrontEnd/gfe_examples/ noinstall FEC_DEBUG=DEBUG
 do_make SpiNNGym/c_code noinstall FEC_DEBUG=DEBUG
 do_make SpiNNaker_PDP2/c_code noinstall FEC_DEBUG=DEBUG
 do_make MarkovChainMonteCarlo/c_models noinstall FEC_DEBUG=DEBUG
+do_make TSPonSpiNNaker/spinnaker_c
