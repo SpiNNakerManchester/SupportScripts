@@ -57,7 +57,7 @@ git_tag("../sPyNNaker");
 git_tag("../SpiNNakerGraphFrontEnd");
 git_tag("../PyNNExamples");
 git_tag("../IntroLab");
-git_tag("../sPyNNaker8NewModelTemplate");
+git_tag("../sPyNNakerNewModelTemplate");
 git_tag("../sPyNNakerVisualisers");
 git_tag("../Visualiser");
 git_tag("../JavaSpiNNaker");

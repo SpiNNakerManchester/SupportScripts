@@ -466,7 +466,7 @@ update_directory("../sPyNNaker");
 update_directory("../SpiNNakerGraphFrontEnd");
 update_directory("../PyNNExamples");
 update_directory("../IntroLab");
-update_directory("../sPyNNaker8NewModelTemplate");
+update_directory("../sPyNNakerNewModelTemplate");
 update_directory("../sPyNNakerVisualisers");
 update_directory("../Visualiser");
 update_directory("../JavaSpiNNaker");
