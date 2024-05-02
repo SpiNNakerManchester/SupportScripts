@@ -48,7 +48,7 @@ do_make spinn_common install
 do_make SpiNNFrontEndCommon/c_common/front_end_common_lib install FEC_DEBUG=DEBUG
 do_make SpiNNFrontEndCommon/c_common/ install
 do_make sPyNNaker/neural_modelling/ noinstall SPYNNAKER_DEBUG=DEBUG
-do_make sPyNNaker8NewModelTemplate/c_models/ noinstall SPYNNAKER_DEBUG=DEBUG
+do_make sPyNNakerNewModelTemplate/c_models/ noinstall SPYNNAKER_DEBUG=DEBUG
 do_make SpiNNakerGraphFrontEnd/gfe_examples/ noinstall FEC_DEBUG=DEBUG
 do_make SpiNNGym/c_code noinstall FEC_DEBUG=DEBUG
 do_make SpiNNaker_PDP2/c_code noinstall FEC_DEBUG=DEBUG
