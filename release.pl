@@ -474,7 +474,7 @@ update_directory("../SpiNNGym");
 update_directory("../SpiNNaker_PDP2");
 update_directory("../microcircuit_model");
 update_directory("../MarkovChainMonteCarlo");
-update_directory("../sPyNNaker8Jupyter");
+update_directory("../sPyNNakerJupyter");
 wait_doc_built('spynnaker');
 wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");

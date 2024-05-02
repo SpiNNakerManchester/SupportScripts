@@ -65,7 +65,7 @@ git_tag("../SpiNNGym");
 git_tag("../SpiNNaker_PDP2");
 git_tag("../microcircuit_model");
 git_tag("../MarkovChainMonteCarlo");
-git_tag("../sPyNNaker8Jupyter");
+git_tag("../sPyNNakerJupyter");
 git_tag("../sphinx8");
 git_tag("../IntegrationTests");
 # die "stop";

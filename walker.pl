@@ -592,6 +592,6 @@ check_directory("../SpiNNGym");
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
-check_directory("../sPyNNaker8Jupyter");
+check_directory("../sPyNNakerJupyter");
 
 
