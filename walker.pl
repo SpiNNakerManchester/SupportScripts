@@ -580,7 +580,7 @@ check_directory("../SpiNNFrontEndCommon");
 check_directory("../TestBase");
 check_directory("../sPyNNaker");
 check_directory("../SpiNNakerGraphFrontEnd");
-check_directory("../PyNN8Examples");
+check_directory("../PyNNExamples");
 check_directory("../IntroLab");
 check_directory("../sPyNNaker8NewModelTemplate");
 check_directory("../sPyNNakerVisualisers");
