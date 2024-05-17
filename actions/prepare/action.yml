@@ -14,10 +14,9 @@
 
 name: "Shared preparation actions"
 description: >
-  Runs multiple idividual preparation actions
+  Runs multiple individual preparation actions
 inputs:
-  inputs:
-    python-version:
+  python-version:
       description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
       required: true
   dependencies:
