@@ -19,6 +19,7 @@ inputs:
   inputs:
     python-version:
       description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
+      required: true
   dependencies:
     description: >
       The list of SpiNNaker dependencies to check out. Space-separated
@@ -44,9 +45,6 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
         allow-prereleases: ${{ inputs.python-version == 3.13 }}
-
-    - name: Checkout
-      uses: actions/checkout@v4
 
     - name: Install Spinnaker Dependencies
       uses: ./support/actions/install-spinn-deps
