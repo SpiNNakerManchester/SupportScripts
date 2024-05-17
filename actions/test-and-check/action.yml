@@ -19,6 +19,10 @@ inputs:
   python-version:
     description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
     required: true
+  coveralls-token:
+    description: The secret token used for uploading to coveralls.io
+    required: false
+    default: ""
   pylint_package:
     description: The name of the Python package (or packages) to pylint
     required: true
@@ -40,15 +44,16 @@ runs:
       uses: ./support/actions/pytest
       with:
         tests: unittests
-        coverage: ${{ input.python-version == 3.12 }}
-        cover-packages: ${{ input.cover-packages }}
-        coveralls-token: ${{ secrets.GITHUB_TOKEN }}
+        coverage: ${{ inputs.python-version == 3.12 }}
+        cover-packages: ${{ inputs.cover-packages }}
+        coveralls-token: ${{ inputs.coveralls-token }}
       env:
         # Tests using ping won't work in Github Actions because of system config
         SKIP_PING_TESTS: true
 
     - name: Lint with flake8
       run: flake8 $ROOT_PKG unittests
+
     - name: Lint with pylint
       uses: ./support/actions/pylint
       with:
