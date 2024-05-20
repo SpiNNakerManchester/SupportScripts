@@ -24,7 +24,7 @@ on:
           The list of SpiNNaker dependencies to check out. Space-separated
         required: true
       test_directories:
-        description: : >
+        description: >
           The list of directories to run pytest on. Space-seperated
         required: false
         default: unittests
