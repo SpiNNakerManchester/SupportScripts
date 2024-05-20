@@ -28,14 +28,14 @@ on:
           The list of directories to run pytest on. Space-seperated
         required: false
         default: unittests
-    base-package:
-      description: > 
-        The names of the base Python package.
-        Will be the one uses for coverage, plyint and mypy
-      required: true
-    flake8-packages:
-      description: The names of the Python packages to run flake8 on.
-      required: true
+      base-package:
+        description: > 
+          The names of the base Python package.
+          Will be the one uses for coverage, plyint and mypy
+        required: true
+      flake8-packages:
+        description: The names of the Python packages to run flake8 on.
+        required: true
 
 jobs:
   build:
