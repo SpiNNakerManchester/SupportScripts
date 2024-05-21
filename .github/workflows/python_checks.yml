@@ -23,19 +23,23 @@ on:
         description: >
           The list of SpiNNaker dependencies to check out. Space-separated
         required: true
+        type: string
       test_directories:
-        description: : >
+        description: >
           The list of directories to run pytest on. Space-seperated
         required: false
+        type: string
         default: unittests
-    base-package:
-      description: > 
-        The names of the base Python package.
-        Will be the one uses for coverage, plyint and mypy
-      required: true
-    flake8-packages:
-      description: The names of the Python packages to run flake8 on.
-      required: true
+      base-package:
+        description: > 
+          The names of the base Python package.
+          Will be the one uses for coverage, plyint and mypy
+        required: true
+        type: string
+      flake8-packages:
+        description: The names of the Python packages to run flake8 on.
+        required: true
+        type: string
 
 jobs:
   build:
