@@ -35,7 +35,7 @@ inputs:
     description: The name of the Python package (or packages) to flake8
     required: true
   pylint_packages:
-    description: The name of the Python package (or packages) to pylint
+    description: The name of the Python package (or packages) to pylint and mypy
     required: true
 
 runs:
@@ -73,4 +73,4 @@ runs:
 
     - name: Lint with mypy
       shell: bash
-      run: mypy $ROOT_PKG
+      run: mypy ${{ inputs.pylint_packages }}
