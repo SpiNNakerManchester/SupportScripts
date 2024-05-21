@@ -51,7 +51,7 @@ runs:
     - name: Test with pytest
       uses: ./support/actions/pytest
       with:
-        tests: {{ inputs.tests }}
+        tests: ${{ inputs.tests }}
         coverage: ${{ inputs.python-version == 3.12 }}
         cover-packages: ${{ inputs.cover-packages }}
         coveralls-token: ${{ inputs.coveralls-token }}
