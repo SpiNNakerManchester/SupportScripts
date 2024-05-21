@@ -19,17 +19,24 @@ inputs:
   python-version:
     description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
     required: true
-  coveralls-token:
-    description: The secret token used for uploading to coveralls.io
+  tests:
+    description: The name of the Python package(s) containing the tests
     required: false
-    default: ""
-  pylint_package:
-    description: The name of the Python package (or packages) to pylint
-    required: true
+    default: unittests
   cover-packages:
     description: The names of the Python packages to get coverage of.
     required: false
     default: ""
+  coveralls-token:
+    description: The secret token used for uploading to coveralls.io
+    required: false
+    default: ""
+  flake8_packages:
+    description: The name of the Python package (or packages) to flake8
+    required: true
+  pylint_packages:
+    description: The name of the Python package (or packages) to pylint
+    required: true
 
 runs:
   using: composite
@@ -44,7 +51,7 @@ runs:
     - name: Test with pytest
       uses: ./support/actions/pytest
       with:
-        tests: unittests
+        tests: {{ inputs.tests }}
         coverage: ${{ inputs.python-version == 3.12 }}
         cover-packages: ${{ inputs.cover-packages }}
         coveralls-token: ${{ inputs.coveralls-token }}
@@ -54,12 +61,12 @@ runs:
 
     - name: Lint with flake8
       shell: bash
-      run: flake8 $ROOT_PKG unittests
+      run: flake8 ${{ inputs.flake8_packages }}
 
     - name: Lint with pylint
       uses: ./support/actions/pylint
       with:
-        package: ${{ inputs.pylint_package }}
+        package: ${{ inputs.pylint_packages }}
         exitcheck: 31 # Action fails on any message
         language: en_GB
         rcfile: global_strict

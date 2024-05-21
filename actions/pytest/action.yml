@@ -19,7 +19,7 @@ description: |
   Doesn't (currently) support parallel coverage gathering.
 inputs:
   tests:
-    description: The name of the Python package containing the tests
+    description: The name of the Python package(s) containing the tests
     required: true
   options:
     description: Extra options to pass to pytest
