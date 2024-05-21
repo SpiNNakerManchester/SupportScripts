@@ -1,4 +1,4 @@
-# Copyright (c) 2020 The University of Manchester
+# Copyright (c) 2024 The University of Manchester
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ runs:
       uses: ./support/actions/python-tools
 
     - name: Install mypy
+      shell: bash
       run: pip install mypy
 
     - name: Test with pytest
@@ -52,15 +53,17 @@ runs:
         SKIP_PING_TESTS: true
 
     - name: Lint with flake8
+      shell: bash
       run: flake8 $ROOT_PKG unittests
 
     - name: Lint with pylint
       uses: ./support/actions/pylint
       with:
-        package: ${{ input.pylint_package }}
+        package: ${{ inputs.pylint_package }}
         exitcheck: 31 # Action fails on any message
         language: en_GB
         rcfile: global_strict
 
     - name: Lint with mypy
+      shell: bash
       run: mypy $ROOT_PKG
