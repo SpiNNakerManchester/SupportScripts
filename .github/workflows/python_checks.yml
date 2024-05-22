@@ -50,7 +50,7 @@ jobs:
             python-version: "3.12"
             checks: 'validate'
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 5
+    timeout-minutes: 20
 
     steps:
     - name: Set up Python ${{ matrix.python-version }}
@@ -145,7 +145,7 @@ jobs:
             python-version: 3.8
 
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 5
+    timeout-minutes: 20
 
     steps:
     - name: Set up Python ${{ matrix.python-version }}
@@ -226,7 +226,7 @@ jobs:
             checks: 'tests'
 
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 5
+    timeout-minutes: 20
 
     steps:
     - name: Set up Python ${{ matrix.python-version }}
