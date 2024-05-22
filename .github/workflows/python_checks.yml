@@ -42,6 +42,7 @@ on:
 
 jobs:
   validate:
+    # Everything as checks but do validation steps first
     strategy:
       matrix:
         include:
@@ -115,11 +116,16 @@ jobs:
         coverage: ${{ matrix.coverage == 'coverage' }}
         cover-packages: ${{ inputs.base-package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
 
   checks:
+    # Everything as tests but do validation steps first
     strategy:
       matrix:
         include:
+          # prereleases
           - runner: ubuntu-24.04
             python-version: "3.13"
 
@@ -191,6 +197,9 @@ jobs:
         coverage: ${{ matrix.coverage == 'coverage' }}
         cover-packages: ${{ inputs.base-package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
 
   tests:
     strategy:
@@ -243,4 +252,6 @@ jobs:
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
         SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
       run: pytest ${{ inputs.test_directories }}
