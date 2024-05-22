@@ -19,6 +19,12 @@ name: Python Actions
 on:
   workflow_call:
     inputs:
+      base-package:
+        description: > 
+          The names of the base Python package.
+          Will be the one uses for coverage, plyint and mypy
+        required: true
+        type: string
       dependencies:
         description: >
           The list of SpiNNaker dependencies to check out. Space-separated
@@ -27,13 +33,6 @@ on:
       test_directories:
         description: >
           The list of directories to run pytest on. Space-seperated
-        required: false
-        type: string
-        default: unittests
-      base-package:
-        description: > 
-          The names of the base Python package.
-          Will be the one uses for coverage, plyint and mypy
         required: true
         type: string
       flake8-packages:
@@ -42,20 +41,25 @@ on:
         type: string
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+  validate:
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", "3.11", "3.12"]
+        include:
+          - runner: ubuntu-latest
+            python-version: "3.12"
+            checks: 'validate'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 5
 
     steps:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Checkout
       uses: actions/checkout@v4
+
     - name: Checkout SupportScripts
       uses: actions/checkout@v4
       with:
@@ -67,62 +71,6 @@ jobs:
 
     - name: Install mypy
       run: pip install mypy
-
-    - name: Install Spinnaker Dependencies
-      uses: ./support/actions/install-spinn-deps
-      with:
-        repositories: ${{ inputs.dependencies }}
-        install: true
-
-    - name: Run Install
-      uses: ./support/actions/run-install
-
-    - name: Test with pytest
-      uses: ./support/actions/pytest
-      with:
-        tests: ${{ inputs.stest_directories }}
-        coverage: ${{ matrix.python-version == 3.12 }}
-        cover-packages: ${{ inputs.base-package }}
-        coveralls-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Lint with flake8
-      run: flake8 ${{ inputs.flake8-packages }}
-
-    - name: Lint with pylint
-      uses: ./support/actions/pylint
-      with:
-        package: ${{ inputs.base-package }}
-        exitcheck: 31 # Action fails on any message
-        language: en_GB
-        rcfile: global_strict
-
-    - name: Lint with mypy
-      run: mypy ${{ inputs.base-package }}
-
-  validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    strategy:
-      matrix:
-        python-version: [3.12]
-
-    steps:
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Checkout SupportScripts
-      uses: actions/checkout@v4
-      with:
-        repository: SpiNNakerManchester/SupportScripts
-        path: support
-
-    - name: Install pip, etc
-      uses: ./support/actions/python-tools
 
     - name: Install Spinnaker Dependencies
       uses: ./support/actions/install-spinn-deps
@@ -145,3 +93,153 @@ jobs:
 
     - name: Validate CITATION.cff
       uses: dieghernan/cff-validator@main
+
+    - name: Lint with flake8
+      run: flake8 ${{ inputs.flake8-packages }}
+
+    - name: Lint with pylint
+      uses: ./support/actions/pylint
+      with:
+        package: ${{ inputs.base-package }}
+        exitcheck: 31 # Action fails on any message
+        language: en_GB
+        rcfile: global_strict
+
+    - name: Lint with mypy
+      run: mypy ${{ inputs.base-package }}
+
+    - name: Test with pytest
+      uses: ./support/actions/pytest
+      with:
+        tests: ${{ inputs.test_directories }}
+        coverage: ${{ matrix.coverage == 'coverage' }}
+        cover-packages: ${{ inputs.base-package }}
+        coveralls-token: ${{ secrets.GITHUB_TOKEN }}
+
+  checks:
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            python-version: "3.13"
+
+          - runner: ubuntu-latest
+            python-version: "3.11"
+            coverage: 'coverage'
+
+          - runner: ubuntu-latest
+            python-version: "3.10"
+
+          - runner: ubuntu-22.04
+            python-version: 3.9
+
+          - runner: ubuntu-20.04
+            python-version: 3.8
+
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 5
+
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Checkout SupportScripts
+      uses: actions/checkout@v4
+      with:
+        repository: SpiNNakerManchester/SupportScripts
+        path: support
+
+    - name: Install pip, etc
+      uses: ./support/actions/python-tools
+
+    - name: Install mypy
+      run: pip install mypy
+
+    - name: Install Spinnaker Dependencies
+      uses: ./support/actions/install-spinn-deps
+      with:
+        repositories: ${{ inputs.dependencies }}
+        install: true
+
+    - name: Run Install
+      uses: ./support/actions/run-install
+
+    - name: Lint with flake8
+      run: flake8 ${{ inputs.flake8-packages }}
+
+    - name: Lint with pylint
+      uses: ./support/actions/pylint
+      with:
+        package: ${{ inputs.base-package }}
+        exitcheck: 31 # Action fails on any message
+        language: en_GB
+        rcfile: global_strict
+
+    - name: Lint with mypy
+      run: mypy ${{ inputs.base-package }}
+
+    - name: Test with pytest
+      uses: ./support/actions/pytest
+      with:
+        tests: ${{ inputs.stest_directories }}
+        coverage: ${{ matrix.coverage == 'coverage' }}
+        cover-packages: ${{ inputs.base-package }}
+        coveralls-token: ${{ secrets.GITHUB_TOKEN }}
+
+  tests:
+    strategy:
+      matrix:
+        include:
+          - runner: windows-latest
+            python-version: "3.12"
+            checks: 'tests'
+
+          - runner: windows-2019
+            python-version: 3.8
+            checks: 'tests'
+
+          - runner: macos-latest
+            python-version: "3.12"
+            checks: 'tests'
+
+          - runner: macos-11
+            python-version: 3.8
+            checks: 'tests'
+
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 5
+
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Checkout SupportScripts
+      uses: actions/checkout@v4
+      with:
+        repository: SpiNNakerManchester/SupportScripts
+        path: support
+
+    - name: Install Spinnaker Dependencies
+      uses: ./support/actions/install-spinn-deps
+      with:
+        repositories: ${{ inputs.dependencies }}
+        install: true
+
+    - name: Run Install
+      uses: ./support/actions/run-install
+
+    - name: Test with pytest
+      env:
+        SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
+        SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
+      run: pytest ${{ inputs.test_directories }}
