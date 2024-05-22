@@ -117,6 +117,8 @@ jobs:
         cover-packages: ${{ inputs.base-package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
       env:
+        SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
+        SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
         # Tests using ping won't work in Github Actions because of system config
         SKIP_PING_TESTS: true
 
@@ -193,11 +195,13 @@ jobs:
     - name: Test with pytest
       uses: ./support/actions/pytest
       with:
-        tests: ${{ inputs.stest_directories }}
+        tests: ${{ inputs.test_directories }}
         coverage: ${{ matrix.coverage == 'coverage' }}
         cover-packages: ${{ inputs.base-package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
       env:
+        SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
+        SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
         # Tests using ping won't work in Github Actions because of system config
         SKIP_PING_TESTS: true
 
