@@ -17,7 +17,7 @@ description: >
   Creates a sPyNNaker configuration file.
 inputs:
   cfg_file:
-    description: >
+    description: Name of the cfg file to be created (excluding the ./ and .cfg parts)
     required: true
   board-address:
     description: The IP address of the SpiNNaker board to talk to directly
