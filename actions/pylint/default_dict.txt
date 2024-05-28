@@ -335,6 +335,7 @@ analog
 arounds
 axonal
 backplane
+binary's
 bitfield
 bitfields
 bitmask
