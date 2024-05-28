@@ -217,7 +217,7 @@ jobs:
       uses: ./support/actions/pynn-setup
 
     - name: Create a spynnaker.cfg
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file == '' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file != '' }}
       uses: ./support/actions/configure-spynnaker
       with:
         board-address: spinn-4.cs.man.ac.
