@@ -44,6 +44,16 @@ on:
         required: false
         type: string
         default: 'true'
+      cfg_file:
+        description: > 
+          Name of the cfg file to be created (excluding the ./ and .cfg parts)
+          The default string will skip the create cfg stage
+          A value of spynnaker will also trigger setup PyNN
+          spiNNakerGraphFrontEnd is also valid but will not trigger setup PyNN
+        required: false
+        type: string
+        default: ''
+
 env:
   PRERELEASE: "3.13"
 
@@ -88,6 +98,17 @@ jobs:
 
     - name: Run Install
       uses: ./support/actions/run-install
+
+    - name: Setup PyNN
+      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      uses: ./support/actions/pynn-setup
+
+    - name: Create a spynnaker.cfg
+      if: ${{ inputs.cfg_file != '' }}
+      uses: ./support/actions/configure-spynnaker
+      with:
+        board-address: spinn-4.cs.man.ac.
+        cfg_file: ${{ inputs.cfg_file }}
 
     - name: Run rat copyright enforcement
       uses: ./support/actions/check-copyrights
@@ -191,6 +212,17 @@ jobs:
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: ./support/actions/run-install
 
+    - name: Setup PyNN
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file == 'spynnaker' }}
+      uses: ./support/actions/pynn-setup
+
+    - name: Create a spynnaker.cfg
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file == '' }}
+      uses: ./support/actions/configure-spynnaker
+      with:
+        board-address: spinn-4.cs.man.ac.
+        cfg_file: ${{ inputs.cfg_file }}
+
     - name: Lint with flake8
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       run: flake8 ${{ inputs.flake8-packages }}
@@ -268,6 +300,17 @@ jobs:
 
     - name: Run Install
       uses: ./support/actions/run-install
+
+    - name: Setup PyNN
+      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      uses: ./support/actions/pynn-setup
+
+    - name: Create a spynnaker.cfg
+      if: ${{ inputs.cfg_file != '' }}
+      uses: ./support/actions/configure-spynnaker
+      with:
+        board-address: spinn-4.cs.man.ac.
+        cfg_file: ${{ inputs.cfg_file }}
 
     - name: Test with pytest
       env:
