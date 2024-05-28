@@ -39,6 +39,13 @@ on:
         description: The names of the Python packages to run flake8 on.
         required: true
         type: string
+      check_prereleases:
+        description: Flag to say if prereleases python versions should be checked
+        required: false
+        type: string
+        default: 'true'
+env:
+  PRERELEASE: "3.13"
 
 jobs:
   validate:
@@ -146,13 +153,13 @@ jobs:
 
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
-
+    if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true'}}
     steps:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-        allow-prereleases: ${{ matrix.python-version == 3.13 }}
+        allow-prereleases: ${{ matrix.python-version == $PRERELEASE}}
 
     - name: Checkout
       uses: actions/checkout@v4
