@@ -153,13 +153,13 @@ jobs:
 
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
-    if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true'}}
+    if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
     steps:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-        allow-prereleases: ${{ matrix.python-version == $PRERELEASE}}
+        allow-prereleases: ${{ matrix.python-version == $PRERELEASE }}
 
     - name: Checkout
       uses: actions/checkout@v4
