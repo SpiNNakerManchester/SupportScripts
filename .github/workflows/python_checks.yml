@@ -155,39 +155,48 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Set up Python ${{ matrix.python-version }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: ${{ matrix.python-version == env.PRERELEASE }}
 
     - name: Checkout
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: actions/checkout@v4
 
     - name: Checkout SupportScripts
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: actions/checkout@v4
       with:
         repository: SpiNNakerManchester/SupportScripts
         path: support
 
     - name: Install pip, etc
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: ./support/actions/python-tools
 
     - name: Install mypy
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       run: pip install mypy
 
     - name: Install Spinnaker Dependencies
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: ./support/actions/install-spinn-deps
       with:
         repositories: ${{ inputs.dependencies }}
         install: true
 
     - name: Run Install
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: ./support/actions/run-install
 
     - name: Lint with flake8
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: ./support/actions/pylint
       with:
         package: ${{ inputs.base-package }}
@@ -196,9 +205,11 @@ jobs:
         rcfile: global_strict
 
     - name: Lint with mypy
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       run: mypy ${{ inputs.base-package }}
 
     - name: Test with pytest
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: ./support/actions/pytest
       with:
         tests: ${{ inputs.test_directories }}
