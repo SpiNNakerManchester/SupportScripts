@@ -16,9 +16,6 @@ name: "Configure sPyNNaker for Execution"
 description: >
   Creates a sPyNNaker configuration file.
 inputs:
-  cfg_file:
-    description: Name of the cfg file to be created (excluding the ./ and .cfg parts)
-    required: true
   board-address:
     description: The IP address of the SpiNNaker board to talk to directly
     required: false
@@ -65,12 +62,11 @@ inputs:
     default: DEFAULT
 runs:
   using: composite
-  steps: 
+  steps:
     - name: Add to cfg
       run: |
         bash ${{ github.action_path }}/mkcfg.bash
       env:
-        CFG_FILE: {{ inputs.cfg_file }}
         M_ADDR: ${{ inputs.board-address }}
         M_VERSION: ${{ inputs.version }}
         S_HOST: ${{ inputs.spalloc }}
