@@ -70,7 +70,7 @@ runs:
       run: |
         bash ${{ github.action_path }}/mkcfg.bash
       env:
-        CFG_FILE: ${{ inputs.cfg_file }}
+        CFG_FILE: ./${{ inputs.cfg_file }}.cfg
         M_ADDR: ${{ inputs.board-address }}
         M_VERSION: ${{ inputs.version }}
         S_HOST: ${{ inputs.spalloc }}
