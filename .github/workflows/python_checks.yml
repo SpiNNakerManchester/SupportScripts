@@ -47,6 +47,7 @@ on:
       cfg_file:
         description: > 
           Name of the cfg file to be created
+          excluding the ~./ start and .cfg end
           The default string will skip the create cfg stage
           A value of ~/.spynnaker.cfg will also trigger setup PyNN
         required: false
@@ -69,53 +70,21 @@ jobs:
     timeout-minutes: 20
 
     steps:
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    - name: Prepare
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Checkout SupportScripts
-      uses: actions/checkout@v4
-      with:
-        repository: SpiNNakerManchester/SupportScripts
-        path: support
-
-    - name: Install pip, etc
-      uses: ./support/actions/python-tools
-
-    - name: Install mypy
-      run: pip install mypy
-
-    - name: Install Spinnaker Dependencies
-      uses: ./support/actions/install-spinn-deps
-      with:
-        repositories: ${{ inputs.dependencies }}
+        dependencies: ${{ inputs.dependencies }}
         install: true
-
-    - name: Run Install
-      uses: ./support/actions/run-install
-
-    - name: Setup PyNN
-      if: ${{ inputs.cfg_file == '~/.spynnaker.cfg' }}
-      uses: ./support/actions/pynn-setup
-
-    - name: Create a spynnaker.cfg
-      if: ${{ inputs.cfg_file != '' }}
-      uses: ./support/actions/configure-spynnaker
-      with:
-        board-address: spinn-4.cs.man.ac.
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Run rat copyright enforcement
-      uses: ./support/actions/check-copyrights
+      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
       with:
         config_file: rat_asl20.xml
 
     - name: Build documentation with sphinx
-      uses: ./support/actions/sphinx
+      uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
       with:
         directory: doc/source
 
@@ -126,7 +95,7 @@ jobs:
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
-      uses: ./support/actions/pylint
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.base-package }}
         exitcheck: 31 # Action fails on any message
@@ -137,7 +106,7 @@ jobs:
       run: mypy ${{ inputs.base-package }}
 
     - name: Test with pytest
-      uses: ./support/actions/pytest
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
         coverage: ${{ matrix.coverage == 'coverage' }}
@@ -174,52 +143,13 @@ jobs:
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
     steps:
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Prepare
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: actions/setup-python@v5
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        allow-prereleases: ${{ matrix.python-version == env.PRERELEASE }}
-
-    - name: Checkout
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: actions/checkout@v4
-
-    - name: Checkout SupportScripts
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: actions/checkout@v4
-      with:
-        repository: SpiNNakerManchester/SupportScripts
-        path: support
-
-    - name: Install pip, etc
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: ./support/actions/python-tools
-
-    - name: Install mypy
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      run: pip install mypy
-
-    - name: Install Spinnaker Dependencies
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: ./support/actions/install-spinn-deps
-      with:
-        repositories: ${{ inputs.dependencies }}
+        dependencies: ${{ inputs.dependencies }}
         install: true
-
-    - name: Run Install
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: ./support/actions/run-install
-
-    - name: Setup PyNN
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file == '~/.spynnaker.cfg' }}
-      uses: ./support/actions/pynn-setup
-
-    - name: Create a spynnaker.cfg
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file != '' }}
-      uses: ./support/actions/configure-spynnaker
-      with:
-        board-address: spinn-4.cs.man.ac.
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Lint with flake8
@@ -228,7 +158,7 @@ jobs:
 
     - name: Lint with pylint
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: ./support/actions/pylint
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.base-package }}
         exitcheck: 31 # Action fails on any message
@@ -241,7 +171,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: ./support/actions/pytest
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
         coverage: ${{ matrix.coverage == 'coverage' }}
@@ -277,38 +207,13 @@ jobs:
     timeout-minutes: 20
 
     steps:
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    - name: Prepare
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Checkout SupportScripts
-      uses: actions/checkout@v4
-      with:
-        repository: SpiNNakerManchester/SupportScripts
-        path: support
-
-    - name: Install Spinnaker Dependencies
-      uses: ./support/actions/install-spinn-deps
-      with:
-        repositories: ${{ inputs.dependencies }}
+        dependencies: ${{ inputs.dependencies }}
         install: true
-
-    - name: Run Install
-      uses: ./support/actions/run-install
-
-    - name: Setup PyNN
-      if: ${{ inputs.cfg_file == '~/.spynnaker.cfg' }}
-      uses: ./support/actions/pynn-setup
-
-    - name: Create a spynnaker.cfg
-      if: ${{ inputs.cfg_file != '' }}
-      uses: ./support/actions/configure-spynnaker
-      with:
-        board-address: spinn-4.cs.man.ac.
+        check_tools: skip
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Test with pytest

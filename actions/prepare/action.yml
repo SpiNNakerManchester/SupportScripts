@@ -27,15 +27,19 @@ inputs:
     description: Whether to install the dependency after checking it out
     required: false
     default: "false"
-  preinstall:
-    description: >
-      Whether to pre-install the dependencies before running the installer
+  check_tools:
+    description: Install the checking tools
     required: false
-    default: "false"
-  requirements-filename:
-    description: The name of the requirements file
+    default: 'install'
+  cfg_file:
+    description: > 
+      Name of the cfg file to be created
+      excluding the ~./ start and .cfg end
+      The default string will skip the create cfg stage
+      A value of ~/.spynnaker.cfg will also trigger setup PyNN
     required: false
-    default: requirements.txt
+    type: string
+    default: ''
 runs:
   using: composite
   steps:
@@ -45,14 +49,37 @@ runs:
         python-version: ${{ inputs.python-version }}
         allow-prereleases: ${{ inputs.python-version == 3.13 }}
 
+    - name: Checkout
+      uses: actions/checkout@v4
+
     - name: Install Spinnaker Dependencies
-      uses: ./support/actions/install-spinn-deps
+      uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
         repositories: ${{ inputs.dependencies }}
         install: ${{ inputs.install }}
 
+    - name: Install pip, etc
+      if: ${{ inputs.check_tools == 'install' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/python-tools@main
+
+    - name: Install mypy
+      if: ${{ inputs.check_tools == 'install' }}
+      shell: bash
+      run: pip install mypy
+
     - name: Run Install
-      uses: ./support/actions/run-install
+      uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
 
+    - name: Setup PyNN
+      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/pynn-setup@main
 
-
+    - name: Create cfg
+      if: ${{ inputs.cfg_file != '' }}
+      shell: bash
+      run: | 
+        echo '[Machine]' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo '[Mapping]' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo "external_binaries=$PWD/external_binaries" >> ~/.${{ inputs.cfg_file }}.cfg
