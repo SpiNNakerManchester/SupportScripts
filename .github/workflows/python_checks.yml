@@ -46,10 +46,9 @@ on:
         default: 'true'
       cfg_file:
         description: > 
-          Name of the cfg file to be created (excluding the ./ and .cfg parts)
+          Name of the cfg file to be created
           The default string will skip the create cfg stage
-          A value of spynnaker will also trigger setup PyNN
-          spiNNakerGraphFrontEnd is also valid but will not trigger setup PyNN
+          A value of ~/.spynnaker.cfg will also trigger setup PyNN
         required: false
         type: string
         default: ''
@@ -100,7 +99,7 @@ jobs:
       uses: ./support/actions/run-install
 
     - name: Setup PyNN
-      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      if: ${{ inputs.cfg_file == '~/.spynnaker.cfg' }}
       uses: ./support/actions/pynn-setup
 
     - name: Create a spynnaker.cfg
@@ -213,7 +212,7 @@ jobs:
       uses: ./support/actions/run-install
 
     - name: Setup PyNN
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file == 'spynnaker' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.cfg_file == '~/.spynnaker.cfg' }}
       uses: ./support/actions/pynn-setup
 
     - name: Create a spynnaker.cfg
@@ -302,7 +301,7 @@ jobs:
       uses: ./support/actions/run-install
 
     - name: Setup PyNN
-      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      if: ${{ inputs.cfg_file == '~/.spynnaker.cfg' }}
       uses: ./support/actions/pynn-setup
 
     - name: Create a spynnaker.cfg
