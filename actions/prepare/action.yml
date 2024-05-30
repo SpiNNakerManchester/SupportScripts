@@ -85,7 +85,7 @@ runs:
       if: ${{ inputs.ubuntu_packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
       with:
-        packages: ubuntu_packages
+        packages: ${{ inputs.ubuntu_packages }}
 
     - name: Run Install
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
