@@ -67,6 +67,11 @@ runs:
       shell: bash
       run: pip install mypy
 
+    - name: Install Ubuntu dependencies
+      uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
+      with:
+        packages: graphviz
+
     - name: Run Install
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
 
@@ -83,3 +88,4 @@ runs:
         echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
         echo '[Mapping]' >> ~/.${{ inputs.cfg_file }}.cfg
         echo "external_binaries=$PWD/external_binaries" >> ~/.${{ inputs.cfg_file }}.cfg
+
