@@ -74,7 +74,7 @@ runs:
     - name: Install Spinnaker Dependencies
       uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
-        repositories: ${{ inputs.install_dependenciess }}
+        repositories: ${{ inputs.install_dependencies }}
         install: true
 
     - name: Install pip, etc
