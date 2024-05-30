@@ -78,8 +78,9 @@ runs:
         install: true
 
     - name: Install pip, etc
-      if: ${{ inputs.check_tools == 'install' }}
       uses: SpiNNakerManchester/SupportScripts/actions/python-tools@main
+      with:
+          check_tools: ${{ inputs.check_tools == 'install' }}
 
     - name: Install mypy
       if: ${{ inputs.check_tools == 'install' }}
