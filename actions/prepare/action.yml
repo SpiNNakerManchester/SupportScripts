@@ -31,6 +31,10 @@ inputs:
       Space-separated
     required: false
     default: ''
+  ubuntu_packages:
+    description: The names of the ubuntu packages to install
+    required: false
+    default: ''
   check_tools:
     description: Install the checking tools
     required: false
@@ -78,9 +82,10 @@ runs:
       run: pip install mypy
 
     - name: Install Ubuntu dependencies
+      if: ${{ inputs.ubuntu_packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
       with:
-        packages: graphviz
+        packages: ubuntu_packages
 
     - name: Run Install
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
