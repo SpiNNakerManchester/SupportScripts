@@ -74,8 +74,7 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        dependencies: ${{ inputs.dependencies }}
-        install: true
+        install_dependenciess: ${{ inputs.dependencies }}
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Run rat copyright enforcement
@@ -148,8 +147,7 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        dependencies: ${{ inputs.dependencies }}
-        install: true
+        install_dependenciess: ${{ inputs.dependencies }}
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Lint with flake8
@@ -211,8 +209,7 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        dependencies: ${{ inputs.dependencies }}
-        install: true
+        install_dependenciess: ${{ inputs.dependencies }}
         check_tools: skip
         cfg_file: ${{ inputs.cfg_file }}
 

@@ -19,14 +19,18 @@ inputs:
   python-version:
       description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
       required: true
-  dependencies:
-    description: >
-      The list of SpiNNaker dependencies to check out. Space-separated
-    required: true
-  install:
-    description: Whether to install the dependency after checking it out
+  checkout_dependencies:
+    description: > 
+      The list of SpiNNaker dependencies to check out abut not install.
+      Space-separated
     required: false
-    default: "false"
+    default: ''
+  install_dependencies:
+    description: >
+      The list of SpiNNaker dependencies to check out and install.
+      Space-separated
+    required: false
+    default: ''
   check_tools:
     description: Install the checking tools
     required: false
@@ -52,11 +56,17 @@ runs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Checkout Spinnaker Dependencies
+      uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
+      with:
+        repositories: ${{ inputs.checkout_dependencies }}
+        install: false
+
     - name: Install Spinnaker Dependencies
       uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
-        repositories: ${{ inputs.dependencies }}
-        install: ${{ inputs.install }}
+        repositories: ${{ inputs.install_dependenciess }}
+        install: true
 
     - name: Install pip, etc
       if: ${{ inputs.check_tools == 'install' }}
