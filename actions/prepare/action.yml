@@ -25,9 +25,9 @@ inputs:
       Space-separated
     required: false
     default: ''
-  install_python:
+  install_module:
     description: > 
-      Flag to say if the pythion should be installed or not
+      Flag to say if the current model should be installed should be installed
       Excepted values are true of false
     required: true
   install_dependencies:
@@ -94,7 +94,7 @@ runs:
         packages: ${{ inputs.ubuntu_packages }}
 
     - name: Run Install
-      if: ${{ inputs.install_python == 'true' }}
+      if: ${{ inputs.install_module == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
 
     - name: Setup PyNN
