@@ -25,6 +25,11 @@ inputs:
       Space-separated
     required: false
     default: ''
+  install_python:
+    description: > 
+      Flag to say if the pythion should be installed or not
+      Excepted values are true of false
+    required: true
   install_dependencies:
     description: >
       The list of SpiNNaker dependencies to check out and install.
@@ -88,6 +93,7 @@ runs:
         packages: ${{ inputs.ubuntu_packages }}
 
     - name: Run Install
+      if: ${{ inputs.install_python == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
 
     - name: Setup PyNN
