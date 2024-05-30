@@ -76,6 +76,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
         install_module: true
+        install_check_tools: true
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Run rat copyright enforcement
@@ -150,6 +151,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
         install_module: true
+        install_check_tools: true
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Lint with flake8
@@ -213,7 +215,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
         install_module: true
-        check_tools: skip
+        install_check_tools: false
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Test with pytest
