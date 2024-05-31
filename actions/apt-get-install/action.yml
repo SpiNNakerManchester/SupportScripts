@@ -14,7 +14,6 @@
 
 name: "Install Debian/Ubuntu packages"
 description: Runs apt-get to install Debian/Ubuntu packages.
-if: runner.os == 'Linux'
 inputs:
   packages:
     description: The names of the packages to install
@@ -26,7 +25,13 @@ inputs:
 runs:
   using: composite
   steps:
-  - shell: bash
+  - name: runner_os
+    shell: bash
+    run: |
+      echo ${{ runner.os }}
+  - name: install packages
+    if: runner.os == 'Linux'
+    shell: bash
     env:
       PACKAGES: ${{ inputs.packages }}
       CONDITION: ${{ inputs.only-if-not-present }}
