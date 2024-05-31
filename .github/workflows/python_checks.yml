@@ -226,8 +226,7 @@ jobs:
         install_dependencies: ${{ inputs.dependencies }}
         install_module: true
         install_check_tools: false
-        # Not installed in none linux runs
-        ubuntu_packages: ${{ inputs.ubuntu_packages }}
+        # inputs.ubuntu_packages NOT installed!
         cfg_file: ${{ inputs.cfg_file }}
 
     - name: Test with pytest
