@@ -37,7 +37,9 @@ inputs:
     required: false
     default: ''
   ubuntu_packages:
-    description: The names of the ubuntu packages to install
+    description: > 
+      The names of the ubuntu packages to install
+      These are NOT installed on none linux workflows
     required: false
     default: ''
   install_check_tools:
