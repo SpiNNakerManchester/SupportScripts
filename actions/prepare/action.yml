@@ -109,6 +109,4 @@ runs:
         echo '[Machine]' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo '[Mapping]' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo "external_binaries=$PWD/external_binaries" >> ~/.${{ inputs.cfg_file }}.cfg
 
