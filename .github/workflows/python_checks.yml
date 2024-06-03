@@ -87,6 +87,12 @@ on:
         required: false
         type: string
         default: true
+      run_cff-validator:
+        description: Flag to say if cff-validator should be run
+        required: false
+        type: string
+        default: true
+
 
 env:
   PRERELEASE: "3.13"
@@ -126,6 +132,7 @@ jobs:
         directory: doc/source
 
     - name: Validate CITATION.cff
+      if: ${{ inputs.run_cff-validator == 'true' }}
       uses: dieghernan/cff-validator@main
 
     - name: Lint with flake8
