@@ -213,14 +213,14 @@ jobs:
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
-        package: ${{ inputs.coverage-package }}
+        package: ${{ inputs.pylint-packages }}
         exitcheck: ${{ inputs.pylint_exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
     - name: Lint with mypy
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      run: mypy ${{ inputs.pylint-packages }}
+      run: mypy ${{ inputs.mypy-packages }}
 
     - name: Test with pytest
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
