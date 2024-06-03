@@ -68,6 +68,7 @@ on:
           'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20
           'rat_gpl3.xml' Only the GNU General Public License version 3
         required: false
+        type: string
         default: "rat_asl20.xml"
 
 
