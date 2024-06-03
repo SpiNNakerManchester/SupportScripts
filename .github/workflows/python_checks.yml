@@ -72,7 +72,6 @@ on:
         required: false
         type: string
         default: "31"   # Action fails on any message
-
       rat_config_file:
         description: > 
           Which xml config file to use for rat.
@@ -83,7 +82,11 @@ on:
         required: false
         type: string
         default: "rat_asl20.xml"
-
+      run_sphinx:
+        description: Flag to say if sphinx should be run
+        required: false
+        type: string
+        default: true
 
 env:
   PRERELEASE: "3.13"
@@ -117,6 +120,7 @@ jobs:
         config_file: ${{ inputs.rat_config_file }}
 
     - name: Build documentation with sphinx
+      if: ${{ inputs.run_sphinx == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
       with:
         directory: doc/source
