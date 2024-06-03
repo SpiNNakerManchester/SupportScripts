@@ -60,16 +60,15 @@ on:
         required: false
         type: string
         default: ''
-      #rat_config_file:
-      #  description: >
-      #    Which xml config file to use for rat.
-      #    Supported options are:
-      #    'rat.xml'  all license acceptable to rat
-      #    'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20
-      #    'rat_gpl3.xml' Only the GNU General Public License version 3
-      # The file is expected to be in the same directory as this file
-      #required: false
-      #default: "rat_asl20.xml"
+      rat_config_file:
+        description: > 
+          Which xml config file to use for rat.
+          Supported options are:
+          'rat.xml'  all license acceptable to rat
+          'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20
+          'rat_gpl3.xml' Only the GNU General Public License version 3
+        required: false
+        default: "rat_asl20.xml"
 
 
 env:
@@ -100,8 +99,8 @@ jobs:
 
     - name: Run rat copyright enforcement
       uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
-      #with:
-      #  config_file: ${{ inputs.rat_config_file }}
+      with:
+        config_file: ${{ inputs.rat_config_file }}
 
     - name: Build documentation with sphinx
       uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
