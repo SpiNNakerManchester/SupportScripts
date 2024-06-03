@@ -60,6 +60,19 @@ on:
         required: false
         type: string
         default: ''
+      rcfile:
+        description: The name of the pylint rc file
+        required: false
+        type: string
+        default: global_strict
+        # global_relaxed and global_strict will use files in support scripts
+        # Any other value will be looked for in the calling repository
+      pylint_exitcheck:
+        description: The combined results code to fail on
+        required: false
+        type: string
+        default: "31"   # Action fails on any message
+
       rat_config_file:
         description: > 
           Which xml config file to use for rat.
@@ -118,9 +131,9 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.base-package }}
-        exitcheck: 31 # Action fails on any message
+        exitcheck: ${{ inputs.pylint_exitcheck }}
+        rcfile: ${{ inputs.rcfile }}
         language: en_GB
-        rcfile: global_strict
 
     - name: Lint with mypy
       run: mypy ${{ inputs.base-package }}
@@ -183,9 +196,9 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.base-package }}
-        exitcheck: 31 # Action fails on any message
+        exitcheck: ${{ inputs.pylint_exitcheck }}
+        rcfile: ${{ inputs.rcfile }}
         language: en_GB
-        rcfile: global_strict
 
     - name: Lint with mypy
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
