@@ -175,10 +175,10 @@ jobs:
       matrix:
         include:
           # prereleases
-          - runner: ubuntu-24.04
+          - runner: ubuntu-latest
             python-version: "3.13"
 
-          - runner: ubuntu-latest
+          - runner: ubuntu-24.04
             python-version: "3.11"
             coverage: 'coverage'
 
