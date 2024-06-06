@@ -24,6 +24,13 @@ on:
           The list of SpiNNaker dependencies to check out. Space-separated
         required: true
         type: string
+      install_module:
+        description: > 
+          Flag to say if the current model should be installed should be installed
+          Excepted values are true of false
+        required: false
+        type: string
+        default: 'true'
       ubuntu_packages:
         description: >
           The names of the ubuntu packages to install
@@ -48,7 +55,7 @@ on:
         description: Flag to say if prereleases python versions should be checked
         required: false
         type: string
-        default: 'true'
+        default: 'false'
       cfg_file:
         description: > 
           Name of the cfg file to be created
@@ -122,7 +129,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
-        install_module: true
+        install_module: ${{ inputs.install_module }}
         install_check_tools: true
         ubuntu_packages:  ${{ inputs.ubuntu_packages }}
         cfg_file: ${{ inputs.cfg_file }}
@@ -154,13 +161,14 @@ jobs:
         language: en_GB
 
     - name: Lint with mypy
+      if: ${{ inputs.mypy-packages != ''}}
       run: mypy ${{ inputs.mypy-packages }}
 
     - name: Test with pytest
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
-        coverage: ${{ matrix.coverage == 'coverage' }}
+        coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
         cover-packages: ${{ inputs.coverage-package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
       env:
@@ -180,7 +188,6 @@ jobs:
 
           - runner: ubuntu-24.04
             python-version: "3.11"
-            coverage: 'coverage'
 
           - runner: ubuntu-latest
             python-version: "3.10"
@@ -200,7 +207,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
-        install_module: true
+        install_module: ${{ inputs.install_module }}
         install_check_tools: true
         ubuntu_packages: ${{ inputs.ubuntu_packages }}
         cfg_file: ${{ inputs.cfg_file }}
@@ -219,7 +226,7 @@ jobs:
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-packages != '' }}
       run: mypy ${{ inputs.mypy-packages }}
 
     - name: Test with pytest
@@ -227,9 +234,6 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
-        coverage: ${{ matrix.coverage == 'coverage' }}
-        cover-packages: ${{ inputs.coverage-package }}
-        coveralls-token: ${{ secrets.GITHUB_TOKEN }}
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
         SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
@@ -265,7 +269,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
-        install_module: true
+        install_module: ${{ inputs.install_module }}
         install_check_tools: false
         # inputs.ubuntu_packages NOT installed!
         cfg_file: ${{ inputs.cfg_file }}
