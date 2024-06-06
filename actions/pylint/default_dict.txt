@@ -157,6 +157,7 @@ PLoS
 # People names
 Bogdan
 Djurfeldt
+Furber
 Gerstner
 Habenschuss
 Indar's
