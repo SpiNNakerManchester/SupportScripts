@@ -36,6 +36,7 @@ on:
           Extra things to pip install when package not installed
           Mainly used when install_module is false
         required: false
+        type: string
         default: ''
       ubuntu_packages:
         description: >
