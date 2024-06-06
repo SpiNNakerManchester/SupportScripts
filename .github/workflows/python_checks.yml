@@ -86,6 +86,7 @@ on:
       pylint-disable:
         description: The pylint messages/categories to disable
         required: false
+        type: string
         default: "R"
       pylint_exitcheck:
         description: The combined results code to fail on
