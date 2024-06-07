@@ -465,6 +465,7 @@ subrange
 subtree
 subtrees
 superclasses
+synfire
 timestep
 timesteps
 toolchain
