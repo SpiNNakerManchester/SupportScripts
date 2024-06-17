@@ -25,7 +25,13 @@ inputs:
 runs:
   using: composite
   steps:
-  - shell: bash
+  - name: runner_os
+    shell: bash
+    run: |
+      echo ${{ runner.os }}
+  - name: install packages
+    if: runner.os == 'Linux'
+    shell: bash
     env:
       PACKAGES: ${{ inputs.packages }}
       CONDITION: ${{ inputs.only-if-not-present }}

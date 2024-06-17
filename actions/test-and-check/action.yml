@@ -1,0 +1,76 @@
+# Copyright (c) 2024 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: "Unittests and style checks"
+description: >
+  Runs multiple individual unittest and check actions
+inputs:
+  python-version:
+    description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
+    required: true
+  tests:
+    description: The name of the Python package(s) containing the tests
+    required: false
+    default: unittests
+  cover-packages:
+    description: The names of the Python packages to get coverage of.
+    required: false
+    default: ""
+  coveralls-token:
+    description: The secret token used for uploading to coveralls.io
+    required: false
+    default: ""
+  flake8_packages:
+    description: The name of the Python package (or packages) to flake8
+    required: true
+  pylint_packages:
+    description: The name of the Python package (or packages) to pylint and mypy
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install pip, etc.
+      uses: ./support/actions/python-tools
+
+    - name: Install mypy
+      shell: bash
+      run: pip install mypy
+
+    - name: Test with pytest
+      uses: ./support/actions/pytest
+      with:
+        tests: ${{ inputs.tests }}
+        coverage: ${{ inputs.python-version == 3.12 }}
+        cover-packages: ${{ inputs.cover-packages }}
+        coveralls-token: ${{ inputs.coveralls-token }}
+      env:
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
+
+    - name: Lint with flake8
+      shell: bash
+      run: flake8 ${{ inputs.flake8_packages }}
+
+    - name: Lint with pylint
+      uses: ./support/actions/pylint
+      with:
+        package: ${{ inputs.pylint_packages }}
+        exitcheck: 31 # Action fails on any message
+        language: en_GB
+        rcfile: global_strict
+
+    - name: Lint with mypy
+      shell: bash
+      run: mypy ${{ inputs.pylint_packages }}

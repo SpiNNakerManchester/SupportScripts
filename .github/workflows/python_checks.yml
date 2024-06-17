@@ -1,0 +1,299 @@
+# Copyright (c) 2024 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This workflow will install Python dependencies, run tests, lint and rat with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python Actions
+on:
+  workflow_call:
+    inputs:
+      dependencies:
+        description: >
+          The list of SpiNNaker dependencies to check out. Space-separated
+        required: true
+        type: string
+      install_module:
+        description: > 
+          Flag to say if the current model should be installed should be installed
+          Excepted values are true of false
+        required: false
+        type: string
+        default: 'true'
+      pip_installs:
+        description: >
+          Extra things to pip install when package not installed
+          Mainly used when install_module is false
+        required: false
+        type: string
+        default: ''
+      ubuntu_packages:
+        description: >
+          The names of the ubuntu packages to install
+          These are NOT installed on none linux workflows
+        required: false
+        type: string
+        default: ''
+      test_directories:
+        description: >
+          The list of directories to run pytest on. Space-seperated
+        required: true
+        type: string
+      coverage-package:
+        description: The names of the Python package to get coverage for
+        required: true
+        type: string
+      flake8-packages:
+        description: The names of the Python packages to run flake8 on.
+        required: true
+        type: string
+      check_prereleases:
+        description: Flag to say if prereleases python versions should be checked
+        required: false
+        type: string
+        default: 'false'
+      cfg_file:
+        description: > 
+          Name of the cfg file to be created
+          excluding the ~./ start and .cfg end
+          The default string will skip the create cfg stage
+          A value of ~/.spynnaker.cfg will also trigger setup PyNN
+        required: false
+        type: string
+        default: ''
+      rcfile:
+        description: The name of the pylint rc file
+        required: false
+        type: string
+        default: global_strict
+        # global_relaxed and global_strict will use files in support scripts
+        # Any other value will be looked for in the calling repository
+      pylint-packages:
+        description: The names of the Python packages to run flake8 on.
+        required: true
+        type: string
+      pylint-disable:
+        description: The pylint messages/categories to disable
+        required: false
+        type: string
+        default: "R"
+      pylint_exitcheck:
+        description: The combined results code to fail on
+        required: false
+        type: string
+        default: "31"   # Action fails on any message
+      mypy-packages:
+          description: The names of the Python packages to run flake8 on.
+          required: true
+          type: string
+      rat_config_file:
+        description: > 
+          Which xml config file to use for rat.
+          Supported options are:
+          'rat.xml'  all license acceptable to rat
+          'rat_asl20.xml' Only the AppliedApacheSoftwareLicense20
+          'rat_gpl3.xml' Only the GNU General Public License version 3
+        required: false
+        type: string
+        default: "rat_asl20.xml"
+      run_sphinx:
+        description: Flag to say if sphinx should be run
+        required: false
+        type: string
+        default: true
+      run_cff-validator:
+        description: Flag to say if cff-validator should be run
+        required: false
+        type: string
+        default: true
+
+
+env:
+  PRERELEASE: "3.13"
+
+jobs:
+  validate:
+    # Everything as checks but do validation steps first
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            python-version: "3.12"
+            checks: 'validate'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+
+    steps:
+    - name: Prepare
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      with:
+        python-version: ${{ matrix.python-version }}
+        install_dependencies: ${{ inputs.dependencies }}
+        install_module: ${{ inputs.install_module }}
+        install_check_tools: true
+        ubuntu_packages:  ${{ inputs.ubuntu_packages }}
+        cfg_file: ${{ inputs.cfg_file }}
+        pip_installs: ${{ inputs.pip_installs }}
+
+    - name: Run rat copyright enforcement
+      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
+      with:
+        config_file: ${{ inputs.rat_config_file }}
+
+    - name: Build documentation with sphinx
+      if: ${{ inputs.run_sphinx == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
+      with:
+        directory: doc/source
+
+    - name: Validate CITATION.cff
+      if: ${{ inputs.run_cff-validator == 'true' }}
+      uses: dieghernan/cff-validator@main
+
+    - name: Lint with flake8
+      run: flake8 ${{ inputs.flake8-packages }}
+
+    - name: Lint with pylint
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
+      with:
+        package: ${{ inputs.pylint-packages }}
+        disable: ${{ inputs.pylint-disable }}
+        exitcheck: ${{ inputs.pylint_exitcheck }}
+        rcfile: ${{ inputs.rcfile }}
+        language: en_GB
+
+    - name: Lint with mypy
+      if: ${{ inputs.mypy-packages != ''}}
+      run: mypy ${{ inputs.mypy-packages }}
+
+    - name: Test with pytest
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
+      with:
+        tests: ${{ inputs.test_directories }}
+        coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
+        cover-packages: ${{ inputs.coverage-package }}
+        coveralls-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
+        SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
+
+  checks:
+    # Everything as tests but do validation steps first
+    strategy:
+      matrix:
+        include:
+          # prereleases
+          - runner: ubuntu-latest
+            python-version: "3.13"
+
+          - runner: ubuntu-24.04
+            python-version: "3.11"
+
+          - runner: ubuntu-latest
+            python-version: "3.10"
+
+          - runner: ubuntu-22.04
+            python-version: 3.9
+
+          - runner: ubuntu-20.04
+            python-version: 3.8
+
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+    - name: Prepare
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      with:
+        python-version: ${{ matrix.python-version }}
+        install_dependencies: ${{ inputs.dependencies }}
+        install_module: ${{ inputs.install_module }}
+        install_check_tools: true
+        ubuntu_packages: ${{ inputs.ubuntu_packages }}
+        cfg_file: ${{ inputs.cfg_file }}
+        pip_installs: ${{ inputs.pip_installs }}
+
+    - name: Lint with flake8
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      run: flake8 ${{ inputs.flake8-packages }}
+
+    - name: Lint with pylint
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
+      with:
+        package: ${{ inputs.pylint-packages }}
+        disable: ${{ inputs.pylint-disable }}
+        exitcheck: ${{ inputs.pylint_exitcheck }}
+        rcfile: ${{ inputs.rcfile }}
+        language: en_GB
+
+    - name: Lint with mypy
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-packages != '' }}
+      run: mypy ${{ inputs.mypy-packages }}
+
+    - name: Test with pytest
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
+      with:
+        tests: ${{ inputs.test_directories }}
+      env:
+        SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
+        SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
+
+  tests:
+    strategy:
+      matrix:
+        include:
+          - runner: windows-latest
+            python-version: "3.12"
+            checks: 'tests'
+
+          - runner: windows-2019
+            python-version: 3.8
+            checks: 'tests'
+
+          - runner: macos-latest
+            python-version: "3.12"
+            checks: 'tests'
+
+          - runner: macos-11
+            python-version: 3.8
+            checks: 'tests'
+
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+
+    steps:
+    - name: Prepare
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      with:
+        python-version: ${{ matrix.python-version }}
+        install_dependencies: ${{ inputs.dependencies }}
+        install_module: ${{ inputs.install_module }}
+        install_check_tools: false
+        # inputs.ubuntu_packages NOT installed!
+        cfg_file: ${{ inputs.cfg_file }}
+        pip_installs: ${{ inputs.pip_installs }}
+
+    - name: Test with pytest
+      env:
+        SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
+        SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
+        # Tests using ping won't work in Github Actions because of system config
+        SKIP_PING_TESTS: true
+      run: pytest ${{ inputs.test_directories }}

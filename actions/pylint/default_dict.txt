@@ -156,7 +156,9 @@ PLoS
 
 # People names
 Bogdan
+Cholesky
 Djurfeldt
+Furber
 Gerstner
 Habenschuss
 Indar's
@@ -313,6 +315,7 @@ HBP
 iobuf
 LIF
 LUT
+mcmc
 MPI
 qp
 qx
@@ -335,6 +338,7 @@ analog
 arounds
 axonal
 backplane
+binary's
 bitfield
 bitfields
 bitmask
@@ -375,11 +379,13 @@ infos
 initialize
 inserter
 instantiation
+interspike
 iptag
 iptags
 keepalive
 malloc
 malloc'ed
+mars
 mergable
 microsiemens
 millivolts
@@ -393,6 +399,7 @@ nanofarads
 natively
 neuromodulation
 neuromodulat
+neuromodulated
 neuromodulators
 obj
 or'ed
@@ -462,9 +469,11 @@ subrange
 subtree
 subtrees
 superclasses
+synfire
 timestep
 timesteps
 toolchain
+u
 unallocated
 unbuffered
 unconfigured

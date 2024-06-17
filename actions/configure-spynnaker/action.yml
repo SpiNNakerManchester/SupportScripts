@@ -62,7 +62,7 @@ inputs:
     default: DEFAULT
 runs:
   using: composite
-  steps: 
+  steps:
     - name: Add to cfg
       run: |
         bash ${{ github.action_path }}/mkcfg.bash

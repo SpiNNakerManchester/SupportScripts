@@ -1,0 +1,123 @@
+# Copyright (c) 2020 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: "Shared preparation actions"
+description: >
+  Runs multiple individual preparation actions
+inputs:
+  python-version:
+      description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
+      required: true
+  checkout_dependencies:
+    description: > 
+      The list of SpiNNaker dependencies to check out abut not install.
+      Space-separated
+    required: false
+    default: ''
+  install_module:
+    description: > 
+      Flag to say if the current model should be installed should be installed
+      Excepted values are true of false
+    required: true
+  install_dependencies:
+    description: >
+      The list of SpiNNaker dependencies to check out and install.
+      Space-separated
+    required: false
+    default: ''
+  ubuntu_packages:
+    description: > 
+      The names of the ubuntu packages to install
+      These are NOT installed on none linux workflows
+    required: false
+    default: ''
+  install_check_tools:
+    description: Flag to say if the checking tools should be installed.
+    required: false
+    default: true
+  pip_installs:
+    description: >
+      Extra things to pip install when package not installed
+      Mainly used when install_module is false
+    required: false
+    default: ''
+  cfg_file:
+    description: > 
+      Name of the cfg file to be created
+      excluding the ~./ start and .cfg end
+      The default string will skip the create cfg stage
+      A value of ~/.spynnaker.cfg will also trigger setup PyNN
+    required: false
+    type: string
+    default: ''
+runs:
+  using: composite
+  steps:
+    - name: Set up Python ${{ inputs.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+        allow-prereleases: ${{ inputs.python-version == 3.13 }}
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Checkout Spinnaker Dependencies
+      uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
+      with:
+        repositories: ${{ inputs.checkout_dependencies }}
+        install: false
+
+    - name: Install Spinnaker Dependencies
+      uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
+      with:
+        repositories: ${{ inputs.install_dependencies }}
+        install: true
+
+    - name: Install pip, etc
+      if: ${{ inputs.install_check_tools == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/python-tools@main
+
+    - name: Pip extras
+      if: ${{ inputs.pip_installs != '' }}
+      shell: bash
+      run: python -m pip install ${{ inputs.pip_installs }}
+
+    - name: Install mypy
+      if: ${{ inputs.install_check_tools == 'true' }}
+      shell: bash
+      run: pip install mypy
+
+    - name: Install Ubuntu dependencies
+      if: ${{ inputs.ubuntu_packages != '' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
+      with:
+        packages: ${{ inputs.ubuntu_packages }}
+
+    - name: Run Install
+      if: ${{ inputs.install_module == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
+
+    - name: Setup PyNN
+      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/pynn-setup@main
+
+    - name: Create cfg
+      if: ${{ inputs.cfg_file != '' }}
+      shell: bash
+      run: | 
+        echo '[Machine]' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
+
