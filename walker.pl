@@ -580,9 +580,9 @@ check_directory("../SpiNNFrontEndCommon");
 check_directory("../TestBase");
 check_directory("../sPyNNaker");
 check_directory("../SpiNNakerGraphFrontEnd");
-check_directory("../PyNN8Examples");
+check_directory("../PyNNExamples");
 check_directory("../IntroLab");
-check_directory("../sPyNNaker8NewModelTemplate");
+check_directory("../sPyNNakerNewModelTemplate");
 check_directory("../sPyNNakerVisualisers");
 check_directory("../Visualiser");
 check_directory("../IntegrationTests");
@@ -592,6 +592,6 @@ check_directory("../SpiNNGym");
 check_directory("../SpiNNaker_PDP2");
 check_directory("../microcircuit_model");
 check_directory("../MarkovChainMonteCarlo");
-check_directory("../sPyNNaker8Jupyter");
+check_directory("../sPyNNakerJupyter");
 
 

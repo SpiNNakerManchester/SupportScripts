@@ -13,7 +13,7 @@
 # limitations under the License.
 
 REQUIRED_REPOS = spinnaker_tools spinn_common SpiNNFrontEndCommon \
-	sPyNNaker sPyNNaker8NewModelTemplate #SpiNNakerGraphFrontEnd
+	sPyNNaker sPyNNakerNewModelTemplate #SpiNNakerGraphFrontEnd
 
 all: $(REQUIRED_REPOS)
 	$(MAKE) -C spinnaker_tools clean all
@@ -22,7 +22,7 @@ all: $(REQUIRED_REPOS)
 	$(MAKE) -C SpiNNFrontEndCommon/c_common clean all install
 	$(MAKE) -C sPyNNaker/neural_modelling clean all
 	$(MAKE) -C SpiNNakerGraphFrontEnd/gfe_examples clean all
-	$(MAKE) -C sPyNNaker8NewModelTemplate/c_models clean all
+	$(MAKE) -C sPyNNakerNewModelTemplate/c_models clean all
 
 clean: $(REQUIRED_REPOS)
 	$(MAKE) -C spinnaker_tools clean
@@ -30,6 +30,6 @@ clean: $(REQUIRED_REPOS)
 	$(MAKE) -C SpiNNFrontEndCommon/c_common clean
 	$(MAKE) -C sPyNNaker/neural_modelling clean
 	$(MAKE) -C SpiNNakerGraphFrontEnd/gfe_examples clean
-	$(MAKE) -C sPyNNaker8NewModelTemplate/c_models clean all
+	$(MAKE) -C sPyNNakerNewModelTemplate/c_models clean all
 
 .PHONY: all clean
