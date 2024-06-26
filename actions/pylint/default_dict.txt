@@ -327,6 +327,7 @@ SDRAM
 sql
 STDP
 TCP
+TTY
 txrx
 UDP
 
