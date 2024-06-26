@@ -179,6 +179,7 @@ Vogels
 ybug
 pacman
 spalloc
+spalloc's
 spinnman
 SpiNNakerGraphFrontEnd
 spynnaker
