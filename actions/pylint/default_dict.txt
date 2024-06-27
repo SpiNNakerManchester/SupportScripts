@@ -59,6 +59,9 @@ SkipTest
 TextIOBase
 traceback
 timedelta
+UnresolvedImport
+UnusedImport
+UnusedVariable
 ValidationError
 WebSocket
 
@@ -73,6 +76,7 @@ py
 rtype
 
 # Python specials
+alt
 args
 abstractmethod
 abstractproperty
@@ -96,10 +100,9 @@ readthedocs
 ReservedAssignment
 setattr
 setx
+stderr
+stdout
 superclass
-UnresolvedImport
-UnusedImport
-UnusedVariable
 ylabel
 
 # c types
