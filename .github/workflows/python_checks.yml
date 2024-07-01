@@ -112,6 +112,11 @@ on:
         required: false
         type: string
         default: true
+      sphinx_directory:
+        description: Where to run Sphinx
+        required: false
+        type: string
+        default: "doc/source"
       run_cff-validator:
         description: Flag to say if cff-validator should be run
         required: false
@@ -155,7 +160,7 @@ jobs:
       if: ${{ inputs.run_sphinx == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
       with:
-        directory: doc/source
+        directory: ${{ inputs.sphinx_directory }}
 
     - name: Validate CITATION.cff
       if: ${{ inputs.run_cff-validator == 'true' }}
