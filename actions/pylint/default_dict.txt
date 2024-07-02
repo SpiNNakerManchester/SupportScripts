@@ -311,6 +311,7 @@ DBs
 DMA
 DSE
 DSG
+Ebrains
 EIEIO
 CFF
 FEC
