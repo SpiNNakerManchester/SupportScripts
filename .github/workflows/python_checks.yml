@@ -183,6 +183,7 @@ jobs:
       run: mypy ${{ inputs.mypy-packages }}
 
     - name: Test with pytest
+      if: ${{ inputs.test_directorie != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
