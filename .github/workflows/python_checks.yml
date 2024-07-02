@@ -251,7 +251,7 @@ jobs:
       run: mypy ${{ inputs.mypy-packages }}
 
     - name: Test with pytest
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') &&  inputs.test_directorie != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
@@ -297,6 +297,7 @@ jobs:
         pip_installs: ${{ inputs.pip_installs }}
 
     - name: Test with pytest
+      if: ${{ inputs.test_directorie != ''}}
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
         SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
