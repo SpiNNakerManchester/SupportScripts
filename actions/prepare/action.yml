@@ -18,7 +18,8 @@ description: >
 inputs:
   python-version:
       description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
-      required: true
+      required: false
+      default: "3.12"
   checkout_dependencies:
     description: > 
       The list of SpiNNaker dependencies to check out abut not install.
