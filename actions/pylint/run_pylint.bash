@@ -32,10 +32,12 @@ if test -n "$SPELL_LANG"; then
 	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
 		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
 		"--spelling-dict=$SPELL_LANG" "--spelling-private-dict-file=$dict" \
+		"--extension-pkg-whitelist=cv2" \
 		$PACKAGES
 else
 	pylint --output-format=colorized "--disable=$DISABLE_CATS" \
 		--persistent=no "--jobs=$JOBS" "--rcfile=$RC" \
+		"--extension-pkg-whitelist=cv2" \
 		$PACKAGES
 fi
 
