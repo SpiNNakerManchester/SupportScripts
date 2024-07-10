@@ -62,7 +62,7 @@ on:
         description: Flag to say if prereleases python versions should be checked
         required: false
         type: string
-        default: 'true'
+        default: 'false'
       cfg_file:
         description: > 
           Name of the cfg file to be created
