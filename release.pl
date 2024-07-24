@@ -17,10 +17,10 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.1.1";  # Without the leading 1!
-my $release_name = "Post_HBP";
-#my $branch = $release;
-my $branch = "version_bump";
+my $release = "7.2.0";  # Without the leading 1!
+my $release_name = "Ultimate Ship the Second";
+my $branch = $release;
+#my $branch = "version_bump";
 
 use strict;
 use warnings;
@@ -475,6 +475,8 @@ update_directory("../SpiNNaker_PDP2");
 update_directory("../microcircuit_model");
 update_directory("../MarkovChainMonteCarlo");
 update_directory("../sPyNNakerJupyter");
+update_directory("../TSPonSpiNNaker");
+update_directory("../BitBrainDemo");
 wait_doc_built('spynnaker');
 wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");
