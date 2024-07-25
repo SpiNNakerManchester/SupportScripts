@@ -46,4 +46,4 @@ Documentation
 =============
 
  * [SpiNNaker online documentation](http://spinnakermanchester.github.io/)
- * [Combined python documentation](http://spinnakermanchester.readthedocs.io)
+ * [Combined python documentation](http://spinnakermanchester.readthedocs.io/en/7.2.1)
