@@ -17,7 +17,7 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.2.0";  # Without the leading 1!
+my $release = "7.2.1";  # Without the leading 1!
 my $release_name = "Ultimate Ship the Second";
 my $branch = $release;
 #my $branch = "version_bump";
