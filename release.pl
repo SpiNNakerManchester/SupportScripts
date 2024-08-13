@@ -465,7 +465,6 @@ wait_doc_built('spinnfrontendcommon');
 update_directory("../sPyNNaker");
 update_directory("../SpiNNakerGraphFrontEnd");
 update_directory("../PyNNExamples");
-update_directory("../IntroLab");
 update_directory("../sPyNNakerNewModelTemplate");
 update_directory("../sPyNNakerVisualisers");
 update_directory("../Visualiser");

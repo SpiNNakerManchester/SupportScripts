@@ -581,7 +581,6 @@ check_directory("../TestBase");
 check_directory("../sPyNNaker");
 check_directory("../SpiNNakerGraphFrontEnd");
 check_directory("../PyNNExamples");
-check_directory("../IntroLab");
 check_directory("../sPyNNakerNewModelTemplate");
 check_directory("../sPyNNakerVisualisers");
 check_directory("../Visualiser");
