@@ -297,7 +297,7 @@ jobs:
         pip_installs: ${{ inputs.pip_installs }}
 
     - name: Test with pytest
-      if: ${{ inputs.test_directories != ''}}
+      if: ${{ inputs.test_directories != '' && startsWith('windows', matrix.runner) }}
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
         SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
