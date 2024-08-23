@@ -118,13 +118,13 @@ runs:
       shell: bash
       if: runner.os == 'macOS'
       run: |
+        sudo networksetup -listallnetworkservices
         sudo mkdir /etc/resolver/
         ls -al /etc/resolver/
-        ls -al /etc/resolver/* 
-        sudo echo 'domain myhugelab.local' >> /etc/resolver/myhugelab.local
-        sudo echo 'search myhugelab.local' >> /etc/resolver/myhugelab.local
-        sudo echo 'nameserver 8.8.8.8' >> /etc/resolver/myhugelab.local
-        sudo killall -HUP mDNSResponder
+        #sudo echo 'domain myhugelab.local' >> /etc/resolver/myhugelab.local
+        #sudo echo 'search myhugelab.local' >> /etc/resolver/myhugelab.local
+        #sudo echo 'nameserver 8.8.8.8' >> /etc/resolver/myhugelab.local
+        #sudo killall -HUP mDNSResponder
         scutil --dns
         #sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
         #sudo systemctl daemon-reload
