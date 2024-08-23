@@ -114,13 +114,20 @@ runs:
       if: ${{ inputs.cfg_file == 'spynnaker' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pynn-setup@main
 
-    - name: Set 8.8.8.8 as dns server
+    - name: Set 8.8.8.8 as dns server macos
       shell: bash
+      if: runner.os == 'macOS'
       run: |
-        sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
-        sudo systemctl daemon-reload
-        sudo systemctl restart systemd-networkd
-        sudo systemctl restart systemd-resolved
+        sudo mkdir /etc/resolver/
+        echo 'domain myhugelab.local' >> /etc/resolver/myhugelab.local
+        echo 'search myhugelab.local' >> /etc/resolver/myhugelab.local
+        echo 'nameserver 8.8.8.8' >> /etc/resolver/myhugelab.local
+        sudo killall -HUP mDNSResponder
+        scutil --dns
+        #sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
+        #sudo systemctl daemon-reload
+        #sudo systemctl restart systemd-networkd
+        #sudo systemctl restart systemd-resolved
 
     - name: Create cfg
       if: ${{ inputs.cfg_file != '' }}
