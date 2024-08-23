@@ -115,6 +115,7 @@ runs:
       uses: SpiNNakerManchester/SupportScripts/actions/pynn-setup@main
 
     - name: Set 8.8.8.8 as dns server
+      shell: bash
       run: |
         sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
         sudo systemctl daemon-reload
