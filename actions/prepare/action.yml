@@ -119,6 +119,6 @@ runs:
       shell: bash
       run: | 
         echo '[Machine]' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo 'spalloc_server = https://130.88.193.57/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'version = 5' >> ~/.${{ inputs.cfg_file }}.cfg
