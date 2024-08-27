@@ -130,7 +130,7 @@ runs:
 
     - name: Set 8.8.8.8 as dns server LINUX
       shell: bash
-      if: runner.os == 'macOS'
+      if: runner.os == 'Linux'
       run: |
         cat /etc/resolv.conf
 
