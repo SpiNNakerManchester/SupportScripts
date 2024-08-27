@@ -127,9 +127,9 @@ runs:
       if: runner.os == 'macOS'
       run: |
         networksetup -listnetworkserviceorder
-
-# networksetup -setdnsservers Ethernet "8.8.8.8"
-# scutil --dns
+        networksetup -setdnsservers Ethernet "8.8.8.8 8.8.4.4"
+        scutil --dns
+        networksetup -listnetworkserviceorder
 
     - name: Set 8.8.8.8 as dns server LINUX
       shell: bash
