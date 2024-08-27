@@ -132,7 +132,10 @@ runs:
       shell: bash
       if: runner.os == 'Linux'
       run: |
-        cat /etc/resolv.conf
+        sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
+        sudo systemctl daemon-reload
+        sudo systemctl restart systemd-networkd
+        sudo systemctl restart systemd-resolved
 
     - name: Create cfg
       if: ${{ inputs.cfg_file != '' }}
