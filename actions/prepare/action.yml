@@ -118,16 +118,15 @@ runs:
       shell: bash
       if: runner.os == 'Windows'
       run: |
-        netsh
-        interface ip show config
+        netsh interface ip show config
 # interface ip set dns "Wi-Fi" static 8.8.8.8
 
-    - name: Set 8.8.8.8 as dns server macos
+    - name: Set 8.8.4.4 as dns server macos
       shell: bash
       if: runner.os == 'macOS'
       run: |
         networksetup -listnetworkserviceorder
-        networksetup -setdnsservers Ethernet "8.8.8.8 8.8.4.4"
+        networksetup -setdnsservers Ethernet "8.8.4.4"
         scutil --dns
         networksetup -listnetworkserviceorder
 
