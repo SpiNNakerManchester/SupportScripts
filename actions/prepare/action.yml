@@ -125,8 +125,12 @@ runs:
       shell: bash
       if: runner.os == 'macOS'
       run: |
-        ls -al /private/etc/
         cat /private/etc/hosts
+        sudo echo '' >> /private/etc/hosts
+        suod echo '130.88.193.57  spinnaker.cs.man.ac.uk" >> /private/etc/hosts
+        dscacheutil -flushcache
+        cat /private/etc/hosts
+
       #networksetup -listnetworkserviceorder
       #networksetup -setdnsservers Ethernet "8.8.4.4"
       #scutil --dns
