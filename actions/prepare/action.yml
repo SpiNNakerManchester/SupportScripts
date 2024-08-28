@@ -122,3 +122,12 @@ runs:
         echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'version = 5' >> ~/.${{ inputs.cfg_file }}.cfg
+
+    - name: Set dns server LINUX
+      shell: bash
+      if: runner.os == 'Linux'
+      run: |
+        sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
+        sudo systemctl daemon-reload
+        sudo systemctl restart systemd-networkd
+        sudo systemctl restart systemd-resolved
