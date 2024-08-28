@@ -128,7 +128,7 @@ runs:
         cat /private/etc/hosts
         sudo echo '' >> /private/etc/hosts
         sudo echo '130.88.193.57  spinnaker.cs.man.ac.uk" >> /private/etc/hosts
-        dscacheutil -flushcache
+        sudo dscacheutil -flushcache
         cat /private/etc/hosts
 
       #networksetup -listnetworkserviceorder
