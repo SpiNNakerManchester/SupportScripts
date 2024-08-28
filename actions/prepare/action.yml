@@ -125,19 +125,12 @@ runs:
       shell: bash
       if: runner.os == 'macOS'
       run: |
-        networksetup -listnetworkserviceorder
-        networksetup -setdnsservers Ethernet "8.8.4.4"
-        scutil --dns
-        networksetup -listnetworkserviceorder
-
-    - name: Set 8.8.8.8 as dns server LINUX
-      shell: bash
-      if: runner.os == 'Linux'
-      run: |
-        sudo sed -i 's/#DNS=/DNS=8.8.8.8 8.8.4.4/g' /etc/systemd/resolved.conf
-        sudo systemctl daemon-reload
-        sudo systemctl restart systemd-networkd
-        sudo systemctl restart systemd-resolved
+        ls -al /ect
+        cat /ect/hosts
+      #networksetup -listnetworkserviceorder
+      #networksetup -setdnsservers Ethernet "8.8.4.4"
+      #scutil --dns
+      #networksetup -listnetworkserviceorder
 
     - name: Create cfg
       if: ${{ inputs.cfg_file != '' }}
