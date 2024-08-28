@@ -127,7 +127,7 @@ runs:
       run: |
         cat /private/etc/hosts
         sudo echo '' >> /private/etc/hosts
-        suod echo '130.88.193.57  spinnaker.cs.man.ac.uk" >> /private/etc/hosts
+        sudo echo '130.88.193.57  spinnaker.cs.man.ac.uk" >> /private/etc/hosts
         dscacheutil -flushcache
         cat /private/etc/hosts
 
