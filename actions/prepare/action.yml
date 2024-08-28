@@ -126,7 +126,8 @@ runs:
       if: runner.os == 'macOS'
       run: |
         ls -al /private/etc/
-        cat /private/etc/hosts
+        cat /private/etc/
+        hosts
       #networksetup -listnetworkserviceorder
       #networksetup -setdnsservers Ethernet "8.8.4.4"
       #scutil --dns
