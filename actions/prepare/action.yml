@@ -123,6 +123,7 @@ runs:
         echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
         echo 'version = 5' >> ~/.${{ inputs.cfg_file }}.cfg
 
+    # source https://github.com/undergroundwires/privacy.sexy/blob/0.13.6/.github/actions/force-ipv4/force-ipv4.sh
     - name: install_warp_on_debian
       shell: bash
       if: runner.os == 'Linux'
@@ -132,9 +133,14 @@ runs:
         sudo apt-get update
         sudo apt-get install -y cloudflare-warp
 
+    - name: install_warp_on_macos
+      shell: bash
+      if: runner.os == 'macOS'
+      run: brew install cloudflare-warp
+
     - name: configure_warp_doh_and_exclude_ipv6
       shell: bash
-      if: runner.os == 'Linux'
+      if: runner.os !=  'Windows'
       run: |
         echo 'Beginning configuration of the Cloudflare WARP client with DNS-over-HTTPS and IPv6 exclusion...'
         echo 'Initiating client registration with Cloudflare...'
