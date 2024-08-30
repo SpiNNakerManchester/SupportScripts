@@ -126,4 +126,4 @@ runs:
     - name: Run prefer IPv4 script
       shell: bash
       if: runner.os == 'Linux'
-      run: force-ipv4.sh
+      run: ./force-ipv4.sh
