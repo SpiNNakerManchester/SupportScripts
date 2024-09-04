@@ -209,7 +209,7 @@ jobs:
             python-version: "3.11"
 
           - runner: ubuntu-22.04
-            python-version: 3.10
+            python-version: "3.10"
 
           - runner: ubuntu-20.04
             python-version: 3.9
