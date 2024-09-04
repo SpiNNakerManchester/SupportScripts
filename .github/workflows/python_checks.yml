@@ -208,14 +208,11 @@ jobs:
           - runner: ubuntu-24.04
             python-version: "3.11"
 
-          - runner: ubuntu-latest
-            python-version: "3.10"
-
           - runner: ubuntu-22.04
-            python-version: 3.9
+            python-version: 3.10
 
           - runner: ubuntu-20.04
-            python-version: 3.8
+            python-version: 3.9
 
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
@@ -270,7 +267,7 @@ jobs:
             checks: 'tests'
 
           - runner: windows-2019
-            python-version: 3.8
+            python-version: 3.9
             checks: 'tests'
 
           - runner: macos-latest
@@ -278,7 +275,7 @@ jobs:
             checks: 'tests'
 
           - runner: macos-12
-            python-version: 3.8
+            python-version: 3.9
             checks: 'tests'
 
     runs-on: ${{ matrix.runner }}
