@@ -370,6 +370,7 @@ dendritic
 deregister
 encodings
 endian
+errored
 et
 etc
 executables
