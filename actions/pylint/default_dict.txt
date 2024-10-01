@@ -45,6 +45,7 @@ zipfile
 bool
 int
 str
+CalledProcessError
 dict
 FileIO
 frozenset
