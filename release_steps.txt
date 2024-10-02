@@ -41,7 +41,7 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 12. edit Jenkins
     -  Python install from testpypi ->  Python install from pypi
     remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
-13. commit and push
+13. create new branch commit and push
 14. Check Jenkins
 
 15. Change version in tag.pl
@@ -54,3 +54,27 @@ After a full (not pre release)
 17. perl release.pl (from inside SupportScripts)
 
 For Java in github do a new release and include JavaSpiNNaker/SpiNNaker-front-end/target/spinnaker-exe.jar
+
+Jupyter
+pip install --upgrade pip
+pip install --upgrade numpy
+pip install --upgrade sPyNNaker
+
+git_tag("../TSPonSpiNNaker");
+git_tag("../BitBrainDemo");
+
+run a script  may show other pip upgrades needed
+
+run a script and see a Java error
+
+No jar file at *****/SpiNNaker-front-end/target/spinnaker-exe.jar
+
+subprocess.CalledProcessError: Command '['java', '-jar', '******/SpiNNaker-front-end/target/spinnaker-exe.jar'
+jar ******/SpiNNaker-front-end/target/spinnaker-exe.jar was updated *******
+
+cd into director (target)
+rm spinnaker-exe.jar
+wget https://github.com/SpiNNakerManchester/JavaSpiNNaker/releases/download/7.3.0/spinnaker-exe.jar
+
+$HOME/reports
+

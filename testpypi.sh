@@ -19,7 +19,7 @@
 
 do_twine() {
   cd $1
-  twine upload -r testpypi dist/*
+  twine upload --verbose -r testpypi dist/*
   cd ..
 }
 
