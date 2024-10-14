@@ -266,7 +266,7 @@ jobs:
       matrix:
         include:
           - runner: windows-latest
-            python-version: "3.12"
+            python-version: "3.13"
             checks: 'tests'
 
           - runner: windows-2019
@@ -274,7 +274,7 @@ jobs:
             checks: 'tests'
 
           - runner: macos-latest
-            python-version: "3.12"
+            python-version: "3.13"
             checks: 'tests'
 
           - runner: macos-12
