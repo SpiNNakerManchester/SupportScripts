@@ -25,7 +25,7 @@ on:
         required: true
         type: string
       install_module:
-        description: > 
+        description: >
           Flag to say if the current model should be installed should be installed
           Excepted values are true of false
         required: false
@@ -64,7 +64,7 @@ on:
         type: string
         default: 'false'
       cfg_file:
-        description: > 
+        description: >
           Name of the cfg file to be created
           excluding the ~./ start and .cfg end
           The default string will skip the create cfg stage
@@ -98,7 +98,7 @@ on:
           required: true
           type: string
       rat_config_file:
-        description: > 
+        description: >
           Which xml config file to use for rat.
           Supported options are:
           'rat.xml'  all license acceptable to rat
@@ -270,7 +270,7 @@ jobs:
             checks: 'tests'
 
           - runner: windows-2019
-            python-version: 3.8
+            python-version: 3.9
             checks: 'tests'
 
           - runner: macos-latest
@@ -278,7 +278,7 @@ jobs:
             checks: 'tests'
 
           - runner: macos-12
-            python-version: 3.8
+            python-version: 3.9
             checks: 'tests'
 
     runs-on: ${{ matrix.runner }}
