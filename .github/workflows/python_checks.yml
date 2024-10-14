@@ -266,7 +266,7 @@ jobs:
       matrix:
         include:
           - runner: windows-latest
-            python-version: "3.13"
+            python-version: "3.12"
             checks: 'tests'
 
           - runner: windows-2019
