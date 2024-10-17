@@ -277,7 +277,7 @@ jobs:
             python-version: "3.13"
             checks: 'tests'
 
-          - runner: macos-12
+          - runner: macos-13
             python-version: 3.9
             checks: 'tests'
 
