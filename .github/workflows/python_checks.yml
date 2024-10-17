@@ -93,9 +93,17 @@ on:
         required: false
         type: string
         default: "31"   # Action fails on any message
+      mypy-full_packages:
+          description: > 
+            The names of the Python packages to run full mypy on.
+            These are run in --disallow-untyped-defs mode
+          required: false
+          type: string
       mypy-packages:
-          description: The names of the Python packages to run flake8 on.
-          required: true
+          description: >
+            The names of Python packages to run simple mypy on.
+            These are run in without --disallow-untyped-defs
+          required: false
           type: string
       rat_config_file:
         description: >
@@ -179,8 +187,11 @@ jobs:
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ inputs.mypy-packages != ''}}
-      run: mypy ${{ inputs.mypy-packages }}
+      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
+
+    - name: Lint with mypy using disallow-untyped-def
+      if: ${{ inputs.mypy-full-packages != ''}}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
       if: ${{ inputs.test_directories != ''}}
