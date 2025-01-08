@@ -175,6 +175,8 @@ jobs:
     - name: Validate CITATION.cff
       if: ${{ inputs.run_cff-validator == 'true' }}
       uses: dieghernan/cff-validator@main
+      with:
+        install-r: true
 
     - name: Lint with flake8
       run: flake8 ${{ inputs.flake8-packages }}
