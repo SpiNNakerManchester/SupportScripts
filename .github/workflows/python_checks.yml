@@ -253,7 +253,7 @@ jobs:
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
-      if: ${{ matrix.python-version != 3.13 || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint-packages }}
