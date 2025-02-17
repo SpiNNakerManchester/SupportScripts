@@ -50,11 +50,11 @@ on:
           The list of directories to run pytest on. Space-seperated
         required: true
         type: string
-      coverage-package:
+      coverage_package:
         description: The names of the Python package to get coverage for
         required: true
         type: string
-      flake8-packages:
+      flake8_packages:
         description: The names of the Python packages to run flake8 on.
         required: true
         type: string
@@ -79,11 +79,11 @@ on:
         default: global_strict
         # global_relaxed and global_strict will use files in support scripts
         # Any other value will be looked for in the calling repository
-      pylint-packages:
+      pylint_packages:
         description: The names of the Python packages to run flake8 on.
         required: true
         type: string
-      pylint-disable:
+      pylint_disable:
         description: The pylint messages/categories to disable
         required: false
         type: string
@@ -93,14 +93,14 @@ on:
         required: false
         type: string
         default: "31"   # Action fails on any message
-      mypy-full_packages:
+      mypy_full_packages:
           description: > 
             The names of the Python packages to run full mypy on.
             These are run in --disallow-untyped-defs mode
           required: false
           type: string
           default: ''
-      mypy-packages:
+      mypy_packages:
           description: >
             The names of Python packages to run simple mypy on.
             These are run in without --disallow-untyped-defs
@@ -127,7 +127,7 @@ on:
         required: false
         type: string
         default: "doc/source"
-      run_cff-validator:
+      run_cff_validator:
         description: Flag to say if cff-validator should be run
         required: false
         type: string
@@ -172,38 +172,38 @@ jobs:
         directory: ${{ inputs.sphinx_directory }}
 
     - name: Validate CITATION.cff
-      if: ${{ inputs.run_cff-validator == 'true' }}
+      if: ${{ inputs.run_cff_validator == 'true' }}
       uses: dieghernan/cff-validator@main
       with:
         install-r: true
 
     - name: Lint with flake8
-      run: flake8 ${{ inputs.flake8-packages }}
+      run: flake8 ${{ inputs.flake8_packages }}
 
     - name: Lint with pylint
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
-        package: ${{ inputs.pylint-packages }}
-        disable: ${{ inputs.pylint-disable }}
+        package: ${{ inputs.pylint_packages }}
+        disable: ${{ inputs.pylint_disable }}
         exitcheck: ${{ inputs.pylint_exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ inputs.mypy-packages != ''}}
-      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
+      if: ${{ inputs.mypy_packages != ''}}
+      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy_packages }}
 
     - name: Lint with mypy using disallow-untyped-def
-      if: ${{ inputs.mypy-full-packages != ''}}
-      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
+      if: ${{ inputs.mypy_full_packages != ''}}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy_full_packages }}
 
     - name: Test with pytest
       if: ${{ inputs.test_directories != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test_directories }}
-        coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
-        cover-packages: ${{ inputs.coverage-package }}
+        coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage_package != '' }}
+        cover-packages: ${{ inputs.coverage_package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
@@ -249,25 +249,25 @@ jobs:
 
     - name: Lint with flake8
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      run: flake8 ${{ inputs.flake8-packages }}
+      run: flake8 ${{ inputs.flake8_packages }}
 
     - name: Lint with pylint
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
-        package: ${{ inputs.pylint-packages }}
-        disable: ${{ inputs.pylint-disable }}
+        package: ${{ inputs.pylint_packages }}
+        disable: ${{ inputs.pylint_disable }}
         exitcheck: ${{ inputs.pylint_exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy_packages != '' }}
+      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy_packages }}
 
     - name: Lint with mypy using disallow-untyped-def
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-full-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy_full_packages != '' }}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy_full_packages }}
 
     - name: Test with pytest
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') &&  inputs.test_directories != ''}}
