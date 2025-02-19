@@ -20,7 +20,7 @@ inputs:
       description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
       required: false
       default: "3.12"
-  checkout_dependencies:
+  checkout-dependencies:
     description: > 
       The list of SpiNNaker dependencies to check out abut not install.
       Space-separated
@@ -77,7 +77,7 @@ runs:
     - name: Checkout Spinnaker Dependencies
       uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
-        repositories: ${{ inputs.checkout_dependencies }}
+        repositories: ${{ inputs.checkout-dependencies }}
         install: false
 
     - name: Install Spinnaker Dependencies
