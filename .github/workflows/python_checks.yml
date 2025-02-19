@@ -127,7 +127,7 @@ on:
         required: false
         type: string
         default: "doc/source"
-      run_cff-validator:
+      run-cff-validator:
         description: Flag to say if cff-validator should be run
         required: false
         type: string
@@ -173,7 +173,7 @@ jobs:
         directory: ${{ inputs.sphinx-directory }}
 
     - name: Validate CITATION.cff
-      if: ${{ inputs.run_cff-validator == 'true' }}
+      if: ${{ inputs.run-cff-validator == 'true' }}
       uses: dieghernan/cff-validator@main
       with:
         install-r: true
