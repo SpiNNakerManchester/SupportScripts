@@ -38,7 +38,7 @@ on:
         required: false
         type: string
         default: ''
-      ubuntu_packages:
+      ubuntu-packages:
         description: >
           The names of the ubuntu packages to install
           These are NOT installed on none linux workflows
@@ -157,7 +157,7 @@ jobs:
         install_dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install_check_tools: true
-        ubuntu_packages:  ${{ inputs.ubuntu_packages }}
+        ubuntu-packages:  ${{ inputs.ubuntu-packages }}
         cfg_file: ${{ inputs.cfg_file }}
         pip-installs: ${{ inputs.pip-installs }}
 
@@ -244,7 +244,7 @@ jobs:
         install_dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install_check_tools: true
-        ubuntu_packages: ${{ inputs.ubuntu_packages }}
+        ubuntu-packages: ${{ inputs.ubuntu-packages }}
         cfg_file: ${{ inputs.cfg_file }}
         pip-installs: ${{ inputs.pip-installs }}
 
@@ -312,7 +312,7 @@ jobs:
         install_dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install_check_tools: false
-        # inputs.ubuntu_packages NOT installed!
+        # inputs.ubuntu-packages NOT installed!
         cfg_file: ${{ inputs.cfg_file }}
         pip-installs: ${{ inputs.pip-installs }}
 

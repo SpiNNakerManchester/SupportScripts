@@ -37,7 +37,7 @@ inputs:
       Space-separated
     required: false
     default: ''
-  ubuntu_packages:
+  ubuntu-packages:
     description: > 
       The names of the ubuntu packages to install
       These are NOT installed on none linux workflows
@@ -101,10 +101,10 @@ runs:
       run: pip install mypy
 
     - name: Install Ubuntu dependencies
-      if: ${{ inputs.ubuntu_packages != '' }}
+      if: ${{ inputs.ubuntu-packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
       with:
-        packages: ${{ inputs.ubuntu_packages }}
+        packages: ${{ inputs.ubuntu-packages }}
 
     - name: Run Install
       if: ${{ inputs.install-module == 'true' }}
