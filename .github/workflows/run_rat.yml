@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run rat copyright enforcement
-      uses: ./actions/check-copyrights
+      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@action-dash
       with:
         config-file: rat_asl20.xml
 
