@@ -31,7 +31,7 @@ on:
         required: false
         type: string
         default: 'true'
-      pip_installs:
+      pip-installs:
         description: >
           Extra things to pip install when package not installed
           Mainly used when install-module is false
@@ -159,7 +159,7 @@ jobs:
         install_check_tools: true
         ubuntu_packages:  ${{ inputs.ubuntu_packages }}
         cfg_file: ${{ inputs.cfg_file }}
-        pip_installs: ${{ inputs.pip_installs }}
+        pip-installs: ${{ inputs.pip-installs }}
 
     - name: Run rat copyright enforcement
       uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
@@ -246,7 +246,7 @@ jobs:
         install_check_tools: true
         ubuntu_packages: ${{ inputs.ubuntu_packages }}
         cfg_file: ${{ inputs.cfg_file }}
-        pip_installs: ${{ inputs.pip_installs }}
+        pip-installs: ${{ inputs.pip-installs }}
 
     - name: Lint with flake8
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
@@ -314,7 +314,7 @@ jobs:
         install_check_tools: false
         # inputs.ubuntu_packages NOT installed!
         cfg_file: ${{ inputs.cfg_file }}
-        pip_installs: ${{ inputs.pip_installs }}
+        pip-installs: ${{ inputs.pip-installs }}
 
     - name: Test with pytest
       if: ${{ inputs.test_directories != ''}}

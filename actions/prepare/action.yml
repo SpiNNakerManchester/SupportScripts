@@ -47,7 +47,7 @@ inputs:
     description: Flag to say if the checking tools should be installed.
     required: false
     default: true
-  pip_installs:
+  pip-installs:
     description: >
       Extra things to pip install when package not installed
       Mainly used when install-module is false
@@ -91,9 +91,9 @@ runs:
       uses: SpiNNakerManchester/SupportScripts/actions/python-tools@main
 
     - name: Pip extras
-      if: ${{ inputs.pip_installs != '' }}
+      if: ${{ inputs.pip-installs != '' }}
       shell: bash
-      run: python -m pip install ${{ inputs.pip_installs }}
+      run: python -m pip install ${{ inputs.pip-installs }}
 
     - name: Install mypy
       if: ${{ inputs.install_check_tools == 'true' }}
