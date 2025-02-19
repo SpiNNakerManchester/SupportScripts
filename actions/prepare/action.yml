@@ -43,7 +43,7 @@ inputs:
       These are NOT installed on none linux workflows
     required: false
     default: ''
-  install_check_tools:
+  install-check-tools:
     description: Flag to say if the checking tools should be installed.
     required: false
     default: true
@@ -87,7 +87,7 @@ runs:
         install: true
 
     - name: Install pip, etc
-      if: ${{ inputs.install_check_tools == 'true' }}
+      if: ${{ inputs.install-check-tools == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/python-tools@main
 
     - name: Pip extras
@@ -96,7 +96,7 @@ runs:
       run: python -m pip install ${{ inputs.pip-installs }}
 
     - name: Install mypy
-      if: ${{ inputs.install_check_tools == 'true' }}
+      if: ${{ inputs.install-check-tools == 'true' }}
       shell: bash
       run: pip install mypy
 
