@@ -64,7 +64,7 @@ runs:
       run: flake8 ${{ inputs.flake8_packages }}
 
     - name: Lint with pylint
-      uses: ./support/actions/pylint
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint_packages }}
         exitcheck: 31 # Action fails on any message
