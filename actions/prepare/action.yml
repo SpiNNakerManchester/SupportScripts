@@ -26,7 +26,7 @@ inputs:
       Space-separated
     required: false
     default: ''
-  install_module:
+  install-module:
     description: > 
       Flag to say if the current model should be installed should be installed
       Excepted values are true of false
@@ -50,7 +50,7 @@ inputs:
   pip_installs:
     description: >
       Extra things to pip install when package not installed
-      Mainly used when install_module is false
+      Mainly used when install-module is false
     required: false
     default: ''
   cfg_file:
@@ -107,7 +107,7 @@ runs:
         packages: ${{ inputs.ubuntu_packages }}
 
     - name: Run Install
-      if: ${{ inputs.install_module == 'true' }}
+      if: ${{ inputs.install-module == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
 
     - name: Setup PyNN

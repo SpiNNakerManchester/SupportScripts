@@ -24,7 +24,7 @@ on:
           The list of SpiNNaker dependencies to check out. Space-separated
         required: true
         type: string
-      install_module:
+      install-module:
         description: >
           Flag to say if the current model should be installed should be installed
           Excepted values are true of false
@@ -34,7 +34,7 @@ on:
       pip_installs:
         description: >
           Extra things to pip install when package not installed
-          Mainly used when install_module is false
+          Mainly used when install-module is false
         required: false
         type: string
         default: ''
@@ -151,11 +151,11 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
-        install_module: ${{ inputs.install_module }}
+        install-module: ${{ inputs.install-module }}
         install_check_tools: true
         ubuntu_packages:  ${{ inputs.ubuntu_packages }}
         cfg_file: ${{ inputs.cfg_file }}
@@ -238,11 +238,11 @@ jobs:
     steps:
     - name: Prepare
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
-        install_module: ${{ inputs.install_module }}
+        install-module: ${{ inputs.install-module }}
         install_check_tools: true
         ubuntu_packages: ${{ inputs.ubuntu_packages }}
         cfg_file: ${{ inputs.cfg_file }}
@@ -306,11 +306,11 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
         install_dependencies: ${{ inputs.dependencies }}
-        install_module: ${{ inputs.install_module }}
+        install-module: ${{ inputs.install-module }}
         install_check_tools: false
         # inputs.ubuntu_packages NOT installed!
         cfg_file: ${{ inputs.cfg_file }}
