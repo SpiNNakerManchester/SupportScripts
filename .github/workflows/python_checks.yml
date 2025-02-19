@@ -93,7 +93,7 @@ on:
         required: false
         type: string
         default: "31"   # Action fails on any message
-      mypy-full_packages:
+      mypy-full-packages:
           description: > 
             The names of the Python packages to run full mypy on.
             These are run in --disallow-untyped-defs mode
