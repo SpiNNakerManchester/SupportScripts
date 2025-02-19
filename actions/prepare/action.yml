@@ -108,7 +108,7 @@ runs:
 
     - name: Run Install
       if: ${{ inputs.install-module == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
+      uses: SpiNNakerManchester/SupportScripts/actions/run-install@action-dash
 
     - name: Setup PyNN
       if: ${{ inputs.cfg-file == 'spynnaker' }}
