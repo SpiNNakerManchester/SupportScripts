@@ -102,7 +102,7 @@ runs:
 
     - name: Install Ubuntu dependencies
       if: ${{ inputs.ubuntu-packages != '' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
+      uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@action-dash
       with:
         packages: ${{ inputs.ubuntu-packages }}
 
