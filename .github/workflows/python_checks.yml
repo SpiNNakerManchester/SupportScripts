@@ -164,7 +164,7 @@ jobs:
     - name: Run rat copyright enforcement
       uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
       with:
-        config_file: ${{ inputs.rat-config-file }}
+        config-file: ${{ inputs.rat-config-file }}
 
     - name: Build documentation with sphinx
       if: ${{ inputs.run-sphinx == 'true' }}

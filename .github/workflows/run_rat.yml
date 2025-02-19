@@ -27,5 +27,5 @@ jobs:
     - name: Run rat copyright enforcement
       uses: ./actions/check-copyrights
       with:
-        config_file: rat_asl20.xml
+        config-file: rat_asl20.xml
 

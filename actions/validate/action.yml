@@ -21,7 +21,7 @@ runs:
     - name: Run rat copyright enforcement
       uses: ./support/actions/check-copyrights
       with:
-        config_file: rat_asl20.xml
+        config-file: rat_asl20.xml
 
     - name: Build documentation with sphinx
       uses: ./support/actions/sphinx
