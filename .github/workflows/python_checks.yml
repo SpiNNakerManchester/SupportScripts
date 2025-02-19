@@ -107,7 +107,7 @@ on:
           required: false
           type: string
           default: ''
-      rat_config_file:
+      rat-config-file:
         description: >
           Which xml config file to use for rat.
           Supported options are:
@@ -164,7 +164,7 @@ jobs:
     - name: Run rat copyright enforcement
       uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
       with:
-        config_file: ${{ inputs.rat_config_file }}
+        config_file: ${{ inputs.rat-config-file }}
 
     - name: Build documentation with sphinx
       if: ${{ inputs.run_sphinx == 'true' }}
