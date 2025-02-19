@@ -53,7 +53,7 @@ inputs:
       Mainly used when install-module is false
     required: false
     default: ''
-  cfg_file:
+  cfg-file:
     description: > 
       Name of the cfg file to be created
       excluding the ~./ start and .cfg end
@@ -111,17 +111,17 @@ runs:
       uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
 
     - name: Setup PyNN
-      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      if: ${{ inputs.cfg-file == 'spynnaker' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pynn-setup@main
 
     - name: Create cfg
-      if: ${{ inputs.cfg_file != '' }}
+      if: ${{ inputs.cfg-file != '' }}
       shell: bash
       run: | 
-        echo '[Machine]' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'version = 5' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo '[Machine]' >> ~/.${{ inputs.cfg-file }}.cfg
+        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg-file }}.cfg
+        echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg-file }}.cfg
+        echo 'version = 5' >> ~/.${{ inputs.cfg-file }}.cfg
 
     - name: Set dns server LINUX
       shell: bash

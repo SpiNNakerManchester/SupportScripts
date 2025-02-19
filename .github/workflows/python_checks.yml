@@ -63,7 +63,7 @@ on:
         required: false
         type: string
         default: 'false'
-      cfg_file:
+      cfg-file:
         description: >
           Name of the cfg file to be created
           excluding the ~./ start and .cfg end
@@ -158,7 +158,7 @@ jobs:
         install-module: ${{ inputs.install-module }}
         install_check_tools: true
         ubuntu-packages:  ${{ inputs.ubuntu-packages }}
-        cfg_file: ${{ inputs.cfg_file }}
+        cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
 
     - name: Run rat copyright enforcement
@@ -245,7 +245,7 @@ jobs:
         install-module: ${{ inputs.install-module }}
         install_check_tools: true
         ubuntu-packages: ${{ inputs.ubuntu-packages }}
-        cfg_file: ${{ inputs.cfg_file }}
+        cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
 
     - name: Lint with flake8
@@ -313,7 +313,7 @@ jobs:
         install-module: ${{ inputs.install-module }}
         install_check_tools: false
         # inputs.ubuntu-packages NOT installed!
-        cfg_file: ${{ inputs.cfg_file }}
+        cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
 
     - name: Test with pytest
