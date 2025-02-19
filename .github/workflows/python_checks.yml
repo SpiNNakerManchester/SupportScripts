@@ -154,7 +154,7 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
-        install_dependencies: ${{ inputs.dependencies }}
+        install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install_check_tools: true
         ubuntu-packages:  ${{ inputs.ubuntu-packages }}
@@ -241,7 +241,7 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
-        install_dependencies: ${{ inputs.dependencies }}
+        install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install_check_tools: true
         ubuntu-packages: ${{ inputs.ubuntu-packages }}
@@ -309,7 +309,7 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
-        install_dependencies: ${{ inputs.dependencies }}
+        install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install_check_tools: false
         # inputs.ubuntu-packages NOT installed!

@@ -31,7 +31,7 @@ inputs:
       Flag to say if the current model should be installed should be installed
       Excepted values are true of false
     required: true
-  install_dependencies:
+  install-dependencies:
     description: >
       The list of SpiNNaker dependencies to check out and install.
       Space-separated
@@ -83,7 +83,7 @@ runs:
     - name: Install Spinnaker Dependencies
       uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
-        repositories: ${{ inputs.install_dependencies }}
+        repositories: ${{ inputs.install-dependencies }}
         install: true
 
     - name: Install pip, etc
