@@ -200,7 +200,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
-      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@action-dash
       with:
         tests: ${{ inputs.test-directories }}
         coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
@@ -272,7 +272,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
-      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@action-dash
       with:
         tests: ${{ inputs.test-directories }}
       env:

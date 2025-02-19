@@ -49,7 +49,7 @@ runs:
       run: pip install mypy
 
     - name: Test with pytest
-      uses: ./support/actions/pytest
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@action-dash
       with:
         tests: ${{ inputs.tests }}
         coverage: ${{ inputs.python-version == 3.12 }}
