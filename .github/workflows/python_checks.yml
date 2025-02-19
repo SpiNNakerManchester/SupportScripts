@@ -58,7 +58,7 @@ on:
         description: The names of the Python packages to run flake8 on.
         required: true
         type: string
-      check_prereleases:
+      check-prereleases:
         description: Flag to say if prereleases python versions should be checked
         required: false
         type: string
@@ -237,7 +237,7 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Prepare
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
       with:
         python-version: ${{ matrix.python-version }}
@@ -249,11 +249,11 @@ jobs:
         pip-installs: ${{ inputs.pip-installs }}
 
     - name: Lint with flake8
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint-packages }}
@@ -263,15 +263,15 @@ jobs:
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-packages != '' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
       run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
 
     - name: Lint with mypy using disallow-untyped-def
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-full-packages != '' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') &&  inputs.test-directories != ''}}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test-directories }}
