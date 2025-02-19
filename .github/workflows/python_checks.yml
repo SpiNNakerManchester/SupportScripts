@@ -88,7 +88,7 @@ on:
         required: false
         type: string
         default: "R"
-      pylint_exitcheck:
+      pylint-exitcheck:
         description: The combined results code to fail on
         required: false
         type: string
@@ -186,7 +186,7 @@ jobs:
       with:
         package: ${{ inputs.pylint-packages }}
         disable: ${{ inputs.pylint-disable }}
-        exitcheck: ${{ inputs.pylint_exitcheck }}
+        exitcheck: ${{ inputs.pylint-exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
@@ -258,7 +258,7 @@ jobs:
       with:
         package: ${{ inputs.pylint-packages }}
         disable: ${{ inputs.pylint-disable }}
-        exitcheck: ${{ inputs.pylint_exitcheck }}
+        exitcheck: ${{ inputs.pylint-exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
