@@ -230,7 +230,7 @@ jobs:
           - runner: ubuntu-22.04
             python-version: 3.9
 
-          - runner: ubuntu-20.04
+          - runner: ubuntu-22.04
             python-version: 3.8
 
     runs-on: ${{ matrix.runner }}
