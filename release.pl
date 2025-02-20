@@ -476,6 +476,7 @@ update_directory("../MarkovChainMonteCarlo");
 update_directory("../sPyNNakerJupyter");
 update_directory("../TSPonSpiNNaker");
 update_directory("../BitBrainDemo");
+update_directory("../SpiNNakerJupyterExamples");
 wait_doc_built('spynnaker');
 wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");
