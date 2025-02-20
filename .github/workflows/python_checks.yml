@@ -151,7 +151,7 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
@@ -162,7 +162,7 @@ jobs:
         pip-installs: ${{ inputs.pip-installs }}
 
     - name: Run rat copyright enforcement
-      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@action-dash
+      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
       with:
         config-file: ${{ inputs.rat-config-file }}
 
@@ -200,7 +200,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
-      uses: SpiNNakerManchester/SupportScripts/actions/pytest@action-dash
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test-directories }}
         coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
@@ -238,7 +238,7 @@ jobs:
     steps:
     - name: Prepare
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
@@ -272,7 +272,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
-      uses: SpiNNakerManchester/SupportScripts/actions/pytest@action-dash
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test-directories }}
       env:
@@ -306,7 +306,7 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@action-dash
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
