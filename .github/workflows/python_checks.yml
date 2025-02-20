@@ -24,28 +24,28 @@ on:
           The list of SpiNNaker dependencies to check out. Space-separated
         required: true
         type: string
-      install_module:
+      install-module:
         description: >
           Flag to say if the current model should be installed should be installed
           Excepted values are true of false
         required: false
         type: string
         default: 'true'
-      pip_installs:
+      pip-installs:
         description: >
           Extra things to pip install when package not installed
-          Mainly used when install_module is false
+          Mainly used when install-module is false
         required: false
         type: string
         default: ''
-      ubuntu_packages:
+      ubuntu-packages:
         description: >
           The names of the ubuntu packages to install
           These are NOT installed on none linux workflows
         required: false
         type: string
         default: ''
-      test_directories:
+      test-directories:
         description: >
           The list of directories to run pytest on. Space-seperated
         required: true
@@ -58,12 +58,12 @@ on:
         description: The names of the Python packages to run flake8 on.
         required: true
         type: string
-      check_prereleases:
+      check-prereleases:
         description: Flag to say if prereleases python versions should be checked
         required: false
         type: string
         default: 'false'
-      cfg_file:
+      cfg-file:
         description: >
           Name of the cfg file to be created
           excluding the ~./ start and .cfg end
@@ -88,12 +88,12 @@ on:
         required: false
         type: string
         default: "R"
-      pylint_exitcheck:
+      pylint-exitcheck:
         description: The combined results code to fail on
         required: false
         type: string
         default: "31"   # Action fails on any message
-      mypy-full_packages:
+      mypy-full-packages:
           description: > 
             The names of the Python packages to run full mypy on.
             These are run in --disallow-untyped-defs mode
@@ -107,7 +107,7 @@ on:
           required: false
           type: string
           default: ''
-      rat_config_file:
+      rat-config-file:
         description: >
           Which xml config file to use for rat.
           Supported options are:
@@ -117,17 +117,17 @@ on:
         required: false
         type: string
         default: "rat_asl20.xml"
-      run_sphinx:
+      run-sphinx:
         description: Flag to say if sphinx should be run
         required: false
         type: string
         default: true
-      sphinx_directory:
+      sphinx-directory:
         description: Where to run Sphinx
         required: false
         type: string
         default: "doc/source"
-      run_cff-validator:
+      run-cff-validator:
         description: Flag to say if cff-validator should be run
         required: false
         type: string
@@ -154,26 +154,26 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        install_dependencies: ${{ inputs.dependencies }}
-        install_module: ${{ inputs.install_module }}
-        install_check_tools: true
-        ubuntu_packages:  ${{ inputs.ubuntu_packages }}
-        cfg_file: ${{ inputs.cfg_file }}
-        pip_installs: ${{ inputs.pip_installs }}
+        install-dependencies: ${{ inputs.dependencies }}
+        install-module: ${{ inputs.install-module }}
+        install-check-tools: true
+        ubuntu-packages:  ${{ inputs.ubuntu-packages }}
+        cfg-file: ${{ inputs.cfg-file }}
+        pip-installs: ${{ inputs.pip-installs }}
 
     - name: Run rat copyright enforcement
       uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
       with:
-        config_file: ${{ inputs.rat_config_file }}
+        config-file: ${{ inputs.rat-config-file }}
 
     - name: Build documentation with sphinx
-      if: ${{ inputs.run_sphinx == 'true' }}
+      if: ${{ inputs.run-sphinx == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
       with:
-        directory: ${{ inputs.sphinx_directory }}
+        directory: ${{ inputs.sphinx-directory }}
 
     - name: Validate CITATION.cff
-      if: ${{ inputs.run_cff-validator == 'true' }}
+      if: ${{ inputs.run-cff-validator == 'true' }}
       uses: dieghernan/cff-validator@main
       with:
         install-r: true
@@ -186,7 +186,7 @@ jobs:
       with:
         package: ${{ inputs.pylint-packages }}
         disable: ${{ inputs.pylint-disable }}
-        exitcheck: ${{ inputs.pylint_exitcheck }}
+        exitcheck: ${{ inputs.pylint-exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
@@ -199,10 +199,10 @@ jobs:
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
-      if: ${{ inputs.test_directories != ''}}
+      if: ${{ inputs.test-directories != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
-        tests: ${{ inputs.test_directories }}
+        tests: ${{ inputs.test-directories }}
         coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
         cover-packages: ${{ inputs.coverage-package }}
         coveralls-token: ${{ secrets.GITHUB_TOKEN }}
@@ -237,44 +237,44 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Prepare
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        install_dependencies: ${{ inputs.dependencies }}
-        install_module: ${{ inputs.install_module }}
-        install_check_tools: true
-        ubuntu_packages: ${{ inputs.ubuntu_packages }}
-        cfg_file: ${{ inputs.cfg_file }}
-        pip_installs: ${{ inputs.pip_installs }}
+        install-dependencies: ${{ inputs.dependencies }}
+        install-module: ${{ inputs.install-module }}
+        install-check-tools: true
+        ubuntu-packages: ${{ inputs.ubuntu-packages }}
+        cfg-file: ${{ inputs.cfg-file }}
+        pip-installs: ${{ inputs.pip-installs }}
 
     - name: Lint with flake8
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true' }}
+      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint-packages }}
         disable: ${{ inputs.pylint-disable }}
-        exitcheck: ${{ inputs.pylint_exitcheck }}
+        exitcheck: ${{ inputs.pylint-exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-packages != '' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
       run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
 
     - name: Lint with mypy using disallow-untyped-def
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') && inputs.mypy-full-packages != '' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check_prereleases == 'true') &&  inputs.test_directories != ''}}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
-        tests: ${{ inputs.test_directories }}
+        tests: ${{ inputs.test-directories }}
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
         SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
@@ -309,18 +309,18 @@ jobs:
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
         python-version: ${{ matrix.python-version }}
-        install_dependencies: ${{ inputs.dependencies }}
-        install_module: ${{ inputs.install_module }}
-        install_check_tools: false
-        # inputs.ubuntu_packages NOT installed!
-        cfg_file: ${{ inputs.cfg_file }}
-        pip_installs: ${{ inputs.pip_installs }}
+        install-dependencies: ${{ inputs.dependencies }}
+        install-module: ${{ inputs.install-module }}
+        install-check-tools: false
+        # inputs.ubuntu-packages NOT installed!
+        cfg-file: ${{ inputs.cfg-file }}
+        pip-installs: ${{ inputs.pip-installs }}
 
     - name: Test with pytest
-      if: ${{ inputs.test_directories != ''}}
+      if: ${{ inputs.test-directories != ''}}
       env:
         SPALLOC_USER: ${{ secrets.SPALLOC_USER }}
         SPALLOC_PASSWORD: ${{ secrets.SPALLOC_PASSWORD }}
         # Tests using ping won't work in Github Actions because of system config
         SKIP_PING_TESTS: true
-      run: pytest ${{ inputs.test_directories }}
+      run: pytest ${{ inputs.test-directories }}

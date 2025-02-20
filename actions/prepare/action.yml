@@ -20,40 +20,40 @@ inputs:
       description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
       required: false
       default: "3.12"
-  checkout_dependencies:
+  checkout-dependencies:
     description: > 
       The list of SpiNNaker dependencies to check out abut not install.
       Space-separated
     required: false
     default: ''
-  install_module:
+  install-module:
     description: > 
       Flag to say if the current model should be installed should be installed
       Excepted values are true of false
     required: true
-  install_dependencies:
+  install-dependencies:
     description: >
       The list of SpiNNaker dependencies to check out and install.
       Space-separated
     required: false
     default: ''
-  ubuntu_packages:
+  ubuntu-packages:
     description: > 
       The names of the ubuntu packages to install
       These are NOT installed on none linux workflows
     required: false
     default: ''
-  install_check_tools:
+  install-check-tools:
     description: Flag to say if the checking tools should be installed.
     required: false
     default: true
-  pip_installs:
+  pip-installs:
     description: >
       Extra things to pip install when package not installed
-      Mainly used when install_module is false
+      Mainly used when install-module is false
     required: false
     default: ''
-  cfg_file:
+  cfg-file:
     description: > 
       Name of the cfg file to be created
       excluding the ~./ start and .cfg end
@@ -77,51 +77,51 @@ runs:
     - name: Checkout Spinnaker Dependencies
       uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
-        repositories: ${{ inputs.checkout_dependencies }}
+        repositories: ${{ inputs.checkout-dependencies }}
         install: false
 
     - name: Install Spinnaker Dependencies
       uses: SpiNNakerManchester/SupportScripts/actions/install-spinn-deps@main
       with:
-        repositories: ${{ inputs.install_dependencies }}
+        repositories: ${{ inputs.install-dependencies }}
         install: true
 
     - name: Install pip, etc
-      if: ${{ inputs.install_check_tools == 'true' }}
+      if: ${{ inputs.install-check-tools == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/python-tools@main
 
     - name: Pip extras
-      if: ${{ inputs.pip_installs != '' }}
+      if: ${{ inputs.pip-installs != '' }}
       shell: bash
-      run: python -m pip install ${{ inputs.pip_installs }}
+      run: python -m pip install ${{ inputs.pip-installs }}
 
     - name: Install mypy
-      if: ${{ inputs.install_check_tools == 'true' }}
+      if: ${{ inputs.install-check-tools == 'true' }}
       shell: bash
       run: pip install mypy
 
     - name: Install Ubuntu dependencies
-      if: ${{ inputs.ubuntu_packages != '' }}
+      if: ${{ inputs.ubuntu-packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/apt-get-install@main
       with:
-        packages: ${{ inputs.ubuntu_packages }}
+        packages: ${{ inputs.ubuntu-packages }}
 
     - name: Run Install
-      if: ${{ inputs.install_module == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/run-install@main
+      if: ${{ inputs.install-module == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/run-install@action-dash
 
     - name: Setup PyNN
-      if: ${{ inputs.cfg_file == 'spynnaker' }}
+      if: ${{ inputs.cfg-file == 'spynnaker' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pynn-setup@main
 
     - name: Create cfg
-      if: ${{ inputs.cfg_file != '' }}
+      if: ${{ inputs.cfg-file != '' }}
       shell: bash
       run: | 
-        echo '[Machine]' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg_file }}.cfg
-        echo 'version = 5' >> ~/.${{ inputs.cfg_file }}.cfg
+        echo '[Machine]' >> ~/.${{ inputs.cfg-file }}.cfg
+        echo 'spalloc_server = https://spinnaker.cs.man.ac.uk/spalloc/' >> ~/.${{ inputs.cfg-file }}.cfg
+        echo 'spalloc_port = 22244' >> ~/.${{ inputs.cfg-file }}.cfg
+        echo 'version = 5' >> ~/.${{ inputs.cfg-file }}.cfg
 
     - name: Set dns server LINUX
       shell: bash

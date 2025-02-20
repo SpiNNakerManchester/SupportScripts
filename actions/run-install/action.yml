@@ -18,8 +18,8 @@ description: >
   the source tree.
   Should be run with the working directory at the root of the checkout.
 inputs:
-  extras_require:
-    description: Which extras_require to included from setup.cfg
+  extras-require:
+    description: Which extras-require to included from setup.cfg
     required: false
     default: "[test]"
 runs:
@@ -27,7 +27,7 @@ runs:
   steps: 
     - run: |
         echo "::group::Doing install"
-        pip install -e .${{ inputs.extras_require }}
+        pip install -e .${{ inputs.extras-require }}
         code=$?
         echo "::endgroup::"
         exit $code

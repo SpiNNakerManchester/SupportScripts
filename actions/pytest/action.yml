@@ -25,7 +25,7 @@ inputs:
     description: Extra options to pass to pytest
     required: false
     default: ""
-  type_overrides:
+  type-overrides:
     description: Flag to say if all overrides should be checked that they are typed
     reguired: false
     default: "true"
@@ -74,7 +74,7 @@ runs:
         TEST_PKG: ${{ inputs.tests }}
         DO_COVERAGE: ${{ inputs.coverage == 'true' }}
         EXTRA_OPTS: ${{ inputs.options }}
-        TYPE_OVERRIDES: ${{ inputs.type_overrides }}
+        TYPE_OVERRIDES: ${{ inputs.type-overrides }}
     - name: coverage
       run: |
         if [ $DO_COVERAGE = "true" ]; then
