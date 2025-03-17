@@ -196,7 +196,6 @@ AbstractEdgePartition
 AbstractEIEIOMessage
 AbstractMulticastControllableDevice
 AbstractMulticastRoutingTable
-AbstractPopulationVertex
 AbstractSDRAM
 AbstractSDRAMPartition
 AbstractSendsBuffersFromHost
@@ -265,6 +264,7 @@ PacmanConfigurationException
 PlacementTuple
 PopulationApplicationVertex
 PopulationBase
+PopulationVertex
 PopulationView
 ProgressBar
 ProjectionApplicationEdge
