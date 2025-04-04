@@ -157,6 +157,7 @@ Zenodo
 
 # Publication titles
 PLoS
+Neuromorphic
 
 # People names
 Bogdan
