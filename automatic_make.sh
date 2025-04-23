@@ -48,9 +48,10 @@ do_make spinn_common install
 do_make SpiNNFrontEndCommon/c_common/front_end_common_lib install
 do_make SpiNNFrontEndCommon/c_common/ install
 do_make sPyNNaker/neural_modelling/
-do_make sPyNNaker8NewModelTemplate/c_models/
+do_make sPyNNakerNewModelTemplate/c_models/
 do_make SpiNNakerGraphFrontEnd/gfe_examples/
 do_make SpiNNakerGraphFrontEnd/gfe_integration_tests/
 do_make SpiNNGym/c_code
 do_make SpiNNaker_PDP2/c_code
 do_make MarkovChainMonteCarlo/c_models
+do_make TSPonSpiNNaker/spinnaker_c

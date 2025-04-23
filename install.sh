@@ -20,12 +20,12 @@ check_or_install() {
     if [ -d "$1" ]; then
         # Control will enter here if DIRECTORY exists.
         if [ -d "$1/.git" ]; then
-            echo $1 already exists; unable to install $2 there
-            exit
+            echo $1 already exists so cannot to install $2 there
+            return
         else
             echo Directory $1 exists but does not appear to be connected to git
             echo Unable to install $2 there
-            exit
+            return
         fi
     else
         while true; do
@@ -48,23 +48,33 @@ check_or_install() {
     fi
 }
 
-install_eight(){
+install_pynn(){
     check_or_install sPyNNaker https://github.com/SpiNNakerManchester/sPyNNaker.git
-    check_or_install sPyNNaker8 https://github.com/SpiNNakerManchester/sPyNNaker8.git ;
-    check_or_install sPyNNaker8NewModelTemplate https://github.com/SpiNNakerManchester/sPyNNaker8NewModelTemplate.git
-    check_or_install PyNN8Examples https://github.com/SpiNNakerManchester/PyNN8Examples.git
+    check_or_install sPyNNakerNewModelTemplate https://github.com/SpiNNakerManchester/sPyNNakerNewModelTemplate.git
+    check_or_install PyNNExamples https://github.com/SpiNNakerManchester/PyNNExamples.git
 }
 
 install_gfe(){
     check_or_install SpiNNakerGraphFrontEnd https://github.com/SpiNNakerManchester/SpiNNakerGraphFrontEnd.git
 }
 
+install_extra(){
+    check_or_install IntegrationTests https://github.com/SpiNNakerManchester/IntegrationTests.git
+    check_or_install TestBase https://github.com/SpiNNakerManchester/TestBase.git
+}
+
+install_docs(){
+    check_or_install SpiNNakerManchester.github.io https://github.com/SpiNNakerManchester/SpiNNakerManchester.github.io.git
+    check_or_install lab_answers https://github.com/SpiNNakerManchester/lab_answers.git
+}
+
 case $1 in
-    *8 ) echo "Installing for PyNN8";;
+    pynn ) echo "Installing for PyNN";;
     gfe) echo "Installing Graph Front End";;
     man ) echo "Installing special manchester repositories";;
+    man_extra ) echo "Installing special manchester repositories including docs";;
     all ) echo "Installing All the main repositories";;
-    * ) echo "Please specifiy if you wish to install for PyNN8, gfe or all:";
+    * ) echo "Please specifiy if you wish to install for pynn, gfe, all, man or man_extra:";
         exit;;
 esac
 
@@ -85,29 +95,30 @@ check_or_install SpiNNFrontEndCommon https://github.com/SpiNNakerManchester/SpiN
 check_or_install sPyNNakerVisualisers https://github.com/SpiNNakerManchester/sPyNNakerVisualisers.git
 check_or_install IntroLab https://github.com/SpiNNakerManchester/IntroLab.git
 check_or_install spalloc https://github.com/SpiNNakerManchester/spalloc.git
+check_or_install JavaSpiNNaker https://github.com/SpiNNakerManchester/JavaSpiNNaker.git
 
 case $1 in
-    *8 )
-        install_eight
-        echo "Please ensure your locally installed PyNN is version 8"
+    pynn )
+        install_pynn
         ;;
     gfe )
         install_gfe
         ;;
     man )
-        install_eight
+        install_pynn
         install_gfe
-        check_or_install IntegrationTester https://github.com/SpiNNakerManchester/IntegrationTester.git
-        check_or_install SupportScripts https://github.com/SpiNNakerManchester/SupportScripts.git
-        check_or_install SpiNNakerManchester.github.io https://github.com/SpiNNakerManchester/SpiNNakerManchester.github.io.git
-        check_or_install lab_answers https://github.com/SpiNNakerManchester/lab_answers.git
-        echo "Warning you will need to use virtual machines or reinstall PyNN each time you switch PyNN version"
+        install_extra
+        ;;
+    man_extra )
+        install_pynn
+        install_gfe
+        install_extra
+        install_docs
         ;;
     all )
-        install_eight
+        install_pynn
         install_gfe
-        echo "Warning you will need to use virtual machines or reinstall PyNN each time you switch PyNN version"
         ;;
-    * ) echo "Please specifiy if you wish to install for PyNN8, gfe or all:";
+    * ) echo "Shouldn't be possible to get here!";
         exit;;
 esac

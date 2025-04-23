@@ -24,7 +24,7 @@ inputs:
     required: false
     default: https://www.apache.org/dyn/closer.cgi?action=download&filename=
     # Another alternative: https://www.mirrorservice.org/sites/ftp.apache.org/
-  config_file:
+  config-file:
     description: "Which xml config file to use.
         Supported options are:
           'rat.xml'  all license acceptable to rat
@@ -49,7 +49,7 @@ runs:
       shell: bash
       env:
         SUPPORT_DIR: ${{ github.action_path }}
-        CFG: ${{ github.action_path }}/${{ inputs.config_file }}
+        CFG: ${{ github.action_path }}/${{ inputs.config-file }}
         LIB: ${{ github.action_path }}/apache-rat-${{ inputs.version }}
 branding:
   icon: search

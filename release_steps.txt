@@ -41,7 +41,7 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 12. edit Jenkins
     -  Python install from testpypi ->  Python install from pypi
     remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
-13. commit and push
+13. create new branch commit and push
 14. Check Jenkins
 
 15. Change version in tag.pl
@@ -52,3 +52,5 @@ After a full (not pre release)
    - dump $release
    - my $branch = "version_bump";
 17. perl release.pl (from inside SupportScripts)
+
+For Java in github do a new release and include JavaSpiNNaker/SpiNNaker-front-end/target/spinnaker-exe.jar

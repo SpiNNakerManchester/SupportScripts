@@ -48,7 +48,7 @@ inputs:
     description: The height of the virtual machine, in chips
     required: false
     default: "8"
-  time_scale_factor:
+  time-scale-factor:
     description: Time scale factor allows the slowing down of the simulation
     required: false
     default: None
@@ -56,13 +56,13 @@ inputs:
     description: What operation mode to use, Production or Debug
     required: false
     default: Production
-  data_path:
+  data-path:
     description: Where to write intermediate data files and provenance data
     required: false
     default: DEFAULT
 runs:
   using: composite
-  steps: 
+  steps:
     - name: Add to cfg
       run: |
         bash ${{ github.action_path }}/mkcfg.bash
@@ -75,9 +75,9 @@ runs:
         V_TYPE: ${{ inputs.virtual }}
         V_WIDTH: ${{ inputs.width }}
         V_HEIGHT: ${{ inputs.height }}
-        M_TSF: ${{ inputs.time_scale_factor }}
+        M_TSF: ${{ inputs.time-scale-factor }}
         M_MODE: ${{ inputs.mode }}
-        F_PATH: ${{ inputs.data_path }}
+        F_PATH: ${{ inputs.data-path }}
       shell: bash
     - name: cat cfg
       run: |

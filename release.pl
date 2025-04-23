@@ -17,8 +17,8 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.1.1";  # Without the leading 1!
-my $release_name = "Post_HBP";
+my $release = "7.3.1";  # Without the leading 1!
+my $release_name = "To Do";
 #my $branch = $release;
 my $branch = "version_bump";
 
@@ -464,9 +464,8 @@ update_directory("../TestBase");
 wait_doc_built('spinnfrontendcommon');
 update_directory("../sPyNNaker");
 update_directory("../SpiNNakerGraphFrontEnd");
-update_directory("../PyNN8Examples");
-update_directory("../IntroLab");
-update_directory("../sPyNNaker8NewModelTemplate");
+update_directory("../PyNNExamples");
+update_directory("../sPyNNakerNewModelTemplate");
 update_directory("../sPyNNakerVisualisers");
 update_directory("../Visualiser");
 update_directory("../JavaSpiNNaker");
@@ -474,7 +473,10 @@ update_directory("../SpiNNGym");
 update_directory("../SpiNNaker_PDP2");
 update_directory("../microcircuit_model");
 update_directory("../MarkovChainMonteCarlo");
-update_directory("../sPyNNaker8Jupyter");
+update_directory("../sPyNNakerJupyter");
+update_directory("../TSPonSpiNNaker");
+update_directory("../BitBrainDemo");
+update_directory("../SpiNNakerJupyterExamples");
 wait_doc_built('spynnaker');
 wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");

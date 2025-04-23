@@ -24,7 +24,7 @@ use feature qw(say);
 use Git;
 
 
-my $release = "7.1.0";  # Without the leadint 1!
+my $release = "7.3.0";  # Without the leadint 1!
 
 sub git_tag{
     my $start_path = getcwd();
@@ -55,9 +55,8 @@ git_tag("../SpiNNFrontEndCommon");
 git_tag("../TestBase");
 git_tag("../sPyNNaker");
 git_tag("../SpiNNakerGraphFrontEnd");
-git_tag("../PyNN8Examples");
-git_tag("../IntroLab");
-git_tag("../sPyNNaker8NewModelTemplate");
+git_tag("../PyNNExamples");
+git_tag("../sPyNNakerNewModelTemplate");
 git_tag("../sPyNNakerVisualisers");
 git_tag("../Visualiser");
 git_tag("../JavaSpiNNaker");
@@ -65,8 +64,10 @@ git_tag("../SpiNNGym");
 git_tag("../SpiNNaker_PDP2");
 git_tag("../microcircuit_model");
 git_tag("../MarkovChainMonteCarlo");
-git_tag("../sPyNNaker8Jupyter");
+git_tag("../sPyNNakerJupyter");
 git_tag("../sphinx8");
 git_tag("../IntegrationTests");
+git_tag("../TSPonSpiNNaker");
+git_tag("../BitBrainDemo");
 # die "stop";
 
