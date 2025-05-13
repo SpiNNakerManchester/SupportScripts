@@ -116,6 +116,8 @@ def bump_conf_version(file):
             lines[i] = "version = 'latest'\n"
         elif line.startswith("release ="):
             lines[i] = "release = 'latest'\n"
+        elif line.startswith("spinnaker_doc_version"):
+            lines[i] = "spinnaker_doc_version = 'latest'\n"
     with open(file, 'w') as f:
         f.writelines(lines)
 
