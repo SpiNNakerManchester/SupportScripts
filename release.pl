@@ -271,7 +271,6 @@ sub handle_conf_py {
     while( <$in> ) {
        $line = $_;
        my $old_line = $line;
-       $line =~ s/(\d{4})\-(\d{4})/$1\-2023/i;
        $line =~ s/version = \'\d.\d.*$/version = \'1!${version}\'/;
        $line =~ s/release = \'\d.\d.*$/release = \'1!${release}\'/;
        $line =~ s/spinnaker_doc_version = "latest"/spinnaker_doc_version = "${release}"/;
