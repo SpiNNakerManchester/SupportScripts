@@ -113,11 +113,11 @@ def bump_conf_version(file):
         lines = f.readlines()
     for i, line in enumerate(lines):
         if line.startswith("version = "):
-            lines[i] = "version = 'latest'\n"
+            lines[i] = "version = 'development'\n"
         elif line.startswith("release ="):
-            lines[i] = "release = 'latest'\n"
+            lines[i] = "release = 'development'\n"
         elif line.startswith("spinnaker_doc_version"):
-            lines[i] = "spinnaker_doc_version = 'latest'\n"
+            lines[i] = "spinnaker_doc_version = 'development'\n"
     with open(file, 'w') as f:
         f.writelines(lines)
 
