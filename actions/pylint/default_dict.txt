@@ -286,6 +286,7 @@ SpallocClient
 SpallocJob
 SpallocMachine
 SpinnakerBootMessage
+SpinnmanIOException
 SynapseInformation
 SynapseRegionReferences
 SynapseRegions
