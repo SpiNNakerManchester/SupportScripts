@@ -338,6 +338,8 @@ TCP
 TTY
 txrx
 UDP
+Wi-Fi
+
 
 # Misc
 al
