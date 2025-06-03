@@ -248,6 +248,14 @@ jobs:
         cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
 
+    - name: Lint with mypy
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
+      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
+
+    - name: Lint with mypy using disallow-untyped-def
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
+
     - name: Lint with flake8
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       run: flake8 ${{ inputs.flake8-packages }}
@@ -261,14 +269,6 @@ jobs:
         exitcheck: ${{ inputs.pylint-exitcheck }}
         rcfile: ${{ inputs.rcfile }}
         language: en_GB
-
-    - name: Lint with mypy
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
-
-    - name: Lint with mypy using disallow-untyped-def
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
