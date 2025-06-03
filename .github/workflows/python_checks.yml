@@ -289,7 +289,7 @@ jobs:
             python-version: "3.12"
             checks: 'tests'
 
-          - runner: windows-2019
+          - runner: windows-2022
             python-version: 3.9
             checks: 'tests'
 
