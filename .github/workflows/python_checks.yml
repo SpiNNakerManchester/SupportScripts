@@ -134,8 +134,8 @@ on:
         default: true
 
 
-env:
-  PRERELEASE: "3.14"
+# env:
+#  PRERELEASE: "3.14"
 
 jobs:
   validate:
@@ -289,11 +289,9 @@ jobs:
       matrix:
         include:
           - runner: windows-latest
-            python-version: "3.13"
             checks: 'tests'
 
           - runner: macos-latest
-            python-version: "3.13"
             checks: 'tests'
 
     runs-on: ${{ matrix.runner }}
