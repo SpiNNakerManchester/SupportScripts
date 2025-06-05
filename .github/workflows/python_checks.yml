@@ -62,7 +62,7 @@ on:
         description: Flag to say if prereleases python versions should be checked
         required: false
         type: string
-        default: 'false'
+        default: 'true'
       cfg-file:
         description: >
           Name of the cfg file to be created
@@ -134,8 +134,8 @@ on:
         default: true
 
 
-# env:
-#  PRERELEASE: "3.14"
+env:
+  PRERELEASE: "3.14"
 
 jobs:
   validate:
