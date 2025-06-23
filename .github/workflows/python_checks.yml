@@ -301,7 +301,6 @@ jobs:
     - name: Prepare
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
-        python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install-check-tools: false
