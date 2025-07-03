@@ -188,6 +188,7 @@ spalloc's
 spinnman
 SpiNNakerGraphFrontEnd
 spynnaker
+spinnirker
 
 # our types
 AbstractBase
@@ -514,3 +515,6 @@ xys
 # needed until PRs approved.
 RTEntry
 RoutingTableEntry
+
+# Needed in case of reference to NIR
+NIR
