@@ -17,6 +17,7 @@
 
 # This workflow runs whenever a pull request in the repository is marked as "ready for review".
 # To re-use in your repo:
+# name: Add PRs to Project
 # on:
 #   pull_request:
 #     types:
@@ -24,6 +25,8 @@
 # jobs:
 #   call-add-prs-to-project:
 #     uses: SpiNNakerManchester/SupportScripts/workflows/add_prs_to_project.yml@main
+#     with:
+#       personal_access_token: ${{ secrets.SPINNAKER_PAT }}
 #
 
 name: Add PR to project
@@ -34,7 +37,9 @@ on:
         type: number
         required: false
         default: 81
-
+    secrets:
+      personal_access_token:
+        required: true
 
 jobs:
   track_pr:
@@ -43,7 +48,7 @@ jobs:
       - name: Get project data
         env:
           # Aur
-          GH_TOKEN: ${{ secrets.SPINNAKER_PAT }}
+          GH_TOKEN: ${{ secrets.personal_access_token }}
           ORGANIZATION: SpiNNakerManchester
           PROJECT_NUMBER: ${{ inputs.project_number }}
         # Uses [GitHub CLI](https://cli.github.com/manual/) to query the API for the ID of the project and return the name and ID of the first 20 fields in the project. `fields` returns a union and the query uses inline fragments (`... on`) to return information about any `ProjectV2Field` and `ProjectV2SingleSelectField` fields. The response is stored in a file called `project_data.json`.
@@ -87,7 +92,7 @@ jobs:
 
       - name: Add PR to project
         env:
-          GH_TOKEN: ${{ secrets.SPINNAKER_PAT }}
+          GH_TOKEN: ${{ secrets.personal_access_token }}
           PR_ID: ${{ github.event.pull_request.node_id }}
         # Uses [GitHub CLI](https://cli.github.com/manual/) and the API to add the pull request that triggered this workflow to the project. The `jq` flag parses the response to get the ID of the created item.
         run: |
@@ -109,7 +114,7 @@ jobs:
 
       - name: Set fields
         env:
-          GH_TOKEN: ${{ secrets.SPINNAKER_PAT }}
+          GH_TOKEN: ${{ secrets.personal_access_token }}
         # Sets the value of the `Status` field to `Todo`. Sets the value of the `Date posted` field.
         run: |
           gh api graphql -f query='
