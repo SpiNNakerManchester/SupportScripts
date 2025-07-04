@@ -21,9 +21,9 @@
 #   pull_request:
 #     types:
 #       - review_requested
-#   jobs:
-#     call-add-prs-to-project:
-#       uses: SpiNNakerManchester/SupportScripts/workflows/add_prs_to_project.yml@main
+# jobs:
+#   call-add-prs-to-project:
+#     uses: SpiNNakerManchester/SupportScripts/workflows/add_prs_to_project.yml@main
 #
 
 name: Add PR to project
