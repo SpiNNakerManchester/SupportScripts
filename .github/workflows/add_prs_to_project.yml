@@ -37,9 +37,19 @@ on:
         type: number
         required: false
         default: 81
+        description: >
+          The identifier of the project to add the PR to in the organisation being run in
+      status_to_change_to:
+        type: string
+        required: false
+        default: Ready To Review
+        description: >
+          The name of the option to select in as the Status field.  This workflow assumes that the project has a single select field called "Status" that includes an option that this value specifies.
     secrets:
       personal_access_token:
         required: true
+        description: >
+          The access token to use to add the PR to the project.  Must have appropriate permissions.
 
 jobs:
   track_pr:
@@ -78,17 +88,12 @@ jobs:
               }
             }' -f org=$ORGANIZATION -F number=$PROJECT_NUMBER > project_data.json
 
-          # Parses the response from the API query and stores the relevant IDs as environment variables. Modify this to get the ID for different fields or options. For example:
-          #
-          # - To get the ID of a field called `Team`, add `echo 'TEAM_FIELD_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Team") | .id' project_data.json) >> $GITHUB_ENV`.
-          # - To get the ID of an option called `Octoteam` for the `Team` single select field, add `echo 'OCTOTEAM_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Team") |.options[] | select(.name=="Octoteam") |.id' project_data.json) >> $GITHUB_ENV`.
-          #
-          # **Note:** This workflow assumes that you have a project with a single select field called "Status" that includes an option called "Todo" and a date field called "Date posted". You must modify this section to match the fields that are present in your table.
+          # Parses the response from the API query and stores the relevant IDs as environment variables.
+          # **Note:** This workflow assumes that you have a project with a single select field called "Status" that includes an option specified in inputs.status_to_change_to.
 
           echo 'PROJECT_ID='$(jq '.data.organization.projectV2.id' project_data.json) >> $GITHUB_ENV
-          echo 'DATE_FIELD_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Date posted") | .id' project_data.json) >> $GITHUB_ENV
           echo 'STATUS_FIELD_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .id' project_data.json) >> $GITHUB_ENV
-          echo 'TODO_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Todo") |.id' project_data.json) >> $GITHUB_ENV
+          echo 'STATUS_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="${{ inputs.status_to_change_to }}") |.id' project_data.json) >> $GITHUB_ENV
 
       - name: Add PR to project
         env:
@@ -108,14 +113,10 @@ jobs:
           # Stores the ID of the created item as an environment variable.
           echo 'ITEM_ID='$item_id >> $GITHUB_ENV
 
-      # Saves the current date as an environment variable in `yyyy-mm-dd` format.
-      - name: Get date
-        run: echo "DATE=$(date +"%Y-%m-%d")" >> $GITHUB_ENV
-
       - name: Set fields
         env:
           GH_TOKEN: ${{ secrets.personal_access_token }}
-        # Sets the value of the `Status` field to `Todo`. Sets the value of the `Date posted` field.
+        # Sets the value of the `Status` field to `Ready to Review`.
         run: |
           gh api graphql -f query='
             mutation (
@@ -123,8 +124,6 @@ jobs:
               $item: ID!
               $status_field: ID!
               $status_value: String!
-              $date_field: ID!
-              $date_value: Date!
             ) {
               set_status: updateProjectV2ItemFieldValue(input: {
                 projectId: $project
@@ -138,16 +137,4 @@ jobs:
                   id
                   }
               }
-              set_date_posted: updateProjectV2ItemFieldValue(input: {
-                projectId: $project
-                itemId: $item
-                fieldId: $date_field
-                value: {
-                  date: $date_value
-                }
-              }) {
-                projectV2Item {
-                  id
-                }
-              }
-            }' -f project=$PROJECT_ID -f item=$ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.TODO_OPTION_ID }} -f date_field=$DATE_FIELD_ID -f date_value=$DATE --silent
+            }' -f project=$PROJECT_ID -f item=$ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.STATUS_OPTION_ID }} --silent
