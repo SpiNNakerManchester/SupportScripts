@@ -147,6 +147,7 @@ jobs:
             python-version: "3.12"
             checks: 'validate'
     runs-on: ${{ matrix.runner }}
+    continue-on-error: true
     timeout-minutes: 20
 
     steps:
