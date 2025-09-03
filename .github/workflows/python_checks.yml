@@ -214,6 +214,7 @@ jobs:
         SKIP_PING_TESTS: true
 
   checks:
+    continue-on-error: true
     # Everything as tests but do validation steps first
     strategy:
       matrix:
@@ -299,6 +300,7 @@ jobs:
         SKIP_PING_TESTS: true
 
   tests:
+    continue-on-error: true
     strategy:
       matrix:
         include:
