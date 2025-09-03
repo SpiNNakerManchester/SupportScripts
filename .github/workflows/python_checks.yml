@@ -147,7 +147,6 @@ jobs:
             python-version: "3.12"
             checks: 'validate'
     runs-on: ${{ matrix.runner }}
-    continue-on-error: true
     timeout-minutes: 20
 
     steps:
@@ -180,9 +179,11 @@ jobs:
         install-r: true
 
     - name: Lint with flake8
+      if: success() || failure()
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
+      if: success() || failure()
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint-packages }}
@@ -192,15 +193,15 @@ jobs:
         language: en_GB
 
     - name: Lint with mypy
-      if: ${{ inputs.mypy-packages != ''}}
+      if: (success() || failure()) && ${{ inputs.mypy-packages != ''}}
       run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
 
     - name: Lint with mypy using disallow-untyped-def
-      if: ${{ inputs.mypy-full-packages != ''}}
+      if: (success() || failure()) && ${{ inputs.mypy-full-packages != ''}}
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
-      if: ${{ inputs.test-directories != ''}}
+      if: (success() || failure()) && ${{ inputs.test-directories != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test-directories }}
@@ -214,7 +215,6 @@ jobs:
         SKIP_PING_TESTS: true
 
   checks:
-    continue-on-error: true
     # Everything as tests but do validation steps first
     strategy:
       matrix:
@@ -271,15 +271,16 @@ jobs:
       run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
 
     - name: Lint with mypy using disallow-untyped-def
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
+
+      if: (success() || failure()) && ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Lint with flake8
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
+      if: (success() || failure()) && ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
+      if: (success() || failure()) && ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint-packages }}
@@ -289,7 +290,7 @@ jobs:
         language: en_GB
 
     - name: Test with pytest
-      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
+      if: (success() || failure()) && ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
       uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
       with:
         tests: ${{ inputs.test-directories }}
@@ -300,7 +301,6 @@ jobs:
         SKIP_PING_TESTS: true
 
   tests:
-    continue-on-error: true
     strategy:
       matrix:
         include:
