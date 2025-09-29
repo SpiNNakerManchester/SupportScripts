@@ -18,31 +18,31 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 
 1. Update master/main locally on all repositories
 2. Run automatic_make.sh
-3. Update release number and name in release.pl
+3. Get Add pip freeze info from IntegrationTests (install)
+4. Pin all dependecies in setup cfg
+5. Update release number and name in release.pl
     - #my $branch = $release;
-4. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
-5. perl release.pl (from inside SupportScripts)
+6. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
+7. perl release.pl (from inside SupportScripts)
    - This creates new branches with this release
    - This updates version number as required.
    - This does a new -python3 build
    - This pushes the branches to github
    - This checks the readthedocs
    - This script can be repeated in which case it delete previous branches
-6. Check all github actions passed
+8. Check all github actions passed
     Note Intergation tests branch prepared but not pushed
 
-7. sh SupportScripts/testpypi.sh (from parent)
-8. push Intergation test branch
-9. Check Jenkins
+9. sh SupportScripts/testpypi.sh (from parent)
+10. push Intergation test branch
+11. Check Jenkins
 
-11. (optional) Add pip freeze info from Jenkins (install) to read.me files
-
-11. sh SupportScripts/pypi.sh (from parent)
-12. edit Jenkins
+12. sh SupportScripts/pypi.sh (from parent)
+13. edit Jenkins
     -  Python install from testpypi ->  Python install from pypi
     remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
-13. create new branch commit and push
-14. Check Jenkins
+14. create new branch commit and push
+15. Check Jenkins
 
 15. Change version in tag.pl
 16. perl tag.pl (from inside SupportScripts)
