@@ -252,11 +252,11 @@ jobs:
         cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
 
-    - name: Prepare 3.13.6
+    - name: Prepare 3.13.7
       if: ${{ matrix.python-version == '3.13' }}
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
-        python-version: 3.13.6
+        python-version: 3.13.7
         install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install-check-tools: true
