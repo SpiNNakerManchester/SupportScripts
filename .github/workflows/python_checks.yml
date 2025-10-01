@@ -256,7 +256,7 @@ jobs:
       if: ${{ matrix.python-version == '3.13' }}
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
-        python-version: 3.13
+        python-version: 3.13.6
         install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
         install-check-tools: true
