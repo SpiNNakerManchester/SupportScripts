@@ -18,8 +18,8 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 
 1. Update master/main locally on all repositories
 2. Run automatic_make.sh
-3. Get Add pip freeze info from IntegrationTests (install)
-4. Pin all dependecies in setup cfg
+3. Get Add pip freeze info from github actions preare stage
+4. cap key dependecies in setup cfg
 5. Update release number and name in release.pl
     - #my $branch = $release;
 6. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
