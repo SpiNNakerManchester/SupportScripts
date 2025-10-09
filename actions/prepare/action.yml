@@ -133,4 +133,5 @@ runs:
         sudo systemctl restart systemd-resolved
 
     - name: Pip freeze
+      shell: bash
       run: pip freeze
