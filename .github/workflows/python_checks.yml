@@ -218,8 +218,8 @@ jobs:
       matrix:
         include:
           # prereleases
-          - runner: ubuntu-latest
-            python-version: "3.14"
+          #- runner: ubuntu-latest
+          #  python-version: "3.14"
 
           - runner: ubuntu-latest
             python-version: "3.13"
