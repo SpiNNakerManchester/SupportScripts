@@ -19,7 +19,7 @@ inputs:
   pylint-version:
     description: The version of pylint desired
     required: false
-    default: "<4"
+    default: ""
   coverage:
     description: Whether to install tools for coverage checking
     required: false
