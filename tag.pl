@@ -24,7 +24,7 @@ use feature qw(say);
 use Git;
 
 
-my $release = "7.3.0";  # Without the leadint 1!
+my $release = "7.4.0";  # Without the leadint 1!
 
 sub git_tag{
     my $start_path = getcwd();

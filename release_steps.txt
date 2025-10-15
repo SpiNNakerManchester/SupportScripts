@@ -17,40 +17,45 @@ Assumes twine is installed and pypi accounts setup
 Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 
 1. Update master/main locally on all repositories
-2. Run automatic_make.sh
+2. Run automatic_make.sh (from parent)
 3. Get Add pip freeze info from github actions preare stage
 4. cap key dependecies in setup cfg
-5. Update release number and name in release.pl
+   - SpiNNUtils/setup.cfg numpy
+   - sPyNNaker/setup.cfg p
+5. Update release number and name in r release.oelease.pl
     - #my $branch = $release;
-6. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/219
+6. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/325
 7. perl release.pl (from inside SupportScripts)
    - This creates new branches with this release
    - This updates version number as required.
    - This does a new -python3 build
    - This pushes the branches to github
-   - This checks the readthedocs
+   # - This checks the readthedocs
    - This script can be repeated in which case it delete previous branches
 8. Check all github actions passed
     Note Intergation tests branch prepared but not pushed
 
 9. sh SupportScripts/testpypi.sh (from parent)
 10. push Intergation test branch
-11. Check Jenkins
+11. Check test
 
-12. sh SupportScripts/pypi.sh (from parent)
-13. edit Jenkins
+12. Check version is correct in dist gz files
+13. sh SupportScripts/pypi.sh (from parent)
+14. edit self_hosted_tests.yml
     -  Python install from testpypi ->  Python install from pypi
-    remove (*3) "https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
-14. create new branch commit and push
-15. Check Jenkins
+    remove (*3) "-i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
+    if not a pre remove the -pre as well
+15. create new branch commit and push
+perl pag.pl
+16. Change version in tag.pl
+17. perl tag.pl (from inside SupportScripts)
 
-15. Change version in tag.pl
-16. perl tag.pl (from inside SupportScripts)
+18. Check Intergation Test
 
 After a full (not pre release)
-16. change release.pl
+19. change release.pl
    - dump $release
    - my $branch = "version_bump";
-17. perl release.pl (from inside SupportScripts)
+20. perl release.pl (from inside SupportScripts)
 
 For Java in github do a new release and include JavaSpiNNaker/SpiNNaker-front-end/target/spinnaker-exe.jar

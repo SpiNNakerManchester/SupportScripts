@@ -19,7 +19,7 @@ inputs:
   pylint-version:
     description: The version of pylint desired
     required: false
-    default: ""
+    default: "<4"
   coverage:
     description: Whether to install tools for coverage checking
     required: false
@@ -29,7 +29,7 @@ inputs:
     required: false
     default: ">= 6.0"
   spell-checker-implementation:
-    description: >
+    description:
       The packages required for the implementation of the spell checker. These
       run behind the enchant API. This may include installing a particular 
       dictionary.

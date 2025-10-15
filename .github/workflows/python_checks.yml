@@ -230,16 +230,11 @@ jobs:
           - runner: ubuntu-latest
             python-version: "3.10"
 
-          - runner: ubuntu-22.04
-            python-version: 3.9
-
-          - runner: ubuntu-22.04
-            python-version: 3.8
-
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
     steps:
     - name: Prepare
+      #if: ${{ matrix.python-version != '3.13' }}
       #if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
       uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
       with:
@@ -250,6 +245,18 @@ jobs:
         ubuntu-packages: ${{ inputs.ubuntu-packages }}
         cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
+
+    #- name: Prepare 3.13.5
+    #  if: ${{ matrix.python-version == '3.13' }}
+    #  uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+    #  with:
+    #    python-version: 3.13
+    #    install-dependencies: ${{ inputs.dependencies }}
+    #    install-module: ${{ inputs.install-module }}
+    #    install-check-tools: true
+    #    ubuntu-packages: ${{ inputs.ubuntu-packages }}
+    #    cfg-file: ${{ inputs.cfg-file }}
+    #    pip-installs: ${{ inputs.pip-installs }}
 
     - name: Lint with mypy
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
