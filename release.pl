@@ -17,10 +17,10 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.4.0";  # Without the leading 1!
-my $release_name = "Quietly Confident";
-my $branch = $release;
-# my $branch = "version_bump";
+my $release = "7.4.1";  # Without the leading 1!
+my $old_release = "7.3.1"; # Without the leading 1!
+my $release_name = "Quietly Confident 1";
+my $is_release = 1; # 1 for release 0 for post release
 
 use strict;
 use warnings;
@@ -47,21 +47,25 @@ sub git_test_pypi{
     # Switch to the main and master branch and make sure is it uptodate
     $repo = Git->repository();
 
-    $repo->command('checkout', 'test.pypi-last-pre');
+    $repo->command('checkout', 'test_pypi');
 }
 
 sub git_main{
     # Switch to the main and master branch and make sure is it uptodate
     $repo = Git->repository();
 
-    $repo->command('fetch', 'origin');
-    my $info = $repo->command('branch');
-    if (index($info, 'main') != -1){
-        $repo->command('checkout', 'main');
-        $repo->command('merge', 'origin/main', 'main');
+    if ($is_release) {
+        $repo->command('fetch', 'origin');
+        my $info = $repo->command('branch');
+        if (index($info, 'main') != -1){
+            $repo->command('checkout', 'main');
+            $repo->command('merge', 'origin/main', 'main');
+        } else {
+            $repo->command('checkout', 'master');
+            $repo->command('merge', 'origin/master', 'master');
+        }
     } else {
-        $repo->command('checkout', 'master');
-        $repo->command('merge', 'origin/master', 'master');
+        $repo->command('checkout', $old_release);
     }
 }
 
@@ -74,10 +78,10 @@ sub git_setup_branch{
 
     # remove previously branches
     my $info = $repo->command('branch');
-    if (index($info, $branch) != -1){
-        say "removing previous branch $branch";
+    if (index($info, $release) != -1){
+        say "removing previous branch $release";
         eval {
-            $repo->command('branch', '-D', $branch);
+            $repo->command('branch', '-D', $release);
         } or do {
             my $e = $@;
             say "Something went wrong: $e#";
@@ -85,10 +89,10 @@ sub git_setup_branch{
     }
 
     $info = $repo->command('ls-remote', '--heads', 'origin');
-    if (index($info, $branch) != -1){
+    if (index($info, $release) != -1){
         say "removing previous remote branch";
         eval {
-            $repo->command('push', "origin", "--delete", $branch);
+            $repo->command('push', "origin", "--delete", $release);
         } or do {
             my $e = $@;
             say "Something went wrong: $e#";
@@ -96,15 +100,15 @@ sub git_setup_branch{
     }
 
     # Move to release branch
-    $repo->command('branch', $branch);
-    $repo->command('checkout', $branch);
+    $repo->command('branch', $release);
+    $repo->command('checkout', $release);
 }
 
 sub git_push_branch{
     # Pushes the release as a branch
-    $repo->command('push', 'origin', $branch);
+    $repo->command('push', 'origin', $release);
     git_main();
-    $repo->command('branch', '-D', $branch);
+    $repo->command('branch', '-D', $release);
 }
 
 sub start_copy{
@@ -183,7 +187,7 @@ sub handle_version{
         }
 
         print $out "__version__ = \"1!${release}\"\n";
-        if ($release eq $branch){
+        if ($is_release){
             my $month = strftime "%B", localtime;
             print $out "__version_month__ = \"${month}\"\n";
             my $year = strftime "%Y", localtime;
@@ -208,11 +212,6 @@ sub handle_version{
 sub handle_readme {
     # Updates the README.md file
     # change readthedocs.io link to version specific
-
-    if ($release ne $branch){
-        return;
-    }
-
     $path = File::Spec->catfile(getcwd(), "README.md");
     if (not -e $path) {
         say "no ", $path;
@@ -221,44 +220,24 @@ sub handle_readme {
     start_copy();
     while( <$in> ) {
         $line = $_;
-        if ($release eq $branch) {
-            if ($line =~ /^\[\!\[/) {
-                $line = ""
-            }
+        #print $line;
+        if ($is_release) {
+            $line =~ s/readthedocs\.io.*\)/readthedocs\.io\/en\/${release}\)/;
+            $line =~ s/version=.*\)]/version=${release}\)]/;
+        } else {
+            $line =~ s/readthedocs\.io.*\)/readthedocs\.io\/en\/latest\)/;
+            $line =~ s/version=.*\)]/version=latest\)]/;
         }
-        $line =~ s/readthedocs\.io.*\)$/readthedocs\.io\/en\/${release}\)/;
         $changed = $changed || $line ne $_;
+        #print $line;
         print $out $line;
     }
     finish_copy();
-}
-
-sub handle_jenkins {
-    if ($release ne $branch){
-        return;
-    }
-
-    # update Jenkins file to use a specific version
-    $path = File::Spec->catfile(getcwd(), "Jenkinsfile");
-    start_copy();
-    my $release2 = $release;
-    $release2 =~ s/-//;
-    while( <$in> ) {
-        $line = $_;
-        $line =~ s/ --pre/==1!${release2}/;
-        $changed = $changed || $line ne $_;
-        print $out $line;
-    }
-    finish_copy();
-    say $release;
 }
 
 sub handle_conf_py {
     # update doc/source/conf.py file
     # Updates various lines with version
-    if ($release ne $branch){
-        return;
-    }
 
     $path = File::Spec->catfile(getcwd(), "doc", "source", "conf.py");
     if (not -e $path) {
@@ -284,10 +263,6 @@ sub handle_doc_requirements_txt {
     # updates doc/doc_requirements.txt
     # use the version specific branches for dependecies dependencies
 
-    if ($release ne $branch){
-        return;
-    }
-
     $path = File::Spec->catfile(getcwd(), "doc", "doc_requirements.txt");
     if (not -e $path) {
         return;
@@ -296,9 +271,15 @@ sub handle_doc_requirements_txt {
     start_copy();
     while( <$in> ) {
        $line = $_;
+       #print $line;
        my $old_line = $line;
-       $line =~ s/\@master#/\@${release}#/;
+       if ($is_release) {
+           $line =~ s/git\@(.*)#/git\@${release}#/;
+       } else {
+           $line =~ s/git\@(.*)#/git\@master#/;
+       }
        $changed = $changed || $line ne $_;
+       #print $line;
        print $out $line;
     }
     finish_copy();
@@ -307,17 +288,17 @@ sub handle_doc_requirements_txt {
 sub handle_index_rst {
     # Updates the index.rst by changing readthedoc links to version specific
 
-    if ($release ne $branch){
-        return;
-    }
-
     # $path set by caller
     start_copy();
     while( <$in> ) {
         $line = $_;
-        print $line;
-        $line =~ s/readthedocs\.io(.*)$/readthedocs\.io\/en\/${release}/;
-        print $line;
+        #print $line;
+        if ($is_release) {
+            $line =~ s/readthedocs\.io(.*)$/readthedocs\.io\/en\/${release}/;
+        } else {
+            $line =~ s/readthedocs\.io(.*)$/readthedocs\.io/;
+        }
+        #print $line;
         $changed = $changed || $line ne $_;
         print $out $line;
     }
@@ -332,7 +313,7 @@ sub handle_pom {
     start_copy();
     while( <$in> ) {
         $line = $_;
-        $line =~ s/(version>)(.*)(-SNAPSHOT)/$1$release/;
+        $line =~ s/version>$old_release/version>$release/;
         $changed = $changed || $line ne $_;
         print $out $line;
     }
@@ -359,7 +340,7 @@ sub handle_doxyfile {
 
 sub do_build{
     # clears any previous python build and does a new one
-    if ($release ne $branch){
+    if (not $is_release){
         return;
     }
 
@@ -414,20 +395,19 @@ sub update_integration_tests{
     chdir $_[0];
     say "updating", getcwd();
 
-    if ($release eq $branch) {
+    if ($is_release) {
         git_test_pypi();
     } else {
         git_main();
     }
     git_setup_branch();
-    handle_jenkins();
 
     # Do not push, or delete the branch
     chdir $start_path;
 }
 
 sub wait_doc_built{
-    if ($release ne $branch){
+    if ($is_release){
         return;
     }
     # Blocks the script to make sure the readthedocs build finished
@@ -449,18 +429,18 @@ sub wait_doc_built{
 update_directory("../spinnaker_tools");
 update_directory("../spinn_common");
 update_directory("../SpiNNUtils");
-#wait_doc_built('spinnutils');
+wait_doc_built('spinnutils');
 update_directory("../SpiNNMachine");
-#wait_doc_built('spinnmachine');
+wait_doc_built('spinnmachine');
 update_directory("../SpiNNMan");
-#wait_doc_built('spinnman');
+wait_doc_built('spinnman');
 update_directory("../spalloc");
 update_directory("../PACMAN");
-#wait_doc_built('spalloc');
-#wait_doc_built('pacman');
+wait_doc_built('spalloc');
+wait_doc_built('pacman');
 update_directory("../SpiNNFrontEndCommon");
 update_directory("../TestBase");
-#wait_doc_built('spinnfrontendcommon');
+wait_doc_built('spinnfrontendcommon');
 update_directory("../sPyNNaker");
 update_directory("../SpiNNakerGraphFrontEnd");
 update_directory("../PyNNExamples");
@@ -476,8 +456,8 @@ update_directory("../sPyNNakerJupyter");
 update_directory("../TSPonSpiNNaker");
 update_directory("../BitBrainDemo");
 update_directory("../SpiNNakerJupyterExamples");
-#wait_doc_built('spynnaker');
-#wait_doc_built('spinnakergraphfrontend');
+wait_doc_built('spynnaker');
+wait_doc_built('spinnakergraphfrontend');
 update_directory("../sphinx8");
 update_integration_tests("../IntegrationTests");
 # die "stop";

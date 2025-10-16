@@ -18,12 +18,15 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 
 1. Update master/main locally on all repositories
 2. Run automatic_make.sh (from parent)
-3. Get Add pip freeze info from github actions preare stage
+3. Get Add pip freeze info from github actions prepare stage
 4. cap key dependecies in setup cfg
    - SpiNNUtils/setup.cfg numpy
    - sPyNNaker/setup.cfg p
-5. Update release number and name in r release.oelease.pl
-    - #my $branch = $release;
+5. Update release.pl
+    - my $release = (release version)
+    - my $old_release = (version in master)
+    - my $release_name =
+    - my $is_release = 1
 6. Update but NOT merge https://github.com/SpiNNakerManchester/IntegrationTests/pull/325
 7. perl release.pl (from inside SupportScripts)
    - This creates new branches with this release
@@ -39,23 +42,29 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 10. push Intergation test branch
 11. Check test
 
-12. Check version is correct in dist gz files
-13. sh SupportScripts/pypi.sh (from parent)
-14. edit self_hosted_tests.yml
+12. Add pip free info from from tests
+
+13. Check version is correct in dist gz files
+14. sh SupportScripts/pypi.sh (from parent)
+15. edit self_hosted_tests.yml
     -  Python install from testpypi ->  Python install from pypi
     remove (*3) "-i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
     if not a pre remove the -pre as well
-15. create new branch commit and push
-perl pag.pl
-16. Change version in tag.pl
-17. perl tag.pl (from inside SupportScripts)
+16. Check Intergation Test
 
-18. Check Intergation Test
+17. Update release.pl
+    - my $release = (version for master)
+    - my $old_release = (release version)
+    - my $release_name =
+    - my $is_release = 0
+18. perl release.pl (from inside SupportScripts)
 
-After a full (not pre release)
-19. change release.pl
-   - dump $release
-   - my $branch = "version_bump";
-20. perl release.pl (from inside SupportScripts)
+19. Change version in tag.pl  (release version)
+20. perl tag.pl (from inside SupportScripts)
+
+21. remove pip free info
+22. Any other changes like python versions ect
+23. Create pull requests
+24. merge PRs`
 
 For Java in github do a new release and include JavaSpiNNaker/SpiNNaker-front-end/target/spinnaker-exe.jar
