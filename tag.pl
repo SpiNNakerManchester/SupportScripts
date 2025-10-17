@@ -24,7 +24,7 @@ use feature qw(say);
 use Git;
 
 
-my $release = "7.4.0";  # Without the leadint 1!
+my $release = "7.4.1";  # Without the leadint 1!
 
 sub git_tag{
     my $start_path = getcwd();
@@ -39,6 +39,16 @@ sub git_tag{
         say "tagging";
         $repo->command('push', "origin", "origin/${release}:refs/tags/${release}");
         $repo->command('push', "origin", ":refs/heads/${release}");
+        my $info = $repo->command('branch');
+        if (index($info, 'main') != -1){
+            $repo->command('checkout', 'main');
+        } else {
+            $repo->command('checkout', 'master');
+        }
+        if (index($info, $release) != -1) {
+            say "removing previous branch $release";
+            $repo->command('branch', '-D', $release);
+        }
     }
     chdir $start_path;
 }
@@ -69,5 +79,6 @@ git_tag("../sphinx8");
 git_tag("../IntegrationTests");
 git_tag("../TSPonSpiNNaker");
 git_tag("../BitBrainDemo");
+git_tag("../SpiNNakerJupyterExamples");
 # die "stop";
 
