@@ -17,10 +17,10 @@
 # Assumes all repositories master/main locally are upto date including C build
 # This script can be safely be repeated until the $release pushed to pypi or tagged
 
-my $release = "7.4.1";  # Without the leading 1!
-my $old_release = "7.3.1"; # Without the leading 1!
-my $release_name = "Quietly Confident 1";
-my $is_release = 1; # 1 for release 0 for post release
+my $release = "7.4.2";  # Without the leading 1!
+my $old_release = "7.4.1"; # Without the leading 1!
+my $release_name = "";
+my $is_release = 0; # 1 for release 0 for post release
 
 use strict;
 use warnings;
@@ -407,9 +407,10 @@ sub update_integration_tests{
 }
 
 sub wait_doc_built{
-    if ($is_release){
+    # broken as returns forbidden
+    #if (not $is_release){
         return;
-    }
+    #}
     # Blocks the script to make sure the readthedocs build finished
     my $url = "https://${_[0]}.readthedocs.io/en/${release}/";
     say $url;

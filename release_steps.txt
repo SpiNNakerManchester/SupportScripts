@@ -35,6 +35,8 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
    - This pushes the branches to github
    # - This checks the readthedocs
    - This script can be repeated in which case it delete previous branches
+   - check read the docs egg
+   - see if rtd check can be fixed
 8. Check all github actions passed
     Note Intergation tests branch prepared but not pushed
 
@@ -42,7 +44,7 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 10. push Intergation test branch
 11. Check test
 
-12. Add pip free info from from tests
+12. Add pip freeze info from tests
 
 13. Check version is correct in dist gz files
 14. sh SupportScripts/pypi.sh (from parent)
@@ -51,6 +53,8 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
     remove (*3) "-i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/"
     if not a pre remove the -pre as well
 16. Check Intergation Test
+pre 17. fix
+    spinnaker_doc_version = "latest"
 
 17. Update release.pl
     - my $release = (version for master)
@@ -62,9 +66,10 @@ Warning The pypi steps 7 and 10 can not be repeated so make sure test passed!
 19. Change version in tag.pl  (release version)
 20. perl tag.pl (from inside SupportScripts)
 
-21. remove pip free info
+21. remove pip freeze info
 22. Any other changes like python versions ect
 23. Create pull requests
 24. merge PRs`
+- In order as RTD fails until previous master egg has the new version
 
 For Java in github do a new release and include JavaSpiNNaker/SpiNNaker-front-end/target/spinnaker-exe.jar
