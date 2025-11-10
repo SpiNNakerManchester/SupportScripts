@@ -174,7 +174,7 @@ jobs:
 
     - name: Validate CITATION.cff
       if: ${{ inputs.run-cff-validator == 'true' }}
-      uses: dieghernan/cff-validator@pytest_avoid_9.0.0
+      uses: dieghernan/cff-validator@main
       with:
         install-r: true
 
