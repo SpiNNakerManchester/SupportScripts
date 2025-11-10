@@ -151,7 +151,7 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@pytest_avoid_9.0.0
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
@@ -162,19 +162,19 @@ jobs:
         pip-installs: ${{ inputs.pip-installs }}
 
     - name: Run rat copyright enforcement
-      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@main
+      uses: SpiNNakerManchester/SupportScripts/actions/check-copyrights@pytest_avoid_9.0.0
       with:
         config-file: ${{ inputs.rat-config-file }}
 
     - name: Build documentation with sphinx
       if: ${{ inputs.run-sphinx == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/sphinx@main
+      uses: SpiNNakerManchester/SupportScripts/actions/sphinx@pytest_avoid_9.0.0
       with:
         directory: ${{ inputs.sphinx-directory }}
 
     - name: Validate CITATION.cff
       if: ${{ inputs.run-cff-validator == 'true' }}
-      uses: dieghernan/cff-validator@main
+      uses: dieghernan/cff-validator@pytest_avoid_9.0.0
       with:
         install-r: true
 
@@ -182,7 +182,7 @@ jobs:
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
-      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@pytest_avoid_9.0.0
       with:
         package: ${{ inputs.pylint-packages }}
         disable: ${{ inputs.pylint-disable }}
@@ -236,7 +236,7 @@ jobs:
     - name: Prepare
       #if: ${{ matrix.python-version != '3.13' }}
       #if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@pytest_avoid_9.0.0
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
@@ -248,7 +248,7 @@ jobs:
 
     #- name: Prepare 3.13.5
     #  if: ${{ matrix.python-version == '3.13' }}
-    #  uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+    #  uses: SpiNNakerManchester/SupportScripts/actions/prepare@pytest_avoid_9.0.0
     #  with:
     #    python-version: 3.13
     #    install-dependencies: ${{ inputs.dependencies }}
@@ -272,7 +272,7 @@ jobs:
 
     - name: Lint with pylint
       if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
+      uses: SpiNNakerManchester/SupportScripts/actions/pylint@pytest_avoid_9.0.0
       with:
         package: ${{ inputs.pylint-packages }}
         disable: ${{ inputs.pylint-disable }}
@@ -282,7 +282,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
-      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@pytest_avoid_9.0.0
       with:
         tests: ${{ inputs.test-directories }}
       env:
@@ -306,7 +306,7 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@pytest_avoid_9.0.0
       with:
         install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
