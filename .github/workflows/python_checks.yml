@@ -200,7 +200,7 @@ jobs:
 
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
-      uses: SpiNNakerManchester/SupportScripts/actions/pytest@main
+      uses: SpiNNakerManchester/SupportScripts/actions/pytest@pytest_avoid_9.0.0
       with:
         tests: ${{ inputs.test-directories }}
         coverage: ${{ matrix.coverage == 'coverage' && inputs.coverage-package != '' }}
