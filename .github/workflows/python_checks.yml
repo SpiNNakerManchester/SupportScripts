@@ -315,6 +315,9 @@ jobs:
         cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
 
+    - name: Pip cap
+      run: pip install pytest!=9.0.0 -U
+
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
       env:

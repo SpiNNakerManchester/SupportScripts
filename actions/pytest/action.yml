@@ -60,6 +60,7 @@ runs:
   steps:
     - name: install pytest
       run: |
+        python -m pip install pytest!=9.0.0 -U
         python -m pip install pytest-timeout pytest-forked pytest-progress
       shell: bash
     - name: Run tests
