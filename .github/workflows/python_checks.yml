@@ -80,7 +80,7 @@ on:
         # global_relaxed and global_strict will use files in support scripts
         # Any other value will be looked for in the calling repository
       pylint-packages:
-        description: The names of the Python packages to run flake8 on.
+        description: The names of the Python packages to run pylint on.
         required: true
         type: string
       pylint-disable:
@@ -183,6 +183,7 @@ jobs:
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
+      if: inputs.pylint-packages != ''
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
       with:
         package: ${{ inputs.pylint-packages }}
@@ -268,7 +269,7 @@ jobs:
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
     - name: Lint with flake8
-      if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
+      if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.flake8-packages != ''}}
       run: flake8 ${{ inputs.flake8-packages }}
 
     - name: Lint with pylint
