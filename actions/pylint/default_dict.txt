@@ -519,3 +519,7 @@ RoutingTableEntry
 
 # Needed in case of reference to NIR
 NIR
+
+# Needed for BitBrain
+sbcs
+SBC
