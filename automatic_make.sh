@@ -19,16 +19,16 @@ do_make() {
     if [ -d "$1" ]; then
         # Control will enter here if DIRECTORY exists.
         # Run setup.bash if it exists
-        if [ -f "$1/setup.bash" ]; then
-            cd $1
-            source setup.bash || exit $?
-            cd -
-        fi
-        if [ -f "$1/setup" ]; then
-            cd $1
-            source setup || exit $?
-            cd -
-        fi
+        #if [ -f "$1/setup.bash" ]; then
+        #    cd $1
+        #    source setup.bash || exit $?
+        #    cd -
+        #fi
+        #if [ -f "$1/setup" ]; then
+        #    cd $1
+        #    source setup || exit $?
+        #    cd -
+        #fi
         # Clean
         make -C $1 clean || exit $?
         # Clean installation; ignore error if install-clean doesn't work
@@ -55,3 +55,5 @@ do_make SpiNNGym/c_code
 do_make SpiNNaker_PDP2/c_code
 do_make MarkovChainMonteCarlo/c_models
 do_make TSPonSpiNNaker/spinnaker_c
+do_make BitBrainDemo/bit_brain_host_c
+do_make BitBrainDemo/bit_brain_spinnaker_c
