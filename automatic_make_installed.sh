@@ -55,6 +55,7 @@ fi
 
 if [ -z ${FEC_INSTALL_DIR+x} ];
 then
+
   export FEC_INSTALL_DIR=$C_INSTALLS/front_end_common_lib
   echo "set FEC_INSTALL_DIR to '$FEC_INSTALL_DIR'"
 else
