@@ -70,7 +70,7 @@ else
   echo "SPYNNAKER_INSTALL_DIRR already '$SPINN_COMMON_INSTALL_DIR'";
 fi
 
-#do_make spinnaker_tools install
+do_make spinnaker_tools install
 do_make spinn_common install
 do_make SpiNNFrontEndCommon/c_common/ install
 do_make sPyNNaker/neural_modelling/ install
