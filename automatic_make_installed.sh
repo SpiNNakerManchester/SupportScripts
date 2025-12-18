@@ -28,6 +28,8 @@ do_make() {
         # Install if needed
         if [ "$2" == "install" ]; then
             make -C $1 install || exit $?
+            # clean not needed but makes sure installed is used.
+            make -C $1 clean || exit $?
         fi
     fi
 }
