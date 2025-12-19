@@ -32,13 +32,22 @@ do_make() {
     fi
 }
 
+if ! [ -z ${SPINN_COMMON_INSTALL_DIR+x} ];
+then
+  echo As SPINN_COMMON_INSTALL_DIR is set please use automatic_make_installed.sh
+  exit 1
+fi
+
 do_make spinnaker_tools
 do_make spinn_common
-do_make SpiNNFrontEndCommon/c_common/
+do_make SpiNNFrontEndCommon/c_common
+# These are they typical PyNN ones
 do_make sPyNNaker/neural_modelling/
 do_make sPyNNakerNewModelTemplate/c_models/
+# These are for users not using PyNN
 do_make SpiNNakerGraphFrontEnd/gfe_examples/
 do_make SpiNNakerGraphFrontEnd/gfe_integration_tests/
+# These are unlikely to be used outside of Manchester University
 do_make SpiNNGym/c_code
 do_make SpiNNaker_PDP2/c_code
 do_make MarkovChainMonteCarlo/c_models

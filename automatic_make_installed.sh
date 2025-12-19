@@ -23,16 +23,15 @@ do_make() {
         # Clean installation; ignore error if install-clean doesn't work
         # (probably because there is no install clean for most targets)
         #make -C $1 install-clean || true
-        # Make
-        make -C $1 || exit $?
-        # Install if needed
+        # Make and Install if needed
         if [ "$2" == "install" ]; then
             make -C $1 install || exit $?
-            # clean not needed but makes sure installed is used.
-            make -C $1 clean || exit $?
+        else
+            make -C $1 || exit $?
         fi
     fi
 }
+
 BASEDIR=$(dirname "$0")
 echo "$BASEDIR"
 C_INSTALLS=$(realpath $BASEDIR/../c_installs)
@@ -54,10 +53,8 @@ else
   echo "SPINN_COMMON_INSTALL_DIR already '$SPINN_COMMON_INSTALL_DIR'";
 fi
 
-
 if [ -z ${FEC_INSTALL_DIR+x} ];
 then
-
   export FEC_INSTALL_DIR=$C_INSTALLS/front_end_common_lib
   echo "set FEC_INSTALL_DIR to '$FEC_INSTALL_DIR'"
 else
@@ -74,11 +71,14 @@ fi
 
 do_make spinnaker_tools install
 do_make spinn_common install
-do_make SpiNNFrontEndCommon/c_common/ install
+do_make SpiNNFrontEndCommon/c_common install
+# These are they typical PyNN ones
 do_make sPyNNaker/neural_modelling/ install
 do_make sPyNNakerNewModelTemplate/c_models/
+# These are for users not using PyNN
 do_make SpiNNakerGraphFrontEnd/gfe_examples/
 do_make SpiNNakerGraphFrontEnd/gfe_integration_tests/
+# These are unlikely to be used outside of Manchester University
 do_make SpiNNGym/c_code
 do_make SpiNNaker_PDP2/c_code
 do_make MarkovChainMonteCarlo/c_models
