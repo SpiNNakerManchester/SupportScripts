@@ -85,3 +85,5 @@ do_make MarkovChainMonteCarlo/c_models
 do_make TSPonSpiNNaker/spinnaker_c
 do_make BitBrainDemo/bit_brain_host_c
 do_make BitBrainDemo/bit_brain_spinnaker_c
+
+python -m spinn_utilities.make_tools.check_database_keys
