@@ -34,12 +34,13 @@ runs:
           : "vera++ already installed"
         else
           echo "::group::Installing vera++"
+          sudo apt-get update
           sudo apt-get -o Dpkg::Use-Pty=0 install vera++ --fix-missing
           echo "::endgroup::"
         fi
       shell: bash
     - run: >
-        find "$BASE_DIR" -name modified_src -prune -o -name '*.[ch]' -print -o -name '*.cpp' -print 
+        find "$BASE_DIR" -name modified_src -prune -o -name '*.[ch]' -print -o -name '*.cpp' -print
         | vera++ --root "$VERA_ROOT" --profile "$VERA_PROFILE.tcl" --error ${{ inputs.options }}
       shell: bash
       env:
