@@ -302,6 +302,7 @@ jobs:
             checks: 'tests'
 
           - runner: macos-latest
+            python-version: "3.14"
             checks: 'tests'
 
     runs-on: ${{ matrix.runner }}
@@ -317,6 +318,7 @@ jobs:
         # inputs.ubuntu-packages NOT installed!
         cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
+        python-version: ${{ matrix.python-version }}
 
     - name: Pip cap
       run: pip install pytest!=9.0.0 -U
