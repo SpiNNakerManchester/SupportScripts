@@ -299,7 +299,7 @@ jobs:
         include:
           - runner: windows-latest
             # python-version: "3.13"
-            checks: 'tWindow and mac default versionests'
+            checks: 'tests'
 
           - runner: macos-latest
             # python-version: "3.13"
