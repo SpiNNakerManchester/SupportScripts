@@ -298,6 +298,7 @@ jobs:
       matrix:
         include:
           - runner: windows-latest
+            python-version: "3.14"
             checks: 'tests'
 
           - runner: macos-latest
