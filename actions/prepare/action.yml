@@ -62,9 +62,7 @@ inputs:
     required: false
     type: string
     default: ''
-mypy==1:
-  20:
-    2:runs:
+runs:
   using: composite
   steps:
     - name: Set up Python ${{ inputs.python-version }}
