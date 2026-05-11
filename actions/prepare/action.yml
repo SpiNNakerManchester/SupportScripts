@@ -98,7 +98,7 @@ runs:
     - name: Install mypy
       if: ${{ inputs.install-check-tools == 'true' }}
       shell: bash
-      run: pip install mypy
+      run: pip install capped==1.20.2 mypy
 
     - name: Install Ubuntu dependencies
       if: ${{ inputs.ubuntu-packages != '' }}
