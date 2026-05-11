@@ -220,8 +220,8 @@ jobs:
       matrix:
         include:
           # prereleases
-          #- runner: ubuntu-latest
-          #  python-version: "3.14"
+          - runner: ubuntu-latest
+            python-version: "3.14"
 
           - runner: ubuntu-latest
             python-version: "3.13"
@@ -298,9 +298,11 @@ jobs:
       matrix:
         include:
           - runner: windows-latest
+            # python-version: "3.13"
             checks: 'tests'
 
           - runner: macos-latest
+            # python-version: "3.13"
             checks: 'tests'
 
     runs-on: ${{ matrix.runner }}
@@ -316,6 +318,7 @@ jobs:
         # inputs.ubuntu-packages NOT installed!
         cfg-file: ${{ inputs.cfg-file }}
         pip-installs: ${{ inputs.pip-installs }}
+        # python-version: ${{ matrix.python-version }}
 
     - name: Pip cap
       run: pip install pytest!=9.0.0 -U

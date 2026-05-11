@@ -470,6 +470,7 @@ runtime
 saturations
 sdram
 Serializable
+shiftable
 splitter
 splitters
 splitter's
