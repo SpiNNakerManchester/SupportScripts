@@ -62,7 +62,9 @@ inputs:
     required: false
     type: string
     default: ''
-runs:
+mypy==1:
+  20:
+    2:runs:
   using: composite
   steps:
     - name: Set up Python ${{ inputs.python-version }}
@@ -98,7 +100,7 @@ runs:
     - name: Install mypy
       if: ${{ inputs.install-check-tools == 'true' }}
       shell: bash
-      run: pip install capped==1.20.2 mypy
+      run: pip install mypy==1.20.2
 
     - name: Install Ubuntu dependencies
       if: ${{ inputs.ubuntu-packages != '' }}
