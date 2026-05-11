@@ -151,7 +151,7 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@mypy2
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
@@ -238,7 +238,7 @@ jobs:
     - name: Prepare
       #if: ${{ matrix.python-version != '3.13' }}
       #if: ${{ matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true' }}
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@mypy2
       with:
         python-version: ${{ matrix.python-version }}
         install-dependencies: ${{ inputs.dependencies }}
@@ -310,7 +310,7 @@ jobs:
 
     steps:
     - name: Prepare
-      uses: SpiNNakerManchester/SupportScripts/actions/prepare@main
+      uses: SpiNNakerManchester/SupportScripts/actions/prepare@mypy2
       with:
         install-dependencies: ${{ inputs.dependencies }}
         install-module: ${{ inputs.install-module }}
