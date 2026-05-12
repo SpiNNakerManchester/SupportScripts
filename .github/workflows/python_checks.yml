@@ -266,7 +266,7 @@ jobs:
 
     - name: Lint with mypy using disallow-untyped-def
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs --no-strict-bytes${{ inputs.mypy-full-packages }}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs --no-strict-bytes ${{ inputs.mypy-full-packages }}
 
     - name: Lint with flake8
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.flake8-packages != ''}}
