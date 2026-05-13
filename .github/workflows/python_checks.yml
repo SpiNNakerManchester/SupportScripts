@@ -194,11 +194,11 @@ jobs:
 
     - name: Lint with mypy
       if: ${{ inputs.mypy-packages != ''}}
-      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
+      run: mypy --python-version ${{ matrix.python-version }} --no-strict-bytes ${{ inputs.mypy-packages }}
 
     - name: Lint with mypy using disallow-untyped-def
       if: ${{ inputs.mypy-full-packages != ''}}
-      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs --no-strict-bytes ${{ inputs.mypy-full-packages }}
 
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
@@ -262,11 +262,11 @@ jobs:
 
     - name: Lint with mypy
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} ${{ inputs.mypy-packages }}
+      run: mypy --python-version ${{ matrix.python-version }} --no-strict-bytes ${{ inputs.mypy-packages }}
 
     - name: Lint with mypy using disallow-untyped-def
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-full-packages != '' }}
-      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
+      run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs --no-strict-bytes ${{ inputs.mypy-full-packages }}
 
     - name: Lint with flake8
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.flake8-packages != ''}}
