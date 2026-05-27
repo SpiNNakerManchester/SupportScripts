@@ -292,7 +292,9 @@ jobs:
 
     - name: Lint with ruff
       if: ${{ inputs.run-ruff == 'true' }}
-      run: ruff check
+      uses: SpiNNakerManchester/SupportScripts/actions/ruff@main
+      with:
+        python_version: ${{ inputs.pylint-packages }}
 
     - name: Test with pytest
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') &&  inputs.test-directories != ''}}
