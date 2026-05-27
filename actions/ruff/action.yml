@@ -19,10 +19,12 @@ description: >
 
 inputs:
   python-version:
-    description: The pythin version to use
+    description: The python version to use
     required: true
 
 runs:
+  using: composite
+  steps:
   - run: |
       if [ ${{ matrix.python-version}} = "3.10"]: then
         ruff check --target-version py310
