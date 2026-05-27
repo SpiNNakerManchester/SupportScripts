@@ -30,4 +30,5 @@ runs:
       else
         runn check --target-version py313
       fi
+    shell: bash
   
