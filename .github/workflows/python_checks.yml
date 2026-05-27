@@ -132,7 +132,7 @@ on:
         required: false
         type: string
         default: true
-      run_ruff:
+      run-ruff:
         description: Flag to say if ruff should be run
         required: false
         type: string
@@ -188,7 +188,7 @@ jobs:
 
     - name: Lint with ruff check
       if: ${{ inputs.run-ruff == 'true' }}
-      run: ruff check
+      run: ruff check --target-version py312
 
     - name: Lint with pylint
       if: inputs.pylint-packages != ''
@@ -291,6 +291,7 @@ jobs:
         language: en_GB
 
     - name: Lint with ruff
+      if: ${{ inputs.run-ruff == 'true' }}
       run: ruff check
 
     - name: Test with pytest
