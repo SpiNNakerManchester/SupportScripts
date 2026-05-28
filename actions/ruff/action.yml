@@ -26,10 +26,36 @@ runs:
   using: composite
   steps:
   - run: |
-      if [[ ${{ matrix.python-version}} = 3.10] ]; then
+      if [[ ${{ matrix.python-version}} = 3.10 ]]; then
+        echo ruff check --target-version py310
         ruff check --target-version py310
+      elif [[ ${{ matrix.python-version}} = 3.11 ]]; then
+        echo ruff check --target-version py311
+        ruff check --target-version py311
+      elif [[ ${{ matrix.python-version}} = 3.12 ]]; then
+        echo ruff check --target-version py312
+        ruff check --target-version py312
+      elif [[ ${{ matrix.python-version}} = 3.13 ]]; then
+        echo ruff check --target-version py313
+        ruff check --target-version py313
+      elif [[ ${{ matrix.python-version}} = 3.14 ]]; then
+        echo ruff check --target-version py314
+        ruff check --target-version py314
+      elif [[ ${{ matrix.python-version}} = 3.15 ]]; then
+        echo ruff check --target-version py315
+        ruff check --target-version py315
+      elif [[ ${{ matrix.python-version}} = 3.16 ]]; then
+        echo ruff check --target-version py316
+        ruff check --target-version py316
+      elif [[ ${{ matrix.python-version}} = 3.17 ]]; then
+        echo ruff check --target-version py317
+        ruff check --target-version py317
+      elif [[ ${{ matrix.python-version}} = 3.18 ]]; then
+        echo ruff check --target-version py318
+        ruff check --target-version py318
       else
-        runn check --target-version py313
+        echo unexpected pythn versiion ${{ matrix.python-version}}
+        runn check --target-version ${{ matrix.python-version}}
       fi
     shell: bash
   
