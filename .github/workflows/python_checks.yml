@@ -186,10 +186,6 @@ jobs:
       if: inputs.flake8-packages != ''
       run: flake8 ${{ inputs.flake8-packages }}
 
-    - name: Lint with ruff check
-      if: ${{ inputs.run-ruff == 'true' }}
-      run: ruff check --target-version py312
-
     - name: Lint with pylint
       if: inputs.pylint-packages != ''
       uses: SpiNNakerManchester/SupportScripts/actions/pylint@main
@@ -207,6 +203,10 @@ jobs:
     - name: Lint with mypy using disallow-untyped-def
       if: ${{ inputs.mypy-full-packages != ''}}
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
+
+    - name: Lint with ruff
+      if: ${{ inputs.run-ruff == 'true' }}
+      uses: SpiNNakerManchester/SupportScripts/actions/ruff@main
 
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
