@@ -43,15 +43,19 @@ runs:
         if [ $DO_INSTALL = "true" ]; then
           for repo in $DEPENDENCIES; do  
             if [ -f "$repo/setup.cfg" ]; then
-              echo "::group::Installing $repo"
+              echo "::group::Installing $repo using setup.cfg" 
+              pip install ./$repo
+              echo "::endgroup::"
+            elif [ -f "$repo/setup.py" ]; then
+              echo "::group::Setting up $repo using setup.py"
+              (cd $repo && exec python setup.py develop)
+              echo "::endgroup::"
+            elif [ -f "$repo/pyproject.toml" ]; then
+              echo "::group::Installing $repo using pyproject.toml only" 
               pip install ./$repo
               echo "::endgroup::"
             else
-              if [ -f "$repo/setup.py" ]; then
-                echo "::group::Setting up $repo"
-                  (cd $repo && exec python setup.py develop)
-                echo "::endgroup::"
-              fi
+              echo "unable to install $repo"
             fi
           done
         fi
