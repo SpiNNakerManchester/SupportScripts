@@ -10,20 +10,6 @@ deactivate () {
     unset -f pydoc >/dev/null 2>&1
 
     # reset old environment variables
-    if ! [ -z "${_OLD_NEURAL_MODELLING_DIRS:+_}" ] ; then
-        NEURAL_MODELLING_DIRS="$_OLD_NEURAL_MODELLING_DIRS"
-        export NEURAL_MODELLING_DIRS
-        unset _OLD_NEURAL_MODELLING_DIRS
-    elif [ ! "${1-}" = "nondestructive" ] ; then
-        unset NEURAL_MODELLING_DIRS
-    fi
-    if ! [ -z "${_OLD_SPINN_DIRS:+_}" ] ; then
-        SPINN_DIRS="$_OLD_SPINN_DIRS"
-        export SPINN_DIRS
-        unset _OLD_SPINN_DIRS
-    elif [ ! "${1-}" = "nondestructive" ] ; then
-        unset SPINN_DIRS
-    fi
     if ! [ -z "${_OLD_PERL5LIB:+_}" ] ; then
         PERL5LIB="$_OLD_PERL5LIB"
         export PERL5LIB
@@ -95,18 +81,6 @@ if ! [ -z "${PERL5LIB+_}" ] ; then
 fi
 PERL5LIB="$VIRTUAL_ENV/spinnaker_tools/tools/:$PERL5LIB"
 export PERL5LIB
-
-if ! [ -z "${SPINN_DIRS+_}" ] ; then
-    _OLD_SPINN_DIRS="$SPINN_DIRS"
-fi
-SPINN_DIRS="$VIRTUAL_ENV/spinnaker_tools"
-export SPINN_DIRS
-
-if ! [ -z "${NEURAL_MODELLING_DIRS+_}" ] ; then
-    _OLD_NEURAL_MODELLING_DIRS="$NEURAL_MODELLING_DIRS"
-fi
-NEURAL_MODELLING_DIRS="$VIRTUAL_ENV/sPyNNaker/neural_modelling/"
-export NEURAL_MODELLING_DIRS
 
 # Make sure to unalias pydoc if it's already there
 alias pydoc 2>/dev/null >/dev/null && unalias pydoc || true
