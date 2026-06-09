@@ -55,6 +55,13 @@ inputs:
       for details. (tl;dr: coveralls --service=github --finish)
     required: false
     default: "false"
+  test-all:
+    description: >
+      Dettermines if the MANY_BOARD_TYPE is all boards (true)
+      or just the 48 chip boards (false) 
+      This is not by setting environment variable SPINNAKER_TEST_ALL
+    required: false
+    default: "true"
 runs:
   using: composite
   steps:
@@ -76,6 +83,7 @@ runs:
         DO_COVERAGE: ${{ inputs.coverage == 'true' }}
         EXTRA_OPTS: ${{ inputs.options }}
         TYPE_OVERRIDES: ${{ inputs.type-overrides }}
+        SPINNAKER_TEST_ALL: ${{ inputs.test-all }}
     - name: coverage
       run: |
         if [ $DO_COVERAGE = "true" ]; then
