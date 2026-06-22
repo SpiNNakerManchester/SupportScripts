@@ -38,8 +38,8 @@ then
   exit 1
 fi
 
-python3 -m venv venv/spinn_utils
-source venv/spinn_utils/bin/activate
+python3 -m venv SupportScripts/venv/spinn_utils
+source SupportScripts/venv/spinn_utils/bin/activate
 pip3 install ./SpiNNUtils
 
 do_make spinnaker_tools
