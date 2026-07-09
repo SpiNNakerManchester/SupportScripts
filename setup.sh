@@ -17,12 +17,13 @@
 
 do_setup() {
     if [ -d $1 ]; then
+        echo "Setup $1"
         cd $1
-        if [ -f setup.py ]; then
+        if [ -f pyproject.toml ]; then
             if [ -z "$VIRTUAL_ENV" ] && [ -z "$CONDA_PREFIX" ] && [ -z "$ASROOT" ]; then
-                python setup.py develop --user || exit $1
+                pip install -e . --user || exit $1
             else
-                python setup.py develop || exit $1
+                pip install -e . || exit $1
             fi
             echo "Finished setup of $1"
         fi
