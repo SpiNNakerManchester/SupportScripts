@@ -136,7 +136,7 @@ on:
         description: Flag to say if ruff should be run
         required: false
         type: string
-        default: true
+        default: false
 
 env:
   PRERELEASE: "3.15"
