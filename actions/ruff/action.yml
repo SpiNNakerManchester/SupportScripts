@@ -33,7 +33,7 @@ runs:
         ruff check ${{ inputs.package }} --target-version py310  --config ${{ github.action_path }}/ruff_up.toml
       elif [[ ${{ matrix.python-version}} = 3.11 ]]; then
         echo ruff check ${{ inputs.package }} --target-version py311 --config ${{ github.action_path }}/ruff.toml
-        ruff check ${{ inputs.package }} --target-version py311
+        ruff check ${{ inputs.package }} --target-version py311 --config ${{ github.action_path }}/ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.12 ]]; then
         echo ruff check ${{ inputs.package }} --target-version py312 --config ${{ github.action_path }}/ruff.toml
         ruff check ${{ inputs.package }} --target-version py312 --config ${{ github.action_path }}/ruff.toml
