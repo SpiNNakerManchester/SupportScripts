@@ -211,7 +211,7 @@ jobs:
       if: ${{ inputs.ruff-packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/ruff@main
       with:
-        package: ${{ inputs.pylint-packages }}
+        package: ${{ inputs.ruff-packages }}
 
     - name: Test with pytest
       if: ${{ inputs.test-directories != ''}}
@@ -277,7 +277,7 @@ jobs:
       if: ${{ inputs.ruff-packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/ruff@main
       with:
-        package: ${{ inputs.pylint-packages }}
+        package: ${{ inputs.ruff-packages }}
 
     - name: Lint with mypy
       if: ${{ (matrix.python-version != env.PRERELEASE || inputs.check-prereleases == 'true') && inputs.mypy-packages != '' }}
