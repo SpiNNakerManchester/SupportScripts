@@ -16,6 +16,10 @@ name: "Lint with ruff"
 
 description: >
   Runs the ruff check
+inputs:
+  package:
+    description: The name of the Python package (or packages) to analyse
+    required: true
 
 runs:
   using: composite
@@ -23,32 +27,34 @@ runs:
   - run: |
       echo run ruff with current version
       if [[ ${{ matrix.python-version}} = 3.10 ]]; then
-        echo ruff check --target-version py310
-        ruff check --target-version py310
+        echo ruff check ${{ inputs.package }} --target-version py310 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py310  --config ruff.toml
+        echo ruff check ${{ inputs.package }} --target-version py310 --config ruff_up.toml
+        ruff check ${{ inputs.package }} --target-version py310  --config ruff_up.toml
       elif [[ ${{ matrix.python-version}} = 3.11 ]]; then
-        echo ruff check --target-version py311
-        ruff check --target-version py311
+        echo ruff check ${{ inputs.package }} --target-version py311 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py311
       elif [[ ${{ matrix.python-version}} = 3.12 ]]; then
-        echo ruff check --target-version py312
-        ruff check --target-version py312
+        echo ruff check ${{ inputs.package }} --target-version py312 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py312 --config ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.13 ]]; then
-        echo ruff check --target-version py313
-        ruff check --target-version py313
+        echo ruff check ${{ inputs.package }} --target-version py313 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py313 --config ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.14 ]]; then
-        echo ruff check --target-version py314
-        ruff check --target-version py314
+        echo ruff check ${{ inputs.package }} --target-version py314 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py314 --config ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.15 ]]; then
-        echo ruff check --target-version py315
-        ruff check --target-version py315
+        echo ruff check ${{ inputs.package }} --target-version py315 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py315 --config ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.16 ]]; then
-        echo ruff check --target-version py316
-        ruff check --target-version py316
+        echo ruff check ${{ inputs.package }} --target-version py316 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py316 --config ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.17 ]]; then
-        echo ruff check --target-version py317
-        ruff check --target-version py317
+        echo ruff check ${{ inputs.package }} --target-version py317 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py317 --config ruff.toml
       elif [[ ${{ matrix.python-version}} = 3.18 ]]; then
-        echo ruff check --target-version py318
-        ruff check --target-version py318
+        echo ruff check ${{ inputs.package }} --target-version py318 --config ruff.toml
+        ruff check ${{ inputs.package }} --target-version py318 --config ruff.toml
       else
         echo unexpected pythn versiion ${{ matrix.python-version}}
         runn check --target-version ${{ matrix.python-version}}
