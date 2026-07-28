@@ -1,0 +1,135 @@
+# Copyright (c) 2026 The University of Manchester
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+[lint]
+# see https://docs.astral.sh/ruff/rules/
+ignore = [
+    # flake8-bugbear
+    "B009", # https://docs.astral.sh/ruff/rules/get-attr-with-constant/
+    "B010", # https://docs.astral.sh/ruff/rules/set-attr-with-constant/
+    "B015", # https://docs.astral.sh/ruff/rules/useless-comparison/
+    "B017", # https://docs.astral.sh/ruff/rules/assert-raises-exception/
+    "B018", # https://docs.astral.sh/ruff/rules/useless-expression/
+    # blind-except
+    "BLE001", # https://docs.astral.sh/ruff/rules/blind-except/
+    # flake8-comprehensions
+    "C400", # https://docs.astral.sh/ruff/rules/unnecessary-generator-list/
+    "C401", # https://docs.astral.sh/ruff/rules/unnecessary-generator-set/
+    "C402", # https://docs.astral.sh/ruff/rules/unnecessary-generator-dict/
+    "C405", # https://docs.astral.sh/ruff/rules/unnecessary-literal-set/
+    "C406", # https://docs.astral.sh/ruff/rules/unnecessary-literal-dict/
+    "C408", # https://docs.astral.sh/ruff/rules/unnecessary-collection-call/
+    "C409", # https://docs.astral.sh/ruff/rules/unnecessary-literal-within-tuple-call/
+    "C410", # https://docs.astral.sh/ruff/rules/unnecessary-literal-within-list-call/
+    "C411", # https://docs.astral.sh/ruff/rules/unnecessary-list-call/
+    "C414", # https://docs.astral.sh/ruff/rules/unnecessary-double-cast-or-process/
+    "C417", # https://docs.astral.sh/ruff/rules/unnecessary-map/
+    "C419", # https://docs.astral.sh/ruff/rules/unnecessary-comprehension-in-call/
+    # pydocstyle (
+    "D419", # https://docs.astral.sh/ruff/rules/empty-docstring/
+    # flake8-datetimez
+    "DTZ001", # https://docs.astral.sh/ruff/rules/call-datetime-without-tzinfo/
+    "DTZ005", # https://docs.astral.sh/ruff/rules/call-datetime-now-without-tzinfo/
+    "DTZ006", # https://docs.astral.sh/ruff/rules/call-datetime-fromtimestamp/
+    "DTZ007", # https://docs.astral.sh/ruff/rules/call-datetime-strptime-without-zone/
+    # flake8-executable
+    "EXE001", # https://docs.astral.sh/ruff/rules/shebang-not-executable/
+    "EXE002", # https://docs.astral.sh/ruff/rules/shebang-missing-executable-file/
+    # refurb
+    "FURB105", # https://docs.astral.sh/ruff/rules/print-empty-string/
+    "FURB122", # https://docs.astral.sh/ruff/rules/for-loop-writes/
+    "FURB129", # https://docs.astral.sh/ruff/rules/readlines-in-for/
+    "FURB132", # https://docs.astral.sh/ruff/rules/check-and-remove-from-set/
+    "FURB136", # https://docs.astral.sh/ruff/rules/if-expr-min-max/
+    "FURB157", # https://docs.astral.sh/ruff/rules/verbose-decimal-constructor/
+    "FURB161", # https://docs.astral.sh/ruff/rules/bit-count/
+    "FURB188", # https://docs.astral.sh/ruff/rules/slice-to-remove-prefix-or-suffix/
+    "FURB192", # https://docs.astral.sh/ruff/rules/sorted-min-max/
+    # flake8-logging-format
+    "G201", # https://docs.astral.sh/ruff/rules/logging-exc-info/
+    # For related settings, see isort.
+    "I001", # https://docs.astral.sh/ruff/rules/unsorted-imports/
+    # ISC004
+    "ISC004", #https://docs.astral.sh/ruff/rules/implicit-string-concatenation-in-collection-literal/
+    # flake8-logging
+    "LOG002", # https://docs.astral.sh/ruff/rules/invalid-get-logger-argument/
+    "LOG015", # https://docs.astral.sh/ruff/rules/root-logger-call/
+    "LOG009", # https://docs.astral.sh/ruff/rules/undocumented-warn/
+    "N999", # https://docs.astral.sh/ruff/rules/invalid-module-name/
+    # Perflint
+    "PERF402", # https://docs.astral.sh/ruff/rules/manual-list-copy/
+    # Pylint Convention
+    "PLC0206", # https://docs.astral.sh/ruff/rules/dict-index-missing-items/
+    # flake8-pie
+    "PIE790", # https://docs.astral.sh/ruff/rules/unnecessary-placeholder/
+    "PIE796", # https://docs.astral.sh/ruff/rules/non-unique-enums/
+    "PIE804", # https://docs.astral.sh/ruff/rules/unnecessary-dict-kwargs/
+    "PIE808", # https://docs.astral.sh/ruff/rules/unnecessary-range-start/
+    "PIE810", # https://docs.astral.sh/ruff/rules/multiple-starts-ends-with/
+    # PYlint Error
+    "PLE1205", # https://docs.astral.sh/ruff/rules/logging-too-many-args/
+    # pylint Refactor
+    "PLR0124", # https://docs.astral.sh/ruff/rules/comparison-with-itself/
+    "PLR0402", # https://docs.astral.sh/ruff/rules/manual-from-import/
+    "PLR1711", # https://docs.astral.sh/ruff/rules/useless-return/
+    "PLR1730", # https://docs.astral.sh/ruff/rules/if-stmt-min-max/
+    "PLR2044", # https://docs.astral.sh/ruff/rules/empty-comment/
+    # pylint Warning
+    "PLW0602", # https://docs.astral.sh/ruff/rules/global-statement/
+    # flake8-pytest-style
+    "PT020", # https://docs.astral.sh/ruff/rules/pytest-deprecated-yield-fixture/
+    # flake8-pyi
+    "PYI018", # https://docs.astral.sh/ruff/rules/unused-private-type-var/
+    "PYI030", # https://docs.astral.sh/ruff/rules/unnecessary-literal-union/
+    "PYI032", # https://docs.astral.sh/ruff/rules/any-eq-ne-annotation/
+    "PYI034", # https://docs.astral.sh/ruff/rules/non-self-return-type/
+    "PYI036", # https://docs.astral.sh/ruff/rules/bad-exit-annotation/
+    "PYI041", # https://docs.astral.sh/ruff/rules/redundant-numeric-union/
+    "PYI047", # https://docs.astral.sh/ruff/rules/unused-private-type-alias/
+    "PYI059", # https://docs.astral.sh/ruff/rules/generic-not-last-base-class/
+    "PYI063", # https://docs.astral.sh/ruff/rules/pep484-style-positional-only-parameter/
+    # flake8-return
+    "RET501", # https://docs.astral.sh/ruff/rules/unnecessary-return-none/
+    # ruff specific rules
+    "RUF010", # https://docs.astral.sh/ruff/rules/explicit-f-string-type-conversion/
+    "RUF012", # https://docs.astral.sh/ruff/rules/mutable-class-default/
+    "RUF015", # https://docs.astral.sh/ruff/rules/unnecessary-iterable-allocation-for-first-element/
+    "RUF022", # https://docs.astral.sh/ruff/rules/unsorted-dunder-all/
+    "RUF023", # https://docs.astral.sh/ruff/rules/unsorted-dunder-slots/
+    "RUF046", # https://docs.astral.sh/ruff/rules/pytest-raises-ambiguous-pattern/
+    "RUF059", # https://docs.astral.sh/ruff/rules/unused-unpacked-variable/
+    "RUF100", # https://docs.astral.sh/ruff/rules/unused-noqa/
+    # flake8-bandit
+    "S102",  # https://docs.astral.sh/ruff/rules/exec-builtin/
+    "S110", # https://docs.astral.sh/ruff/rules/try-except-pass/
+    # flake8-simplify
+    "SIM101", # https://docs.astral.sh/ruff/rules/duplicate-isinstance-call/
+    "SIM102", # https://docs.astral.sh/ruff/rules/collapsible-if/
+    "SIM103", # https://docs.astral.sh/ruff/rules/needless-bool/
+    "SIM113", # https://docs.astral.sh/ruff/rules/enumerate-for-loop/
+    "SIM114", # https://docs.astral.sh/ruff/rules/if-with-same-arms/
+    "SIM115", # https://docs.astral.sh/ruff/rules/open-file-with-context-handler/
+    "SIM117", # https://docs.astral.sh/ruff/rules/multiple-with-statements/
+    "SIM118", # https://docs.astral.sh/ruff/rules/in-dict-keys/
+    "SIM201", # https://docs.astral.sh/ruff/rules/negate-equal-op/
+    "SIM401", # https://docs.astral.sh/ruff/rules/if-else-block-instead-of-dict-get/
+    "SIM905", # https://docs.astral.sh/ruff/rules/split-static-string/
+    # tryceratops
+    "TRY002", # https://docs.astral.sh/ruff/rules/raise-vanilla-class/
+    "TRY004", # https://docs.astral.sh/ruff/rules/type-check-without-type-error/
+    "TRY201", # https://docs.astral.sh/ruff/rules/verbose-raise/
+    "TRY401", # https://docs.astral.sh/ruff/rules/verbose-log-message/
+    # upgrade
+    "UP", # All off. See relaxed_up.toml for exceptions
+]
