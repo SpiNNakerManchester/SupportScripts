@@ -207,6 +207,7 @@ jobs:
       if: ${{ inputs.mypy-full-packages != ''}}
       run: mypy --python-version ${{ matrix.python-version }} --disallow-untyped-defs ${{ inputs.mypy-full-packages }}
 
+    - name: Lint with ruff
       if: ${{ inputs.ruff-packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/ruff@main
       with:
@@ -272,6 +273,7 @@ jobs:
     #    cfg-file: ${{ inputs.cfg-file }}
     #    pip-installs: ${{ inputs.pip-installs }}
 
+    - name: Lint with ruff
       if: ${{ inputs.ruff-packages != '' }}
       uses: SpiNNakerManchester/SupportScripts/actions/ruff@main
       with:
