@@ -60,6 +60,7 @@ ignore = [
     "G201", # https://docs.astral.sh/ruff/rules/logging-exc-info/
     # For related settings, see isort.
     "I001", # https://docs.astral.sh/ruff/rules/unsorted-imports/
+    # will need [lint.isort] section-order = ...
     # ISC004
     "ISC004", #https://docs.astral.sh/ruff/rules/implicit-string-concatenation-in-collection-literal/
     # flake8-logging
@@ -131,5 +132,6 @@ ignore = [
     "TRY201", # https://docs.astral.sh/ruff/rules/verbose-raise/
     "TRY401", # https://docs.astral.sh/ruff/rules/verbose-log-message/
     # upgrade
-    "UP", # All off. See relaxed_up.toml for exceptions
+    # All of here as rules change by python version
+    "UP", # All off. See ruff_up.toml for exceptions
 ]
