@@ -36,6 +36,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../spalloc/spalloc_client ../../../spalloc/tests \
     ../../../SpiNNFrontEndCommon/spinn_front_end_common ../../../SpiNNFrontEndCommon/unittests \
     ../../../SpiNNFrontEndCommon/fec_integration_tests \
+    ../../../TestBase/spinnaker_testbase ../../../TestBase/unittests \
     ../../../sPyNNaker/spynnaker ../../../sPyNNaker/unittests \
     ../../../sPyNNaker/spynnaker_integration_tests ../../../sPyNNaker/proxy_integration_tests \
     ../../../SpiNNakerGraphFrontEnd/spinnaker_graph_front_end ../../../SpiNNakerGraphFrontEnd/gfe_examples \
@@ -56,6 +57,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../spalloc/spalloc_client ../../../spalloc/tests \
     ../../../SpiNNFrontEndCommon/spinn_front_end_common ../../../SpiNNFrontEndCommon/unittests \
     ../../../SpiNNFrontEndCommon/fec_integration_tests \
+    ../../../TestBase/spinnaker_testbase ../../../TestBase/unittests \
     ../../../sPyNNaker/spynnaker ../../../sPyNNaker/unittests \
     ../../../sPyNNaker/spynnaker_integration_tests ../../../sPyNNaker/proxy_integration_tests \
     ../../../SpiNNakerGraphFrontEnd/spinnaker_graph_front_end ../../../SpiNNakerGraphFrontEnd/gfe_examples \
@@ -76,6 +78,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../spalloc/spalloc_client ../../../spalloc/tests \
     ../../../SpiNNFrontEndCommon/spinn_front_end_common ../../../SpiNNFrontEndCommon/unittests \
     ../../../SpiNNFrontEndCommon/fec_integration_tests \
+    ../../../TestBase/spinnaker_testbase ../../../TestBase/unittests \
     ../../../sPyNNaker/spynnaker ../../../sPyNNaker/unittests \
     ../../../sPyNNaker/spynnaker_integration_tests ../../../sPyNNaker/proxy_integration_tests \
     ../../../SpiNNakerGraphFrontEnd/spinnaker_graph_front_end ../../../SpiNNakerGraphFrontEnd/gfe_examples \
