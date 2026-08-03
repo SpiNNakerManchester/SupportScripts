@@ -38,6 +38,10 @@ then
   exit 1
 fi
 
+python3 -m venv SupportScripts/venv/spinn_utils
+source SupportScripts/venv/spinn_utils/bin/activate
+pip3 install ./SpiNNUtils
+
 do_make spinnaker_tools
 do_make spinn_common
 do_make SpiNNFrontEndCommon/c_common
@@ -55,4 +59,4 @@ do_make TSPonSpiNNaker/spinnaker_c
 do_make BitBrainDemo/bit_brain_host_c
 do_make BitBrainDemo/bit_brain_spinnaker_c
 
-python -m spinn_utilities.make_tools.check_database_keys
+python3 -m spinn_utilities.make_tools.check_database_keys
