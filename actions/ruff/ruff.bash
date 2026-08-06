@@ -47,6 +47,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
+    ../../../sPiNNIRker/spinnirker ../../../sPiNNIRker/unittests ../../../sPiNNIRker/spinnirker_integration_tests \
     --target-version py310 --config ruff_all.toml --statistics
 echo using ruff.toml
 ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
@@ -68,6 +69,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
+    ../../../sPiNNIRker/spinnirker ../../../sPiNNIRker/unittests ../../../sPiNNIRker/spinnirker_integration_tests \
     --target-version py310 --config ruff.toml
 echo using ruff_up.toml
 ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
@@ -89,4 +91,5 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
+    ../../../sPiNNIRker/spinnirker ../../../sPiNNIRker/unittests ../../../sPiNNIRker/spinnirker_integration_tests \
     --target-version py310 --config ruff_up.toml
