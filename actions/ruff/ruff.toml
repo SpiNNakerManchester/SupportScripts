@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+extend = "ruff_configs.toml"
 line-length = 79
 
 [lint]
@@ -137,39 +138,3 @@ ignore = [
     # All of here as rules change by python version
     "UP", # All off. See ruff_up.toml for exceptions
 ]
-
-[lint.isort]
-section-order = [
-    "future",
-    "standard-library",
-    "third-party",
-    "spinn_utilities",
-    "spinn_machine",
-    "spinnman",
-    "pacman",
-    "pacman_test_objects",
-    "spalloc_client",
-    "spinn_front_end_common",
-    "spinnaker_testbase",
-    "spynnaker",
-    "spinnaker_graph_front_end",
-    "spinn_gym",
-    "mcmc",
-    "first-party",
-    "local-folder"]
-known-first-party = ["gfe_integration_tests",
-    "unittests"]
-
-[lint.isort.sections]
-    "spinn_utilities" = ["spinn_utilities"]
-    "spinn_machine" = ["spinn_machine"]
-    "spinnman" = ["spinnman"]
-    "pacman" = ["pacman"]
-    "pacman_test_objects" = ["pacman_test_objects"]
-    "spalloc_client" = ["spalloc_client"]
-    "spinn_front_end_common" = ["spinn_front_end_common"]
-    "spinnaker_testbase" = ["spinnaker_testbase"]
-    "spynnaker" = ["spynnaker"]
-    "spinnaker_graph_front_end" = ["spinnaker_graph_front_end"]
-    "spinn_gym" = ["spinn_gym"]
-    "mcmc" = ["mcmc"]
