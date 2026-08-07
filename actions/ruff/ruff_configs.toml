@@ -27,6 +27,7 @@ section-order = [
     "spinnaker_testbase",
     "spynnaker",
     "spinnaker_graph_front_end",
+    "python_models",
     "spinn_gym",
     "mcmc",
     "spinnirker",
@@ -46,6 +47,7 @@ known-first-party = ["gfe_integration_tests",
     "spinnaker_testbase" = ["spinnaker_testbase"]
     "spynnaker" = ["spynnaker"]
     "spinnaker_graph_front_end" = ["spinnaker_graph_front_end"]
+    "python_models" = ["python_models"]
     "spinn_gym" = ["spinn_gym"]
     "mcmc" = ["mcmc"]
     "spinnirker" = ["spinnirker"]
