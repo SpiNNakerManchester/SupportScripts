@@ -43,6 +43,8 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNakerGraphFrontEnd/gfe_integration_tests \
     ../../../PyNNExamples/examples ../../../PyNNExamples/balanced_random \
     ../../../PyNNExamples/learning ../../../PyNNExamples/sudoku ../../../PyNNExamples/synfire \
+    ../../../sPyNNakerNewModelTemplate/examples ../../../sPyNNakerNewModelTemplate/python_models \
+    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
@@ -65,6 +67,8 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNakerGraphFrontEnd/gfe_integration_tests \
     ../../../PyNNExamples/examples ../../../PyNNExamples/balanced_random \
     ../../../PyNNExamples/learning ../../../PyNNExamples/sudoku ../../../PyNNExamples/synfire \
+    ../../../sPyNNakerNewModelTemplate/examples ../../../sPyNNakerNewModelTemplate/python_models \
+    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
@@ -86,6 +90,8 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNakerGraphFrontEnd/gfe_integration_tests \
     ../../../PyNNExamples/examples ../../../PyNNExamples/balanced_random \
     ../../../PyNNExamples/learning ../../../PyNNExamples/sudoku ../../../PyNNExamples/synfire \
+    ../../../sPyNNakerNewModelTemplate/examples ../../../sPyNNakerNewModelTemplate/python_models \
+    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
