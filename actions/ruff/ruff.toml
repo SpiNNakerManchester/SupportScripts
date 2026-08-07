@@ -32,7 +32,7 @@ ignore = [
     "C402", # https://docs.astral.sh/ruff/rules/unnecessary-generator-dict/
     "C405", # https://docs.astral.sh/ruff/rules/unnecessary-literal-set/
     "C406", # https://docs.astral.sh/ruff/rules/unnecessary-literal-dict/
-    "C408", # https://docs.astral.sh/ruff/rules/unnecessary-collection-call/
+    #"C408", # https://docs.astral.sh/ruff/rules/unnecessary-collection-call/
     "C409", # https://docs.astral.sh/ruff/rules/unnecessary-literal-within-tuple-call/
     "C410", # https://docs.astral.sh/ruff/rules/unnecessary-literal-within-list-call/
     "C411", # https://docs.astral.sh/ruff/rules/unnecessary-list-call/
