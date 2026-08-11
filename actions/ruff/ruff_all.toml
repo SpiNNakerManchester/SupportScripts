@@ -13,3 +13,11 @@
 # limitations under the License.
 
 extend = "ruff_configs.toml"
+
+[lint]
+# see https://docs.astral.sh/ruff/rules/
+ignore = [
+    # PYlint Error
+    "PLE1205", # https://docs.astral.sh/ruff/rules/logging-too-many-args/
+    # https://github.com/astral-sh/ruff/issues/16715
+    ]
