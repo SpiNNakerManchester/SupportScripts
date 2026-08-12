@@ -12,6 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+line-length = 79
+
+[lint]
+# see https://docs.astral.sh/ruff/rules/
+ignore = [
+    # PYlint Error
+    "PLE1205", # https://docs.astral.sh/ruff/rules/logging-too-many-args/
+    # https://github.com/astral-sh/ruff/issues/16715
+    ]
+
 [lint.isort]
 section-order = [
     "future",

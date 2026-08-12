@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-extend = "ruff_configs.toml"
+extend = "ruff_ignore.toml"
 
 [lint]
 # see https://docs.astral.sh/ruff/rules/
 ignore = [
-    # PYlint Error
-    "PLE1205", # https://docs.astral.sh/ruff/rules/logging-too-many-args/
-    # https://github.com/astral-sh/ruff/issues/16715
-    ]
+    # upgrade
+    # All of here as rules change by python version
+    "UP", # All off. See ruff_up.toml for exceptions
+]
