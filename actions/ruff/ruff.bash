@@ -24,7 +24,7 @@ if [ "$#" -eq  "0" ]
 else
   python3 -m venv ../../venv/ruff_runner
   source ../../venv/ruff_runner/bin/activate
-  python3 -m pip install --upgrade ruff
+  python3 -m pip install --upgrade ruff flake8
 fi
 
 echo ruff statistics
@@ -51,7 +51,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
     --target-version py310 --config ruff_configs.toml --statistics
     #../../../sPiNNIRker/spinnirker ../../../sPiNNIRker/unittests ../../../sPiNNIRker/spinnirker_integration_tests \
-echo using ruff.toml
+echo ruff using ruff_ignore.toml
 ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNMachine/spinn_machine ../../../SpiNNMachine/unittests \
     ../../../SpiNNMan/spinnman ../../../SpiNNMan/unittests \
@@ -74,8 +74,8 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
     --target-version py311 --config ruff_ignore.toml
-echo using ruff_up.toml
-ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
+echo flake8
+flake8 ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNMachine/spinn_machine ../../../SpiNNMachine/unittests \
     ../../../SpiNNMan/spinnman ../../../SpiNNMan/unittests \
     ../../../SpiNNMan/spinnman_integration_tests ../../../SpiNNMan/manual_scripts \
@@ -95,5 +95,4 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
-    ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
-    --target-version py315 --config ruff_higher.toml
+    ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests
