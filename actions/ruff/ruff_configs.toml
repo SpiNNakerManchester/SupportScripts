@@ -20,6 +20,10 @@ ignore = [
     # PYlint Error
     "PLE1205", # https://docs.astral.sh/ruff/rules/logging-too-many-args/
     # https://github.com/astral-sh/ruff/issues/16715
+
+    # flake8-simplify
+    "SIM102", # https://docs.astral.sh/ruff/rules/collapsible-if/
+    # when multiple lines are needed it is not easier to read!
     ]
 
 [lint.isort]
