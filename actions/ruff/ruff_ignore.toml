@@ -54,7 +54,7 @@ ignore = [
     "FURB129", # https://docs.astral.sh/ruff/rules/readlines-in-for/
     "FURB132", # https://docs.astral.sh/ruff/rules/check-and-remove-from-set/
     "FURB136", # https://docs.astral.sh/ruff/rules/if-expr-min-max/
-    "FURB157", # https://docs.astral.sh/ruff/rules/verbose-decimal-constructor/
+    #"FURB157", # https://docs.astral.sh/ruff/rules/verbose-decimal-constructor/
     "FURB161", # https://docs.astral.sh/ruff/rules/bit-count/
     "FURB188", # https://docs.astral.sh/ruff/rules/slice-to-remove-prefix-or-suffix/
     "FURB192", # https://docs.astral.sh/ruff/rules/sorted-min-max/
@@ -105,7 +105,7 @@ ignore = [
     "RET501", # https://docs.astral.sh/ruff/rules/unnecessary-return-none/
     # ruff specific rules
     "RUF010", # https://docs.astral.sh/ruff/rules/explicit-f-string-type-conversion/
-    "RUF012", # https://docs.astral.sh/ruff/rules/mutable-class-default/
+    #"RUF012", # https://docs.astral.sh/ruff/rules/mutable-class-default/
     "RUF015", # https://docs.astral.sh/ruff/rules/unnecessary-iterable-allocation-for-first-element/
     #"RUF022", # https://docs.astral.sh/ruff/rules/unsorted-dunder-all/
     #"RUF023", # https://docs.astral.sh/ruff/rules/unsorted-dunder-slots/
@@ -117,7 +117,6 @@ ignore = [
     "S110", # https://docs.astral.sh/ruff/rules/try-except-pass/
     # flake8-simplify
     "SIM101", # https://docs.astral.sh/ruff/rules/duplicate-isinstance-call/
-    "SIM102", # https://docs.astral.sh/ruff/rules/collapsible-if/
     "SIM103", # https://docs.astral.sh/ruff/rules/needless-bool/
     "SIM113", # https://docs.astral.sh/ruff/rules/enumerate-for-loop/
     "SIM114", # https://docs.astral.sh/ruff/rules/if-with-same-arms/
@@ -126,7 +125,7 @@ ignore = [
     "SIM118", # https://docs.astral.sh/ruff/rules/in-dict-keys/
     "SIM201", # https://docs.astral.sh/ruff/rules/negate-equal-op/
     "SIM401", # https://docs.astral.sh/ruff/rules/if-else-block-instead-of-dict-get/
-    "SIM905", # https://docs.astral.sh/ruff/rules/split-static-string/
+    #"SIM905", # https://docs.astral.sh/ruff/rules/split-static-string/
     # tryceratops
     "TRY002", # https://docs.astral.sh/ruff/rules/raise-vanilla-class/
     "TRY004", # https://docs.astral.sh/ruff/rules/type-check-without-type-error/
