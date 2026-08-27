@@ -71,7 +71,7 @@ ignore = [
     "LOG009", # https://docs.astral.sh/ruff/rules/undocumented-warn/
     "N999", # https://docs.astral.sh/ruff/rules/invalid-module-name/
     # Perflint
-    "PERF402", # https://docs.astral.sh/ruff/rules/manual-list-copy/
+    #"PERF402", # https://docs.astral.sh/ruff/rules/manual-list-copy/
     # Pylint Convention
     "PLC0206", # https://docs.astral.sh/ruff/rules/dict-index-missing-items/
     # flake8-pie
