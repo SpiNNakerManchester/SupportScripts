@@ -140,7 +140,7 @@ ignore = [
     "UP015", # https://docs.astral.sh/ruff/rules/redundant-open-modes/
     "UP018", # https://docs.astral.sh/ruff/rules/native-literals/
     "UP020", # https://docs.astral.sh/ruff/rules/open-alias/
-    "UP024", # https://docs.astral.sh/ruff/rules/os-error-alias/
+    #"UP024", # https://docs.astral.sh/ruff/rules/os-error-alias/
     "UP025", # https://docs.astral.sh/ruff/rules/unicode-kind-prefix/
     "UP026", # https://docs.astral.sh/ruff/rules/deprecated-mock-import/
     "UP028", # https://docs.astral.sh/ruff/rules/yield-in-for-loop/
