@@ -111,7 +111,6 @@ ignore = [
     #"RUF023", # https://docs.astral.sh/ruff/rules/unsorted-dunder-slots/
     #"RUF046", # https://docs.astral.sh/ruff/rules/unnecessary-cast-to-int/
     "RUF059", # https://docs.astral.sh/ruff/rules/unused-unpacked-variable/
-    "RUF100", # https://docs.astral.sh/ruff/rules/unused-noqa/
     # flake8-bandit
     "S102",  # https://docs.astral.sh/ruff/rules/exec-builtin/
     "S110", # https://docs.astral.sh/ruff/rules/try-except-pass/
