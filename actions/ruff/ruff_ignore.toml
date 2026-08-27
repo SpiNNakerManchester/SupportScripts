@@ -24,7 +24,7 @@ ignore = [
     "B017", # https://docs.astral.sh/ruff/rules/assert-raises-exception/
     "B018", # https://docs.astral.sh/ruff/rules/useless-expression/
     # blind-except
-    "BLE001", # https://docs.astral.sh/ruff/rules/blind-except/
+    #"BLE001", # https://docs.astral.sh/ruff/rules/blind-except/
     # flake8-comprehensions
     "C400", # https://docs.astral.sh/ruff/rules/unnecessary-generator-list/
     "C401", # https://docs.astral.sh/ruff/rules/unnecessary-generator-set/
