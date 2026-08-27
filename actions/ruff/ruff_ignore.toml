@@ -94,7 +94,7 @@ ignore = [
     # flake8-pyi
     "PYI018", # https://docs.astral.sh/ruff/rules/unused-private-type-var/
     "PYI030", # https://docs.astral.sh/ruff/rules/unnecessary-literal-union/
-    "PYI032", # https://docs.astral.sh/ruff/rules/any-eq-ne-annotation/
+    #"PYI032", # https://docs.astral.sh/ruff/rules/any-eq-ne-annotation/
     "PYI034", # https://docs.astral.sh/ruff/rules/non-self-return-type/
     "PYI036", # https://docs.astral.sh/ruff/rules/bad-exit-annotation/
     "PYI041", # https://docs.astral.sh/ruff/rules/redundant-numeric-union/
