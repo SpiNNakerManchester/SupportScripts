@@ -134,7 +134,7 @@ ignore = [
     "UP004", # https://docs.astral.sh/ruff/rules/useless-object-inheritance/
     #"UP006", # https://docs.astral.sh/ruff/rules/non-pep585-annotation/
     #"UP007", # https://docs.astral.sh/ruff/rules/non-pep604-annotation-union/
-    "UP008", # https://docs.astral.sh/ruff/rules/super-call-with-parameters/
+    #"UP008", # https://docs.astral.sh/ruff/rules/super-call-with-parameters/
     "UP009", # https://docs.astral.sh/ruff/rules/utf8-encoding-declaration/
     "UP010", # https://docs.astral.sh/ruff/rules/unnecessary-future-import/
     "UP015", # https://docs.astral.sh/ruff/rules/redundant-open-modes/
