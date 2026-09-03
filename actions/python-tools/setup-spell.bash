@@ -19,5 +19,5 @@ sudo apt-get update
 echo "::endgroup::"
 
 echo "::group::Installing spell checker"
-sudo apt-get -o Dpkg::Use-Pty=0 install --fix-missing enchant-2 $SPELL_PACKAGES
+sudo apt-get -y -o Dpkg::Use-Pty=0 install --fix-missing enchant-2 $SPELL_PACKAGES
 echo "::endgroup::"

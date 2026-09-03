@@ -35,7 +35,7 @@ runs:
         else
           echo "::group::Installing vera++"
           sudo apt-get update
-          sudo apt-get -o Dpkg::Use-Pty=0 install vera++ --fix-missing
+          sudo apt-get -y -o Dpkg::Use-Pty=0 install vera++ --fix-missing
           echo "::endgroup::"
         fi
       shell: bash
