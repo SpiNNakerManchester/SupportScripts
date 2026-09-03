@@ -38,10 +38,10 @@ runs:
     run: |
       if [ -z "$CONDITION" ]; then
         sudo apt-get update
-        sudo apt-get -o Dpkg::Use-Pty=0 install --fix-missing $PACKAGES
+        sudo apt-get -y -o Dpkg::Use-Pty=0 install --fix-missing $PACKAGES
       elif which "$CONDITION" >/dev/null; then
         : Program found; skip install
       else
         sudo apt-get update
-        sudo apt-get -o Dpkg::Use-Pty=0 install --fix-missing $PACKAGES
+        sudo apt-get -y -o Dpkg::Use-Pty=0 install --fix-missing $PACKAGES
       fi
