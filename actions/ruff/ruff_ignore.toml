@@ -61,7 +61,7 @@ ignore = [
     # flake8-logging-format
     "G201", # https://docs.astral.sh/ruff/rules/logging-exc-info/
     # For related settings, see isort.
-    #"I001", # https://docs.astral.sh/ruff/rules/unsorted-imports/
+    "I001", # https://docs.astral.sh/ruff/rules/unsorted-imports/
     # will need [lint.isort] section-order = ...
     # ISC004
     "ISC004", #https://docs.astral.sh/ruff/rules/implicit-string-concatenation-in-collection-literal/
@@ -150,5 +150,5 @@ ignore = [
     "UP037", # https://docs.astral.sh/ruff/rules/quoted-annotation/
     "UP039", # https://docs.astral.sh/ruff/rules/unnecessary-class-parentheses/
     "UP041", # https://docs.astral.sh/ruff/rules/timeout-error-alias/
-    #"UP045", # https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional/
+    "UP045", # https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional/
 ]
