@@ -1,4 +1,4 @@
-#!/bin/bash
+bin#!/bin/bash
 
 # Copyright (c) 2026 The University of Manchester
 #
@@ -47,6 +47,8 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
+    ../../../microcircuit_model/microcircuit ../../../microcircuit_model/integration_tests \
+    ../../../microcircuit_model/unittests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
     --target-version py310 --config ruff_configs.toml --statistics
@@ -71,6 +73,8 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
+    ../../../microcircuit_model/microcircuit ../../../microcircuit_model/integration_tests \
+    ../../../microcircuit_model/unittests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
     --target-version py310 --config ruff_ignore.toml --fix
@@ -94,5 +98,7 @@ flake8 ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
+    ../../../microcircuit_model/microcircuit ../../../microcircuit_model/integration_tests \
+    ../../../microcircuit_model/unittests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests
