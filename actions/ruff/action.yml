@@ -27,7 +27,7 @@ runs:
   - run: |
       echo run ruff with current version
       if [[ ${{ matrix.python-version}} = 3.10 ]]; then
-        echo ruff check ${{ inputs.package }} --target-version py310 --config ${{ github.action_path }}/ruff_ignore.toml
+        echo ruff check ${{ inputs.package }} --target-version py310 --config ${{ github.action_path }}/ruff_configs.toml
         ruff check ${{ inputs.package }} --target-version py310  --config ${{ github.action_path }}/ruff_ignore.toml
       elif [[ ${{ matrix.python-version}} = 3.11 ]]; then
         echo ruff check ${{ inputs.package }} --target-version py311 --config ${{ github.action_path }}/ruff_higher.toml
