@@ -19,10 +19,10 @@ line-length = 79
 ignore = [
      # flake8-datetimez
     # We intentional use users local timezone
-    "DTZ001", # https://docs.astral.sh/ruff/rules/call-datetime-without-tzinfo/
-    "DTZ005", # https://docs.astral.sh/ruff/rules/call-datetime-now-without-tzinfo/
-    "DTZ006", # https://docs.astral.sh/ruff/rules/call-datetime-fromtimestamp/
-    "DTZ007", # https://docs.astral.sh/ruff/rules/call-datetime-strptime-without-zone/
+    #"DTZ001", # https://docs.astral.sh/ruff/rules/call-datetime-without-tzinfo/
+    #"DTZ005", # https://docs.astral.sh/ruff/rules/call-datetime-now-without-tzinfo/
+    #"DTZ006", # https://docs.astral.sh/ruff/rules/call-datetime-fromtimestamp/
+    #"DTZ007", # https://docs.astral.sh/ruff/rules/call-datetime-strptime-without-zone/
 
     # PYlint Error
     "PLE1205", # https://docs.astral.sh/ruff/rules/logging-too-many-args/
@@ -30,7 +30,7 @@ ignore = [
 
     # ruff specific rules
     "RUF100", # https://docs.astral.sh/ruff/rules/unused-noqa/
-    # these tend to be because of line length and are needed
+    # removes noqa for lines ok with ruff but not flake8, pylint ect
 
     # flake8-simplify
     "SIM102", # https://docs.astral.sh/ruff/rules/collapsible-if/
