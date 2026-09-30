@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-extend = "ruff_config.toml"
+extend = "ruff_configs.toml"
 
 [lint]
 # see https://docs.astral.sh/ruff/rules/

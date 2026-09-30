@@ -77,7 +77,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../microcircuit_model/unittests \
     ../../../SpiNNGym/spinn_gym ../../../SpiNNGym/examples ../../../SpiNNGym/integration_tests \
     ../../../BitBrainDemo/bit_brain ../../../BitBrainDemo/unittests \
-    --target-version py310 --config ruff_ignore.toml --fix
+    --target-version py310 --config ruff_configs.toml --fix
 echo flake8
 flake8 ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../SpiNNMachine/spinn_machine ../../../SpiNNMachine/unittests \
