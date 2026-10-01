@@ -44,7 +44,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../PyNNExamples/examples ../../../PyNNExamples/balanced_random \
     ../../../PyNNExamples/learning ../../../PyNNExamples/sudoku ../../../PyNNExamples/synfire \
     ../../../sPyNNakerNewModelTemplate/examples ../../../sPyNNakerNewModelTemplate/python_models \
-    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
+    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests ../../../sPyNNakerNewModelTemplate/unittests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../microcircuit_model/microcircuit ../../../microcircuit_model/integration_tests \
@@ -70,7 +70,7 @@ ruff check ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../PyNNExamples/examples ../../../PyNNExamples/balanced_random \
     ../../../PyNNExamples/learning ../../../PyNNExamples/sudoku ../../../PyNNExamples/synfire \
     ../../../sPyNNakerNewModelTemplate/examples ../../../sPyNNakerNewModelTemplate/python_models \
-    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
+    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests ../../../sPyNNakerNewModelTemplate/unittests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../microcircuit_model/microcircuit ../../../microcircuit_model/integration_tests \
@@ -95,7 +95,7 @@ flake8 ../../../SpiNNUtils/spinn_utilities ../../../SpiNNUtils/unittests \
     ../../../PyNNExamples/examples ../../../PyNNExamples/balanced_random \
     ../../../PyNNExamples/learning ../../../PyNNExamples/sudoku ../../../PyNNExamples/synfire \
     ../../../sPyNNakerNewModelTemplate/examples ../../../sPyNNakerNewModelTemplate/python_models \
-    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests \
+    ../../../sPyNNakerNewModelTemplate/nmt_integration_tests ../../../sPyNNakerNewModelTemplate/unittests \
     ../../../MarkovChainMonteCarlo/mcmc ../../../MarkovChainMonteCarlo/mcmc_examples \
     ../../../MarkovChainMonteCarlo/mcmc_integration_tests \
     ../../../microcircuit_model/microcircuit ../../../microcircuit_model/integration_tests \
