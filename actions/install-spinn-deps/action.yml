@@ -30,7 +30,9 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: echo "$GITHUB_REF"
+    - run: |
+        echo "github ref: $GITHUB_REF"
+      shell: bash
     - run: |
         for repo in $DEPENDENCIES; do
           "$SPIN_GITCLONE" https://github.com/SpiNNakerManchester/$repo.git
