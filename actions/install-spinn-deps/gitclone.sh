@@ -25,7 +25,10 @@ Branch=$(git ls-remote $REPO 2>/dev/null | awk '
     	id = "x"
     	# The next line is a default default only
     	branch = "REMOTE_PARSE_FAILED"
-    	target = ENVIRON["GITHUB_REF"]
+    	if (ENVIRON["GITHUB_HEAD_REF"] != "")
+    	  {target="refs/heads/"ENVIRON["GITHUB_HEAD_REF"]}
+      else
+    	  {target=ENVIRON["GITHUB_REF"]}
     }
     $2=="HEAD" {
     	# Note that the remote HEAD ref comes first
