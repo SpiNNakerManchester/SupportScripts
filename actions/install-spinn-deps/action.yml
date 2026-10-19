@@ -31,7 +31,11 @@ runs:
   using: composite
   steps:
     - run: |
-        echo "github ref: $GITHUB_REF"
+        echo "GITHUB_REF: $GITHUB_REF"
+        echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+        echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+        echo "GITHUB_ACTION: $GITHUB_ACTION"
+        echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
       shell: bash
     - run: |
         for repo in $DEPENDENCIES; do
